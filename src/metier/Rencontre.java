@@ -1,6 +1,5 @@
 package metier;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Rencontre
@@ -50,7 +49,7 @@ public class Rencontre
 		return etapeTournoi;
 	}
 	
-	public void setEtapeTournoi(EtapeTournoi etapeTournoi) throws SQLException
+	public void setEtapeTournoi(EtapeTournoi etapeTournoi) throws DataAccessException
 	{
 		if (this.etapeTournoi != etapeTournoi)
 		{
@@ -67,7 +66,7 @@ public class Rencontre
 		return etapeTournoi.getNum();
 	}
 	
-	Rencontre(int num, String lieu, String date, EtapeTournoi etapeTournoi) throws SQLException
+	Rencontre(int num, String lieu, String date, EtapeTournoi etapeTournoi) throws DataAccessException
 	{
 		setNum(num);
 		setLieu(lieu);
@@ -75,7 +74,7 @@ public class Rencontre
 		setEtapeTournoi(etapeTournoi);
 	}
 
-	public Rencontre(String lieu, String date, EtapeTournoi etapeTournoi) throws SQLException
+	public Rencontre(String lieu, String date, EtapeTournoi etapeTournoi) throws DataAccessException
 	{
 		this(NO_KEY, lieu, date, etapeTournoi);
 	}

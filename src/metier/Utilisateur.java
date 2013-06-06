@@ -1,7 +1,5 @@
 package metier;
 
-import java.sql.SQLException;
-
 public class Utilisateur
 {
 	private int num = NO_KEY;
@@ -99,7 +97,7 @@ public class Utilisateur
 		return type;
 	}
 	
-	public void setType(Type type) throws SQLException
+	public void setType(Type type) throws DataAccessException
 	{
 		if (this.type != type)
 		{
@@ -116,7 +114,7 @@ public class Utilisateur
 		return club;
 	}
 	
-	public void setClub(Club club) throws SQLException
+	public void setClub(Club club) throws DataAccessException
 	{
 		if (this.club != club)
 		{
@@ -128,7 +126,7 @@ public class Utilisateur
 		}
 	}
 
-	Utilisateur(int num, String nom, String prenom, int telFixe, int telPortable, String mail, String mdp, Type type, Club club) throws SQLException
+	Utilisateur(int num, String nom, String prenom, int telFixe, int telPortable, String mail, String mdp, Type type, Club club) throws DataAccessException
 	{
 		setNum(num);
 		setNom(nom);
@@ -141,7 +139,7 @@ public class Utilisateur
 		setClub(club);
 	}
 
-	public Utilisateur(String nom, String prenom, int telFixe, int telPortable, String mail, String mdp, Type type, Club club) throws SQLException
+	public Utilisateur(String nom, String prenom, int telFixe, int telPortable, String mail, String mdp, Type type, Club club) throws DataAccessException
 	{
 		this(NO_KEY, nom, prenom, telFixe, telPortable, mail, mdp, type, club);
 	}

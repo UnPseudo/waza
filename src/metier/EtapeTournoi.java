@@ -1,6 +1,6 @@
 package metier;
 
-import java.sql.SQLException;
+
 import java.util.ArrayList;
 
 public class EtapeTournoi
@@ -40,7 +40,7 @@ public class EtapeTournoi
 		return tournoi;
 	}
 	
-	public void setTournoi(Tournoi tournoi) throws SQLException
+	public void setTournoi(Tournoi tournoi) throws DataAccessException
 	{
 		if (this.tournoi != tournoi)
 		{
@@ -57,38 +57,38 @@ public class EtapeTournoi
 		return tournoi.getNum();
 	}
 	
-	EtapeTournoi(int num, int typeEtape, Tournoi tournoi) throws SQLException
+	EtapeTournoi(int num, int typeEtape, Tournoi tournoi) throws DataAccessException
 	{
 		setNum(num);
 		setTypeEtape(typeEtape);
 		setTournoi(tournoi);
 	}
 
-	public EtapeTournoi(int typeEtape, Tournoi tournoi) throws SQLException
+	public EtapeTournoi(int typeEtape, Tournoi tournoi) throws DataAccessException
 	{
 		this(NO_KEY, typeEtape, tournoi);
 	}
 
 	//Rencontre
-	public int getNbRencontres() throws SQLException 
+	public int getNbRencontres() throws DataAccessException 
 	{
 		loadAllRencontres();
 		return rencontres.size();
 	}
 
-	public Rencontre getRencontre(int index) throws SQLException 
+	public Rencontre getRencontre(int index) throws DataAccessException 
 	{
 		loadAllRencontres();
 		return rencontres.get(index);
 	}
 	
-	private boolean possedeRencontre(Rencontre rencontre) throws SQLException 
+	private boolean possedeRencontre(Rencontre rencontre) throws DataAccessException 
 	{
 		loadAllRencontres();
 		return rencontres.contains(rencontre);
 	}
 	
-	private void loadAllRencontres() throws SQLException
+	private void loadAllRencontres() throws DataAccessException
 	{
 		if (rencontres == null)
 		{
@@ -98,7 +98,7 @@ public class EtapeTournoi
 		}
 	}
 	
-	public void addRencontre(Rencontre rencontre) throws SQLException 
+	public void addRencontre(Rencontre rencontre) throws DataAccessException 
 	{
 		loadAllRencontres();
 		if(!possedeRencontre(rencontre))
@@ -108,7 +108,7 @@ public class EtapeTournoi
 		}
 	}
 
-	public void removeRencontre(Rencontre rencontre) throws SQLException 
+	public void removeRencontre(Rencontre rencontre) throws DataAccessException 
 	{
 		loadAllRencontres();
 		if(possedeRencontre(rencontre))

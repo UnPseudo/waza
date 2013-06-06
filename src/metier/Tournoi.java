@@ -1,6 +1,5 @@
 package metier;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Tournoi
@@ -53,7 +52,7 @@ public class Tournoi
 		return ligue;
 	}
 	
-	public void setLigue(Ligue ligue) throws SQLException
+	public void setLigue(Ligue ligue) throws DataAccessException
 	{
 		if (this.ligue != ligue)
 		{
@@ -80,7 +79,7 @@ public class Tournoi
 		return categorie;
 	}
 	
-	public void setCategorie(Categorie categorie) throws SQLException
+	public void setCategorie(Categorie categorie) throws DataAccessException
 	{
 		if (this.categorie != categorie)
 		{
@@ -92,7 +91,7 @@ public class Tournoi
 		}
 	}
 	
-	Tournoi(int num, String nom, String description, Ligue ligue, Categorie categorie) throws SQLException
+	Tournoi(int num, String nom, String description, Ligue ligue, Categorie categorie) throws DataAccessException
 	{
 		setNum(num);
 		setNom(nom);
@@ -101,31 +100,31 @@ public class Tournoi
 		setCategorie(categorie);
 	}
 
-	public Tournoi(String nom, String description, Ligue ligue, Categorie categorie) throws SQLException
+	public Tournoi(String nom, String description, Ligue ligue, Categorie categorie) throws DataAccessException
 	{
 		this(NO_KEY, nom, description, ligue, categorie);
 	}
 	
 	//Etape tournoi
-	public int getNbEtapesTournoi() throws SQLException 
+	public int getNbEtapesTournoi() throws DataAccessException 
 	{
 		loadAllEtapesTournoi();
 		return etapesTournoi.size();
 	}
 
-	public EtapeTournoi getEtapeTournoi(int index) throws SQLException 
+	public EtapeTournoi getEtapeTournoi(int index) throws DataAccessException 
 	{
 		loadAllEtapesTournoi();
 		return etapesTournoi.get(index);
 	}
 	
-	private boolean possedeEtapeTournoi(EtapeTournoi etapeTournoi) throws SQLException 
+	private boolean possedeEtapeTournoi(EtapeTournoi etapeTournoi) throws DataAccessException 
 	{
 		loadAllEtapesTournoi();
 		return etapesTournoi.contains(etapeTournoi);
 	}
 	
-	private void loadAllEtapesTournoi() throws SQLException
+	private void loadAllEtapesTournoi() throws DataAccessException
 	{
 		if (etapesTournoi == null)
 		{
@@ -135,7 +134,7 @@ public class Tournoi
 		}
 	}
 	
-	public void addEtapeTournoi(EtapeTournoi etapeTournoi) throws SQLException 
+	public void addEtapeTournoi(EtapeTournoi etapeTournoi) throws DataAccessException 
 	{
 		loadAllEtapesTournoi();
 		if(!possedeEtapeTournoi(etapeTournoi))
@@ -145,7 +144,7 @@ public class Tournoi
 		}
 	}
 
-	public void removeEtapeTournoi(EtapeTournoi etapeTournoi) throws SQLException 
+	public void removeEtapeTournoi(EtapeTournoi etapeTournoi) throws DataAccessException 
 	{
 		loadAllEtapesTournoi();
 		if(possedeEtapeTournoi(etapeTournoi))
@@ -156,25 +155,25 @@ public class Tournoi
 	}
 	
 	// EquipeInscriteTournoi
-	public int getNbEquipeInscriteTournois() throws SQLException 
+	public int getNbEquipeInscriteTournois() throws DataAccessException 
 	{
 		loadAllEquipeInscriteTournois();
 		return equipeInscriteTournois.size();
 	}
 
-	public EquipeInscriteTournoi getEquipeInscriteTournoi(int index) throws SQLException 
+	public EquipeInscriteTournoi getEquipeInscriteTournoi(int index) throws DataAccessException 
 	{
 		loadAllEquipeInscriteTournois();
 		return equipeInscriteTournois.get(index);
 	}
 	
-	private boolean possedeEquipeInscriteTournoi(EquipeInscriteTournoi equipeInscriteTournoi) throws SQLException 
+	private boolean possedeEquipeInscriteTournoi(EquipeInscriteTournoi equipeInscriteTournoi) throws DataAccessException 
 	{
 		loadAllEquipeInscriteTournois();
 		return equipeInscriteTournois.contains(equipeInscriteTournoi);
 	}
 	
-	private void loadAllEquipeInscriteTournois() throws SQLException
+	private void loadAllEquipeInscriteTournois() throws DataAccessException
 	{
 		if (equipeInscriteTournois == null)
 		{
@@ -184,7 +183,7 @@ public class Tournoi
 		}
 	}
 	
-	public void addEquipeInscriteTournoi(EquipeInscriteTournoi equipeInscriteTournoi) throws SQLException 
+	public void addEquipeInscriteTournoi(EquipeInscriteTournoi equipeInscriteTournoi) throws DataAccessException 
 	{
 		loadAllEquipeInscriteTournois();
 		if(!possedeEquipeInscriteTournoi(equipeInscriteTournoi))
@@ -194,7 +193,7 @@ public class Tournoi
 		}
 	}
 
-	public void removeEquipeInscriteTournoi(EquipeInscriteTournoi equipeInscriteTournoi) throws SQLException 
+	public void removeEquipeInscriteTournoi(EquipeInscriteTournoi equipeInscriteTournoi) throws DataAccessException 
 	{
 		loadAllEquipeInscriteTournois();
 		if(possedeEquipeInscriteTournoi(equipeInscriteTournoi))

@@ -2,6 +2,8 @@ package db;
 
 import java.sql.*;
 
+import metier.DataAccessException;
+
 /** Classe assurant la connexion à la base de donnée (couche BDD)*/
 
 public class Connexion
@@ -43,64 +45,103 @@ public class Connexion
  /**
   * Méthode pour générer le script de création de table
   * @param script
-  * @throws SQLException
+ * @throws SQLException 
+  * @throws DataAccessException;
   */
- public void sqlBatch(String[] script) throws SQLException
- {
-   
-  Statement s = connect.createStatement();
-  for (String str : script)
-  {
-   if (DEBUG_MODE)
-    System.out.println(str + ";");
-   s.addBatch(str);
-  }
-  s.executeBatch();
- }
- 
+	public void sqlBatch(String[] script) throws DataAccessException 
+	{
+		try 
+		{
+			Statement s;
+			s = connect.createStatement();
+			for (String str : script) {
+				if (DEBUG_MODE)
+					System.out.println(str + ";");
+				s.addBatch(str);
+			}
+			s.executeBatch();
+		} catch (Exception e) {
+			throw new DataAccessException(e);
+		}
+	}
  /**
   * Méthode pour préparer une insertion d'enregistrement dans la BDD
   * Génère les clés primaire de la BDD et lève une exception en cas d'erreur de clé
   * @param req
   * @return
-  * @throws SQLException
+  * @throws DataAccessException;
   */
- public int sqlInsert(String req) throws SQLException
- {
-  if (DEBUG_MODE)
-   System.out.println(req);
-  Statement s = connect.createStatement();
-  s.executeUpdate(req, 1) ;
-  ResultSet rs = s.getGeneratedKeys();
-  if (rs.next())
-   return rs.getInt(1);
-  throw new SQLException("no value inserted");
- }
+	public int sqlInsert(String req, String... values) throws DataAccessException
+	{
+		try
+		  {
+			PreparedStatement s = connect.prepareStatement(req);
+			for (int i = 0 ; i < values.length ; i++)
+				s.setString(i+1, values[i]);
+			s.executeUpdate() ;
+			ResultSet rs = s.getGeneratedKeys();
+			int id = -1;
+			if (rs.next())
+			{
+				id = rs.getInt(1) ; 
+				if (DEBUG_MODE)
+					System.out.println("generated id = " + id);
+				
+			}
+			else
+				if (DEBUG_MODE)
+					System.out.println("no id generated.");
+			return id;
+		  }
+		  catch (Exception e) 
+			{
+				throw new DataAccessException(e);
+			}
+	}
  
  /**
   * Méthode pour préparer une selection d'enregistrement
   * @param req
   * @return
-  * @throws SQLException
+  * @throws DataAccessException;
   */
- public ResultSet sqlSelect(String req) throws SQLException
- {
-  if (DEBUG_MODE)
-   System.out.println(req);
-  Statement s = connect.createStatement();
-  return s.executeQuery(req);
- }
+	public ResultSet sqlSelect(String req, String... values) throws DataAccessException
+	{
+		try
+		  {
+			PreparedStatement s = connect.prepareStatement(req);
+			for (int i = 0 ; i < values.length ; i++)
+				s.setString(i+1, values[i]);
+			return s.executeQuery();
+		  }
+		  catch (Exception e) 
+			{
+				throw new DataAccessException(e);
+			}
+	}
  
  /**
   * Méthode pour préparer une mise à jour ou une suppression
   * @param req
-  * @throws SQLException
+  * @throws DataAccessException;
   */
- public void sqlUpdate(String req) throws SQLException
+ public void sqlUpdate(String req, String... values) throws DataAccessException
  {
   if(DEBUG_MODE)
    System.out.println(req);
-  transmission.executeUpdate(req);
+  
+  try
+  {
+	  PreparedStatement s = connect.prepareStatement(req);
+		for (int i = 0 ; i < values.length ; i++)
+			s.setString(i+1, values[i]);
+		s.executeUpdate();
+  }
+  catch (Exception e) 
+	{
+		throw new DataAccessException(e);
+	}
  }
+
 
 }

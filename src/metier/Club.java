@@ -1,6 +1,5 @@
 package metier;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Club
@@ -52,7 +51,7 @@ public class Club
 		return ligue;
 	}
 	
-	public void setLigue(Ligue ligue) throws SQLException
+	public void setLigue(Ligue ligue) throws DataAccessException
 	{
 		if (this.ligue != ligue)
 		{
@@ -69,26 +68,26 @@ public class Club
 		return ligue.getNum();
 	}
 	
-	Club(int num, String nom, Ligue ligue) throws SQLException
+	Club(int num, String nom, Ligue ligue) throws DataAccessException
 	{
 		setNum(num);
 		setNom(nom);
 		setLigue(ligue);
 	}
 
-	public Club(String nom, Ligue ligue) throws SQLException
+	public Club(String nom, Ligue ligue) throws DataAccessException
 	{
 		this(NO_KEY, nom, ligue);
 	}
 	
 	// Utilisateur
-	private boolean possedeUtilisateur(Utilisateur utilisateur) throws SQLException 
+	private boolean possedeUtilisateur(Utilisateur utilisateur) throws DataAccessException 
 	{
 		loadAllUtilisateursClub();
 		return utilisateurs.contains(utilisateur);
 	}
 	
-	private void loadAllUtilisateursClub() throws SQLException // A modifier
+	private void loadAllUtilisateursClub() throws DataAccessException // A modifier
 	{
 		if (utilisateurs == null)
 		{
@@ -98,7 +97,7 @@ public class Club
 		}
 	}
 
-	public void addUtilisateur(Utilisateur utilisateur) throws SQLException 
+	public void addUtilisateur(Utilisateur utilisateur) throws DataAccessException 
 	{
 		loadAllUtilisateursClub();
 		if(!possedeUtilisateur(utilisateur))
@@ -108,7 +107,7 @@ public class Club
 		}
 	}
 
-	public void removeUtilisateur(Utilisateur utilisateur) throws SQLException 
+	public void removeUtilisateur(Utilisateur utilisateur) throws DataAccessException 
 	{
 		loadAllUtilisateursClub();
 		if(possedeUtilisateur(utilisateur))
@@ -119,13 +118,13 @@ public class Club
 	}
 
 	//Equipe
-	private boolean possedeEquipe(Equipe equipe) throws SQLException 
+	private boolean possedeEquipe(Equipe equipe) throws DataAccessException 
 	{
 		loadAllEquipesClub();
 		return equipes.contains(equipe);
 	}
 	
-	private void loadAllEquipesClub() throws SQLException // A modifier
+	private void loadAllEquipesClub() throws DataAccessException // A modifier
 	{
 		if (equipes == null)
 		{
@@ -135,7 +134,7 @@ public class Club
 		}
 	}
 	
-	public void addEquipe(Equipe equipe) throws SQLException 
+	public void addEquipe(Equipe equipe) throws DataAccessException 
 	{
 		loadAllEquipesClub();
 		if(!possedeEquipe(equipe))
@@ -145,7 +144,7 @@ public class Club
 		}
 	}
 
-	public void removeEquipe(Equipe equipe) throws SQLException 
+	public void removeEquipe(Equipe equipe) throws DataAccessException 
 	{
 		loadAllEquipesClub();
 		if(possedeEquipe(equipe))

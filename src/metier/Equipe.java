@@ -1,6 +1,5 @@
 package metier;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Equipe
@@ -40,7 +39,7 @@ public class Equipe
 		return categorie;
 	}
 	
-	public void setCategorie(Categorie categorie) throws SQLException
+	public void setCategorie(Categorie categorie) throws DataAccessException
 	{
 		if (this.categorie != categorie)
 		{
@@ -62,7 +61,7 @@ public class Equipe
 		return club;
 	}
 	
-	public void setClub(Club club) throws SQLException
+	public void setClub(Club club) throws DataAccessException
 	{
 		if (this.club != club)
 		{
@@ -74,7 +73,7 @@ public class Equipe
 		}
 	}
 	
-	Equipe(int num, String nom, Categorie categorie, Club club) throws SQLException
+	Equipe(int num, String nom, Categorie categorie, Club club) throws DataAccessException
 	{
 		setNum(num);
 		setNom(nom);
@@ -82,31 +81,31 @@ public class Equipe
 		setClub(club);
 	}
 	
-	public Equipe(String nom, Categorie categorie, Club club) throws SQLException
+	public Equipe(String nom, Categorie categorie, Club club) throws DataAccessException
 	{
 		this(NO_KEY, nom, categorie, club);
 	}
 
 	// EquipeInscriteTournoi
-		public int getNbEquipeInscriteTournois() throws SQLException 
+		public int getNbEquipeInscriteTournois() throws DataAccessException 
 		{
 			loadAllEquipeInscriteTournois();
 			return equipeInscriteTournois.size();
 		}
 
-		public EquipeInscriteTournoi getEquipeInscriteTournoi(int index) throws SQLException 
+		public EquipeInscriteTournoi getEquipeInscriteTournoi(int index) throws DataAccessException 
 		{
 			loadAllEquipeInscriteTournois();
 			return equipeInscriteTournois.get(index);
 		}
 		
-		private boolean possedeEquipeInscriteTournoi(EquipeInscriteTournoi equipeInscriteTournoi) throws SQLException 
+		private boolean possedeEquipeInscriteTournoi(EquipeInscriteTournoi equipeInscriteTournoi) throws DataAccessException 
 		{
 			loadAllEquipeInscriteTournois();
 			return equipeInscriteTournois.contains(equipeInscriteTournoi);
 		}
 		
-		private void loadAllEquipeInscriteTournois() throws SQLException
+		private void loadAllEquipeInscriteTournois() throws DataAccessException
 		{
 			if (equipeInscriteTournois == null)
 			{
@@ -116,7 +115,7 @@ public class Equipe
 			}
 		}
 		
-		public void addEquipeInscriteTournoi(EquipeInscriteTournoi equipeInscriteTournoi) throws SQLException 
+		public void addEquipeInscriteTournoi(EquipeInscriteTournoi equipeInscriteTournoi) throws DataAccessException 
 		{
 			loadAllEquipeInscriteTournois();
 			if(!possedeEquipeInscriteTournoi(equipeInscriteTournoi))
@@ -126,7 +125,7 @@ public class Equipe
 			}
 		}
 
-		public void removeEquipeInscriteTournoi(EquipeInscriteTournoi equipeInscriteTournoi) throws SQLException 
+		public void removeEquipeInscriteTournoi(EquipeInscriteTournoi equipeInscriteTournoi) throws DataAccessException 
 		{
 			loadAllEquipeInscriteTournois();
 			if(possedeEquipeInscriteTournoi(equipeInscriteTournoi))

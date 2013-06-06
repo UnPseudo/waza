@@ -1,7 +1,5 @@
 package metier;
 
-import java.sql.SQLException;
-
 public class EquipeInscriteTournoi {
 	private int num = NO_KEY;
 	private Equipe equipe;
@@ -27,7 +25,7 @@ public class EquipeInscriteTournoi {
 		return tournoi;
 	}
 	
-	public void setTournoi(Tournoi tournoi) throws SQLException
+	public void setTournoi(Tournoi tournoi) throws DataAccessException
 	{
 		if (this.tournoi != tournoi)
 		{
@@ -49,7 +47,7 @@ public class EquipeInscriteTournoi {
 		return equipe;
 	}
 	
-	public void setEquipe(Equipe equipe) throws SQLException
+	public void setEquipe(Equipe equipe) throws DataAccessException
 	{
 		if (this.equipe != equipe)
 		{
@@ -66,7 +64,7 @@ public class EquipeInscriteTournoi {
 		return equipe.getNum();
 	}
 	
-	EquipeInscriteTournoi(Equipe equipe, Tournoi tournoi) throws SQLException
+	EquipeInscriteTournoi(Equipe equipe, Tournoi tournoi) throws DataAccessException
 	{
 		setEquipe(equipe);
 		setTournoi(tournoi);

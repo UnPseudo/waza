@@ -1,6 +1,5 @@
 package metier;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 //TODO bug : les mails ne sont pas supprimés de la base quand un contact est supprimé
@@ -69,25 +68,25 @@ public class Ligue
 	}
 	
 	// Club
-	public int getNbClubs() throws SQLException 
+	public int getNbClubs() throws DataAccessException 
 	{
 		loadAllClubs();
 		return clubs.size();
 	}
 
-	public Club getClub(int index) throws SQLException 
+	public Club getClub(int index) throws DataAccessException 
 	{
 		loadAllClubs();
 		return clubs.get(index);
 	}
 	
-	private boolean possedeClub(Club club) throws SQLException 
+	private boolean possedeClub(Club club) throws DataAccessException 
 	{
 		loadAllClubs();
 		return clubs.contains(club);
 	}
 	
-	private void loadAllClubs() throws SQLException
+	private void loadAllClubs() throws DataAccessException
 	{
 		if (clubs == null)
 		{
@@ -96,7 +95,7 @@ public class Ligue
 		}
 	}
 	
-	public void addClub(Club club) throws SQLException 
+	public void addClub(Club club) throws DataAccessException 
 	{
 		loadAllClubs();
 		if(!possedeClub(club))
@@ -106,7 +105,7 @@ public class Ligue
 		}
 	}
 
-	public void removeClub(Club club) throws SQLException 
+	public void removeClub(Club club) throws DataAccessException 
 	{
 		loadAllClubs();
 		if(possedeClub(club))
@@ -117,25 +116,25 @@ public class Ligue
 	}
 	
 	//Categorie
-	public int getNbCategorie() throws SQLException 
+	public int getNbCategorie() throws DataAccessException 
 	{
 		loadAllCategories();
 		return categories.size();
 	}
 
-	public Categorie getCategorie(int index) throws SQLException
+	public Categorie getCategorie(int index) throws DataAccessException
 	{
 		loadAllCategories();
 		return categories.get(index);
 	}
 	
-	private boolean possedeCategorie(Categorie categorie) throws SQLException 
+	private boolean possedeCategorie(Categorie categorie) throws DataAccessException 
 	{
 		loadAllCategories();
 		return categories.contains(categorie);
 	}
 	
-	private void loadAllCategories() throws SQLException
+	private void loadAllCategories() throws DataAccessException
 	{
 		if (categories == null)
 		{
@@ -144,7 +143,7 @@ public class Ligue
 		}
 	}
 	
-	public void addCategorie(Categorie categorie) throws SQLException 
+	public void addCategorie(Categorie categorie) throws DataAccessException 
 	{
 		loadAllCategories();
 		if(!possedeCategorie(categorie))
@@ -154,7 +153,7 @@ public class Ligue
 		}
 	}
 
-	public void removeCategorie(Categorie categorie) throws SQLException 
+	public void removeCategorie(Categorie categorie) throws DataAccessException 
 	{
 		loadAllTournois();
 		if(possedeCategorie(categorie))
@@ -165,25 +164,25 @@ public class Ligue
 	}
 
 	// Tournoi
-	public int getNbTournoi() throws SQLException 
+	public int getNbTournoi() throws DataAccessException 
 	{
 		loadAllTournois();
 		return tournois.size();
 	}
 
-	public Tournoi getTournoi(int index) throws SQLException // je comprend pas
+	public Tournoi getTournoi(int index) throws DataAccessException // je comprend pas
 	{
 		loadAllTournois();
 		return tournois.get(index);
 	}
 	
-	private boolean possedeTournoi(Tournoi tournoi) throws SQLException 
+	private boolean possedeTournoi(Tournoi tournoi) throws DataAccessException 
 	{
 		loadAllTournois();
 		return tournois.contains(tournoi);
 	}
 	
-	private void loadAllTournois() throws SQLException
+	private void loadAllTournois() throws DataAccessException
 	{
 		if (tournois == null)
 		{
@@ -192,7 +191,7 @@ public class Ligue
 		}
 	}
 	
-	public void addTournoi(Tournoi tournoi) throws SQLException 
+	public void addTournoi(Tournoi tournoi) throws DataAccessException 
 	{
 		loadAllTournois();
 		if(!possedeTournoi(tournoi))
@@ -202,7 +201,7 @@ public class Ligue
 		}
 	}
 
-	public void removeTournoi(Tournoi tournoi) throws SQLException 
+	public void removeTournoi(Tournoi tournoi) throws DataAccessException 
 	{
 		loadAllTournois();
 		if(possedeTournoi(tournoi))

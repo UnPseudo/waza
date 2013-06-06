@@ -1,6 +1,5 @@
 package metier;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Categorie 
@@ -52,7 +51,7 @@ public class Categorie
 		return ligue;
 	}
 	
-	public void setLigue(Ligue ligue) throws SQLException
+	public void setLigue(Ligue ligue) throws DataAccessException
 	{
 		if (this.ligue != ligue)
 		{
@@ -69,38 +68,38 @@ public class Categorie
 		return ligue.getNum();
 	}
 	
-	Categorie(int num, String nom, Ligue ligue) throws SQLException
+	Categorie(int num, String nom, Ligue ligue) throws DataAccessException
 	{
 		setNum(num);
 		setNom(nom);
 		setLigue(ligue);
 	}
 
-	public Categorie(String nom, Ligue ligue) throws SQLException
+	public Categorie(String nom, Ligue ligue) throws DataAccessException
 	{
 		this(NO_KEY, nom, ligue);
 	}
 
 	// Tournoi
-	public int getNbTournoi() throws SQLException 
+	public int getNbTournoi() throws DataAccessException 
 	{
 		loadAllTournois();
 		return tournois.size();
 	}
 
-	public Tournoi getTournoi(int index) throws SQLException // je comprend pas
+	public Tournoi getTournoi(int index) throws DataAccessException // je comprend pas
 	{
 		loadAllTournois();
 		return tournois.get(index);
 	}
 	
-	private boolean possedeTournoi(Tournoi tournoi) throws SQLException 
+	private boolean possedeTournoi(Tournoi tournoi) throws DataAccessException 
 	{
 		loadAllTournois();
 		return tournois.contains(tournoi);
 	}
 	
-	private void loadAllTournois() throws SQLException
+	private void loadAllTournois() throws DataAccessException
 	{
 		if (tournois == null)
 		{
@@ -110,7 +109,7 @@ public class Categorie
 		}
 	}
 	
-	public void addTournoi(Tournoi tournoi) throws SQLException 
+	public void addTournoi(Tournoi tournoi) throws DataAccessException 
 	{
 		loadAllTournois();
 		if(!possedeTournoi(tournoi))
@@ -120,7 +119,7 @@ public class Categorie
 		}
 	}
 
-	public void removeTournoi(Tournoi tournoi) throws SQLException 
+	public void removeTournoi(Tournoi tournoi) throws DataAccessException 
 	{
 		loadAllTournois();
 		if(possedeTournoi(tournoi))
@@ -131,13 +130,13 @@ public class Categorie
 	}
 	
 	// Equipe
-	private boolean possedeEquipe(Equipe equipe) throws SQLException 
+	private boolean possedeEquipe(Equipe equipe) throws DataAccessException 
 	{
 		loadAllEquipesCategorie();
 		return equipes.contains(equipe);
 	}
 
-	private void loadAllEquipesCategorie() throws SQLException
+	private void loadAllEquipesCategorie() throws DataAccessException
 	{
 		if (equipes == null)
 		{
@@ -147,7 +146,7 @@ public class Categorie
 		}
 	}
 	
-	public void addEquipe(Equipe equipe) throws SQLException 
+	public void addEquipe(Equipe equipe) throws DataAccessException 
 	{
 		loadAllEquipesCategorie();
 		if(!possedeEquipe(equipe))
@@ -157,7 +156,7 @@ public class Categorie
 		}
 	}
 
-	public void removeEquipe(Equipe equipe) throws SQLException 
+	public void removeEquipe(Equipe equipe) throws DataAccessException 
 	{
 		loadAllEquipesCategorie();
 		if(possedeEquipe(equipe))

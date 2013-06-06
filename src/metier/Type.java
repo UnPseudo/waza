@@ -1,6 +1,5 @@
 package metier;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 //TODO bug : les mails ne sont pas supprimés de la base quand un contact est supprimé
@@ -9,7 +8,7 @@ import java.util.ArrayList;
 public class Type
 {
 	private int num = NO_KEY;
-	private RootSuperAdmin rootSuperAdmin;
+	private AbstractRoot rootSuperAdmin;
 	private String nom;
 	private String description;
 	private ArrayList<Utilisateur> utilisateurs;
@@ -49,7 +48,7 @@ public class Type
 	}
 
 	//
-	Type(RootSuperAdmin rootSuperAdmin, int num, String nom, String description) 
+	Type(AbstractRoot rootSuperAdmin, int num, String nom, String description) 
 	{
 		this.rootSuperAdmin = rootSuperAdmin;
 		setNum(num);
@@ -57,31 +56,31 @@ public class Type
 		setDescription(description);
 	}
 	
-	public Type(RootSuperAdmin rootSuperAdmin, String nom, String description) 
+	public Type(AbstractRoot rootSuperAdmin, String nom, String description) 
 	{
 		this(rootSuperAdmin, NO_KEY, nom, description);
 	}
 
 	//	
-	public int getNbUtilisateurs() throws SQLException 
+	public int getNbUtilisateurs() throws DataAccessException 
 	{
 		loadAllUtilisateurs();
 		return utilisateurs.size();
 	}
 
-	public Utilisateur getUtilisateur(int index) throws SQLException 
+	public Utilisateur getUtilisateur(int index) throws DataAccessException 
 	{
 		loadAllUtilisateurs();
 		return utilisateurs.get(index);
 	}
 
-	private boolean possedeUtilisateur(Utilisateur utilisateur) throws SQLException 
+	private boolean possedeUtilisateur(Utilisateur utilisateur) throws DataAccessException 
 	{
 		loadAllUtilisateurs();
 		return utilisateurs.contains(utilisateur);
 	}
 	
-	private void loadAllUtilisateurs() throws SQLException
+	private void loadAllUtilisateurs() throws DataAccessException
 	{
 		if (utilisateurs == null)
 		{
@@ -90,7 +89,7 @@ public class Type
 		}
 	}
 	
-	public void addUtilisateur(Utilisateur utilisateur) throws SQLException 
+	public void addUtilisateur(Utilisateur utilisateur) throws DataAccessException 
 	{
 		loadAllUtilisateurs();
 		if(!possedeUtilisateur(utilisateur))
@@ -100,7 +99,7 @@ public class Type
 		}
 	}
 
-	public void removeUtilisateur(Utilisateur utilisateur) throws SQLException 
+	public void removeUtilisateur(Utilisateur utilisateur) throws DataAccessException 
 	{
 		loadAllUtilisateurs();
 		if(possedeUtilisateur(utilisateur))

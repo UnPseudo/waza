@@ -3,18 +3,14 @@ package metier;
 import java.sql.*;
 import java.util.*;
 
-import Contacts.src.metier.Contact;
-import Contacts.src.metier.ContactMapper;
-import Contacts.src.metier.HashMap;
-import Contacts.src.metier.Integer;
-
+import metier.DataAccessException;
 import db.Connexion;
 
 // TODO Ecrire les commentaires pour la documentation
 // TODO Ecrire des test unitaires
 // TODO permettre de gérer des listes de contacts,  créer une classe inscription de visibilité package 
 
-public class RootSuperAdmin
+public class RootSuperAdmin extends AbstractRoot
 {
 	//private view.Console console;
 	private int num = NO_KEY;
@@ -171,7 +167,7 @@ public class RootSuperAdmin
 	private HashMap<Integer, Ligue> liguesByNum = new HashMap<Integer, Ligue> ();
 	private HashMap<Integer, Type> typesByNum = new HashMap<Integer, Type> ();
 	
-	public void addLigue(Ligue ligue) throws SQLException
+	public void addLigue(Ligue ligue) throws DataAccessException
 	{
 		int id = connexion.sqlInsert("insert into ligue(nom, description) values ('" +
 				ligue.getNom() + "', '" + ligue.getDescription() + "')");
@@ -179,14 +175,14 @@ public class RootSuperAdmin
 		ligues.add(ligue);
 	}
 	
-	public void updateLigue(Ligue ligue) throws SQLException
+	public void updateLigue(Ligue ligue) throws DataAccessException
 	{
 		connexion.sqlUpdate("update ligue set nom = '" + ligue.getNom() + "' " +
 											"description = '" + ligue.getDescription() + "' " +
 				"where numContact = " + ligue.getNum());
 	}
 	
-	public void deleteLigue(Ligue ligue) throws SQLException
+	public void deleteLigue(Ligue ligue) throws DataAccessException
 	{
 		while(ligue.getNbClubs() != 0)
 		{
@@ -197,84 +193,84 @@ public class RootSuperAdmin
 		ligues.remove(ligue);
 	}
 	
-	public void addClub(Club club) throws SQLException
+	public void addClub(Club club) throws DataAccessException
 	{
 		int id = connexion.sqlInsert("insert into club(nom, description, ligue_id) values ('" +
 				club.getNom() + "', '" + club.getDescription() + "', '" + club.getNumLigue() + "')");
 		club.setNum(id);
 	}
 	
-	public void updateClub(Club club) throws SQLException
+	public void updateClub(Club club) throws DataAccessException
 	{
 		connexion.sqlUpdate("update club set nom = '" + club.getNom() + "' " +
 										",description = '" + club.getDescription() + "' " +
 				"where id = " + club.getNum());
 	}
 	
-	public void deleteClub(Club club) throws SQLException
+	public void deleteClub(Club club) throws DataAccessException
 	{
 		club.setLigue(null);
 		connexion.sqlUpdate("delete from club where id = " + club.getNum());		
 	}
 	//TODO J'en étais a la de mes édit et j'y suis toujours
-	public void addTournoi(Tournoi tournoi) throws SQLException
+	public void addTournoi(Tournoi tournoi) throws DataAccessException
 	{
 		int id = connexion.sqlInsert("insert into tournoi(nom, description, categorie_id, ligue_id) values ('" +
 				tournoi.getNom() + "', '" + tournoi.getDescription() + "', '"/* + tournoi.getNumCategorie()*/ + "', '" + tournoi.getNumLigue() + "')");
 		tournoi.setNum(id);
 	}
 	
-	public void updateTournoi(Tournoi tournoi) throws SQLException
+	public void updateTournoi(Tournoi tournoi) throws DataAccessException
 	{
 		connexion.sqlUpdate("update tournoi set nom = '" + tournoi.getNom() + "',description = '" + tournoi.getDescription() + "' " +
 				"where id = " + tournoi.getNum());
 	}
 	
-	public void deleteTournoi(Tournoi tournoi) throws SQLException
+	public void deleteTournoi(Tournoi tournoi) throws DataAccessException
 	{
 		tournoi.setLigue(null);
 		connexion.sqlUpdate("delete from tournoi where id = " + tournoi.getNum());		
 	}
 	
-	public void addEtapeTournoi(EtapeTournoi etapeTournoi) throws SQLException
+	public void addEtapeTournoi(EtapeTournoi etapeTournoi) throws DataAccessException
 	{
 		int id = connexion.sqlInsert("insert into etapeTournoi(tournoi_id) values ('" +
 				etapeTournoi.getNumTournoi() + "')");
 		etapeTournoi.setNum(id);
 	}
 	
-	public void updateEtapeTournoi(EtapeTournoi etapeTournoi) throws SQLException
+	public void updateEtapeTournoi(EtapeTournoi etapeTournoi) throws DataAccessException
 	{
 		connexion.sqlUpdate("update etapeTournoi set tournoi_id = '" + etapeTournoi.getNumTournoi() + "' " +
 				"where id = " + etapeTournoi.getNum());
 	}
 	
-	public void deleteEtapeTournoi(EtapeTournoi etapeTournoi) throws SQLException
+	public void deleteEtapeTournoi(EtapeTournoi etapeTournoi) throws DataAccessException
 	{
 		etapeTournoi.setTournoi(null);
 		connexion.sqlUpdate("delete from etapeTournoi where id = " + etapeTournoi.getNum());		
 	}
 	
-	public void addCategorie(Categorie categorie) throws SQLException
+	public void addCategorie(Categorie categorie) throws DataAccessException
 	{
 		int id = connexion.sqlInsert("insert into etapeTournoi(tournoi_id) values ('" +
 				categorie.getNumLigue() + "')");
 		categorie.setNum(id);
 	}
 	
-	public void updateCategorie(Categorie categorie) throws SQLException
+	public void updateCategorie(Categorie categorie) throws DataAccessException
 	{
 		connexion.sqlUpdate("update etapeTournoi set tournoi_id = '" + categorie.getNumLigue() + "' " +
 				"where id = " + categorie.getNum());
 	}
 	
-	public void deleteCategorie(Categorie categorie) throws SQLException
+	public void deleteCategorie(Categorie categorie) throws DataAccessException
 	{
 		categorie.setLigue(null);
 		connexion.sqlUpdate("delete from etapeTournoi where id = " + categorie.getNum());		
 	}
 	
-	public void resetDB() throws SQLException
+	public void resetDB() throws DataAccessException
 	{
 		connexion.sqlBatch(RESET_SCRIPT);
 		connexion.sqlBatch(INIT_SCRIPT);
@@ -286,13 +282,13 @@ public class RootSuperAdmin
 		{
 			connexion.sqlBatch(INIT_SCRIPT);
 		}
-		catch(SQLException e)
+		catch(DataAccessException e)
 		{
 			System.out.println("La base de données es déjà  créée.");
 		}
 	}
 		
-	public RootSuperAdmin() throws ClassNotFoundException, SQLException
+	public RootSuperAdmin() throws ClassNotFoundException, DataAccessException
 	{
 		/*connexion = Connexion.makeConnexion();*/
 		//initDB();
@@ -300,7 +296,7 @@ public class RootSuperAdmin
 		ligues = null;
 	}
 		
-	void loadClub(Ligue ligue) throws SQLException
+	void loadClub(Ligue ligue) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from club " +
@@ -315,7 +311,7 @@ public class RootSuperAdmin
 		}
 	}
 	
-	void loadTournoi(Ligue ligue) throws SQLException
+	void loadTournoi(Ligue ligue) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from tournoi " +
@@ -332,7 +328,7 @@ public class RootSuperAdmin
 		}
 	}
 	
-	void loadTournoi(Categorie categorie) throws SQLException
+	void loadTournoi(Categorie categorie) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from tournoi " +
@@ -349,7 +345,7 @@ public class RootSuperAdmin
 		}
 	}
 	
-	void loadEquipeInscriteTournois(Equipe equipe) throws SQLException
+	void loadEquipeInscriteTournois(Equipe equipe) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from tournoi " +
@@ -363,7 +359,7 @@ public class RootSuperAdmin
 		}
 	}
 	
-	void loadEquipeInscriteTournois(Tournoi tournoi) throws SQLException
+	void loadEquipeInscriteTournois(Tournoi tournoi) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from tournoi " +
@@ -377,7 +373,7 @@ public class RootSuperAdmin
 		}
 	}
 	
-	void loadEtapeTournoi(Tournoi tournoi) throws SQLException
+	void loadEtapeTournoi(Tournoi tournoi) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from etapeTournoi " +
@@ -391,7 +387,7 @@ public class RootSuperAdmin
 		}
 	}
 	
-	void loadRencontre(EtapeTournoi etapeTournoi) throws SQLException
+	void loadRencontre(EtapeTournoi etapeTournoi) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from rencontre " +
@@ -407,7 +403,7 @@ public class RootSuperAdmin
 		}
 	}
 	
-	void loadCategorie(Ligue ligue) throws SQLException
+	void loadCategorie(Ligue ligue) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from categorie " +
@@ -422,7 +418,7 @@ public class RootSuperAdmin
 		}
 	}
 	
-	void loadEquipe(Categorie categorie, Club club) throws SQLException
+	void loadEquipe(Categorie categorie, Club club) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from equipe " +
@@ -438,7 +434,7 @@ public class RootSuperAdmin
 		}
 	}
 	
-	private void loadAllLigues() throws SQLException
+	private void loadAllLigues() throws DataAccessException
 	{
 		if (ligues == null)
 		{
@@ -455,7 +451,7 @@ public class RootSuperAdmin
 					ligues.add(ligue);
 				}
 			}
-			catch(SQLException e)
+			catch(DataAccessException e)
 			{
 				ligues = null;
 				throw e;
@@ -463,19 +459,19 @@ public class RootSuperAdmin
 		}
 	}
 	
-	public int getNbLigues() throws SQLException
+	public int getNbLigues() throws DataAccessException
 	{
 		loadAllLigues();
 		return ligues.size();		
 	}
 	
-	public Ligue getLigueByIndex(int index) throws SQLException
+	public Ligue getLigueByIndex(int index) throws DataAccessException
 	{
 		loadAllLigues();
 		return ligues.get(index);
 	}
 	
-	public void addType(Type type) throws SQLException
+	public void addType(Type type) throws DataAccessException
 	{
 		int id = connexion.sqlInsert("insert into type(nom) values ('" +
 				type.getNom() + "')");
@@ -483,13 +479,13 @@ public class RootSuperAdmin
 		types.add(type);
 	}
 	
-	public void updateType(Type type) throws SQLException
+	public void updateType(Type type) throws DataAccessException
 	{
 		connexion.sqlUpdate("update type set nom = '" + type.getNom() +
 				"where id = " + type.getNum());
 	}
 	
-	public void deleteType(Type type) throws SQLException
+	public void deleteType(Type type) throws DataAccessException
 	{
 		while(type.getNbUtilisateurs() != 0)
 		{
@@ -500,26 +496,26 @@ public class RootSuperAdmin
 		types.remove(type);
 	}
 	
-	public void addUtilisateur(Utilisateur utilisateur) throws SQLException
+	public void addUtilisateur(Utilisateur utilisateur) throws DataAccessException
 	{
 		int id = connexion.sqlInsert("insert into utilisateur(nom, type_id) values ('" +
 				utilisateur.getNom() + "', '" + utilisateur.getNumType() + "')");
 		utilisateur.setNum(id);
 	}
 	
-	public void updateUtilisateur(Utilisateur utilisateur) throws SQLException
+	public void updateUtilisateur(Utilisateur utilisateur) throws DataAccessException
 	{
 		connexion.sqlUpdate("update utilisateur set nom = '" + utilisateur.getNom() + "' " +
 				"where id = " + utilisateur.getNum());
 	}
 	
-	public void deleteUtilisateur(Utilisateur utilisateur) throws SQLException
+	public void deleteUtilisateur(Utilisateur utilisateur) throws DataAccessException
 	{
 		utilisateur.setType(null);
 		connexion.sqlUpdate("delete from utilisateur where id = " + utilisateur.getNum());		
 	}
 
-	public Type loadType(int idType) throws SQLException
+	public Type loadType(int idType) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from type " +
@@ -532,7 +528,7 @@ public class RootSuperAdmin
 		return type;
 	}
 	
-	public Utilisateur loadUtilisateur(int idUtilisateur) throws SQLException
+	public Utilisateur loadUtilisateur(int idUtilisateur) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from utilisateur " +
@@ -550,8 +546,7 @@ public class RootSuperAdmin
 		return utilisateur;
 	}
 	
-	
-	public Ligue loadLigue(int idLigue) throws SQLException
+	public Ligue loadLigue(int idLigue) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from ligue " +
@@ -563,7 +558,7 @@ public class RootSuperAdmin
 		return ligue;
 	}
 	
-	public Categorie loadCategorie(int idCategorie) throws SQLException
+	public Categorie loadCategorie(int idCategorie) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from categorie " +
@@ -575,7 +570,7 @@ public class RootSuperAdmin
 		return categorie;
 	}
 	
-	public Club loadClub(int idClub) throws SQLException
+	public Club loadClub(int idClub) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from club " +
@@ -588,7 +583,7 @@ public class RootSuperAdmin
 		return club;
 	}
 	
-	void loadEquipes(Club club) throws SQLException
+	void loadEquipes(Club club) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from utilisateur " +
@@ -604,7 +599,7 @@ public class RootSuperAdmin
 		}
 	}
 
-	public Equipe loadEquipe(int idEquipe) throws SQLException
+	public Equipe loadEquipe(int idEquipe) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from equipe " +
@@ -618,7 +613,7 @@ public class RootSuperAdmin
 		return equipe;
 	}
 	
-	void loadEquipes(Categorie categorie) throws SQLException
+	void loadEquipes(Categorie categorie) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from utilisateur " +
@@ -634,7 +629,7 @@ public class RootSuperAdmin
 		}
 	}
 	
-	public Tournoi loadTournoi(int idTournoi) throws SQLException
+	public Tournoi loadTournoi(int idTournoi) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from tournoi " +
@@ -648,7 +643,7 @@ public class RootSuperAdmin
 		return tournoi;
 	}
 	
-	public EtapeTournoi loadEtapeTournoi(int idEtapeTournoi) throws SQLException
+	public EtapeTournoi loadEtapeTournoi(int idEtapeTournoi) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from etape_tournoi " +
@@ -660,7 +655,7 @@ public class RootSuperAdmin
 		return etapeTournoi;
 	}
 	
-	public Rencontre loadRencontre(int idRencontre) throws SQLException
+	public Rencontre loadRencontre(int idRencontre) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from rencontre" +
@@ -673,7 +668,7 @@ public class RootSuperAdmin
 		return rencontre;
 	}
 	
-	void loadUtilisateurs(Type type) throws SQLException
+	void loadUtilisateurs(Type type) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from utilisateur " +
@@ -694,7 +689,7 @@ public class RootSuperAdmin
 		}
 	}
 	
-	void loadUtilisateurs(Club club) throws SQLException
+	void loadUtilisateurs(Club club) throws DataAccessException
 	{
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from utilisateur " +
@@ -715,39 +710,19 @@ public class RootSuperAdmin
 		}
 	}
 	
-	private void loadAllTypes() throws SQLException
+	void loadAllTypes() throws DataAccessException
 	{
 		if (types == null)
-		{
-			types = new ArrayList<Type>();
-			try
-			{
-				ResultSet rs = connexion.sqlSelect("select * from type order by id");
-				while(rs.next())
-				{
-					Type type = new Type(
-							this,
-							rs.getInt("num"), 
-							rs.getString("nom"),
-							rs.getString("description"));
-					types.add(type);
-				}
-			}
-			catch(SQLException e)
-			{
-				ligues = null;
-				throw e;
-			}
-		}
+			types = mapper.loadAllTypes();
 	}
 	
-	public int getNbTypes() throws SQLException
+	public int getNbTypes() throws DataAccessException
 	{
 		loadAllTypes();
 		return types.size();		
 	}
 	
-	public Type getTypeByIndex(int index) throws SQLException
+	public Type getTypeByIndex(int index) throws DataAccessException
 	{
 		loadAllTypes();
 		return types.get(index);
