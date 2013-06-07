@@ -164,8 +164,10 @@ public class RootSuperAdmin extends AbstractRoot
 	
 	private ArrayList<Ligue> ligues = null;
 	private ArrayList<Type> types = null;
+	private ArrayList<Club> clubs = null;
 	private HashMap<Integer, Ligue> liguesByNum = new HashMap<Integer, Ligue> ();
 	private HashMap<Integer, Type> typesByNum = new HashMap<Integer, Type> ();
+	private HashMap<Integer, Club> clubsByNum = new HashMap<Integer, Club> ();
 	
 	public void addLigue(Ligue ligue) throws DataAccessException
 	{
@@ -548,13 +550,13 @@ public class RootSuperAdmin extends AbstractRoot
 	
 	public Ligue loadLigue(int idLigue) throws DataAccessException
 	{
-		ResultSet rs = connexion.sqlSelect("select * " +
-				"from ligue " +
-				"where id = " + idLigue);
-		Ligue ligue = new Ligue(
-				this,
-				rs.getInt("id"), 
-				rs.getString("nom"));
+		Ligue ligue = liguesByNum.get(idLigue);
+		if (ligue == null)
+		{
+			ligue = mapper.loadLigue(idLigue);
+			ligues.add(ligue);
+			liguesByNum.put(idLigue, ligue);
+		}
 		return ligue;
 	}
 	
@@ -572,14 +574,13 @@ public class RootSuperAdmin extends AbstractRoot
 	
 	public Club loadClub(int idClub) throws DataAccessException
 	{
-		ResultSet rs = connexion.sqlSelect("select * " +
-				"from club " +
-				"where id = " + idClub + 
-				" order by id");
-		Club club = new Club(
-				rs.getInt("id"), 
-				rs.getString("nom"), 
-				loadLigue(rs.getInt("ligue_id")));
+		Club club = clubsByNum.get(idClub);
+		if (club == null)
+		{
+			club = mapper.loadClub(idClub);
+			clubs.add(club);
+			clubsByNum.put(idClub, club);
+		}
 		return club;
 	}
 	
@@ -670,27 +671,13 @@ public class RootSuperAdmin extends AbstractRoot
 	
 	void loadUtilisateurs(Type type) throws DataAccessException
 	{
-		ResultSet rs = connexion.sqlSelect("select * " +
-				"from utilisateur " +
-				"where type_id = " + type.getNum() +
-				"order by id");
-		while(rs.next())
-		{
-			new Utilisateur(
-					rs.getInt("id"),
-					rs.getString("nom"),
-					rs.getString("prenom"),
-					rs.getInt("tel_fixe"),
-					rs.getInt("tel_portable"),
-					rs.getString("mail"),
-					rs.getString("mdp"),
-					type,
-					loadClub(rs.getInt("club_id")));
-		}
+		mapper.loadUtilisateurs(type);
+		
 	}
 	
 	void loadUtilisateurs(Club club) throws DataAccessException
 	{
+		
 		ResultSet rs = connexion.sqlSelect("select * " +
 				"from utilisateur " +
 				"where club_id = " + club.getNum() +

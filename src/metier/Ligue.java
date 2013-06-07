@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Ligue 
 {
 	private int num = NO_KEY;
-	private RootSuperAdmin rootSuperAdmin;
+	private AbstractRoot rootSuperAdmin;
 	private String nom = null;
 	private String description = null;
 	private ArrayList<Club> clubs;
@@ -50,12 +50,12 @@ public class Ligue
 	}
 	
 	//
-	public RootSuperAdmin getRootSuperAdmin()
+	public AbstractRoot getRootSuperAdmin()
 	{
 		return rootSuperAdmin;
 	}
 
-	Ligue(RootSuperAdmin rootSuperAdmin, int num, String nom) 
+	Ligue(AbstractRoot rootSuperAdmin, int num, String nom) 
 	{
 		this.rootSuperAdmin = rootSuperAdmin;
 		setNum(num);
