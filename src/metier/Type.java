@@ -87,7 +87,7 @@ public class Type
 			utilisateurs = new ArrayList<Utilisateur>();
 			rootSuperAdmin.loadUtilisateurs(this);
 		}
-	}
+	} 
 	
 	public void addUtilisateur(Utilisateur utilisateur) throws DataAccessException 
 	{
