@@ -88,7 +88,7 @@ public class Type
 			rootSuperAdmin.loadUtilisateurs(this);
 		}
 	} 
-	 
+	  
 	public void addUtilisateur(Utilisateur utilisateur) throws DataAccessException 
 	{
 		loadAllUtilisateurs();
