@@ -1,7 +1,6 @@
 package metier;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 interface Mapper {
 
@@ -11,7 +10,6 @@ interface Mapper {
 	public ArrayList<Type> loadAllTypes() throws DataAccessException;
 	public ArrayList<Utilisateur> loadUtilisateurs(Type type) throws DataAccessException;
 	public ArrayList<Utilisateur> loadUtilisateurs(Club club) throws DataAccessException;
-	
 	public Club loadClub(int idClub) throws DataAccessException;
 	public Ligue loadLigue(int idLigue) throws DataAccessException;
 	public Type loadType(int idType) throws DataAccessException;
