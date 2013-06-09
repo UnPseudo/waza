@@ -292,7 +292,7 @@ public class RootSuperAdmin extends AbstractRoot
 	public void initDB() 
 	{
 		try
-		{
+		{ 
 			connexion.sqlBatch(INIT_SCRIPT);
 		}
 		catch(DataAccessException e)
