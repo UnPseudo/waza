@@ -9,7 +9,7 @@ public class Categorie
 	private String nom = null;
 	private String description = null;
 	private ArrayList<Equipe> equipes;
-	private ArrayList<Tournoi> tournois;
+	private ArrayList<Tournoi> tournois; 
 	private final static int NO_KEY = -1;
 	
 	//

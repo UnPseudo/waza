@@ -55,7 +55,7 @@ public class Utilisateur
 	{
 		this.telFixe = telFixe;
 	}
-	
+	 
 	public int getTelPortable()
 	{
 		return telPortable;

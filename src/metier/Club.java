@@ -43,7 +43,7 @@ public class Club
 	public void setDescription(String description) 
 	{
 		this.description = description;
-	}
+	} 
 	
 	// Ligue
 	public Ligue getLigue()

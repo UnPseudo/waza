@@ -141,7 +141,7 @@ public class Ligue
 			categories = new ArrayList<Categorie>();
 			rootSuperAdmin.loadCategorie(this);
 		}
-	}
+	} 
 	
 	public void addCategorie(Categorie categorie) throws DataAccessException 
 	{

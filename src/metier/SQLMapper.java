@@ -26,7 +26,7 @@ class SQLMapper implements Mapper {
 								"" + type.getNum());
 			}
 
-	}
+	} 
 
 	public ArrayList<Type> loadAllTypes() throws DataAccessException {
 		ArrayList<Type> types = new ArrayList<Type>();

@@ -624,7 +624,7 @@ public class RootSuperAdmin extends AbstractRoot
 	}
 	
 	void loadEquipes(Categorie categorie) throws DataAccessException
-	{
+	{ 
 		
 	}
 	
@@ -693,7 +693,7 @@ public class RootSuperAdmin extends AbstractRoot
 		loadAllTypes();
 		return types.get(index);
 	}
-
+ 
 	public void save(Type type) throws DataAccessException
 	{
 		if (type.getNum() == mapper.NO_KEY)

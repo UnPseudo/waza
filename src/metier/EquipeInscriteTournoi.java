@@ -36,7 +36,7 @@ public class EquipeInscriteTournoi {
 				tournoi.addEquipeInscriteTournoi(this);
 		}
 	}
-	
+	 
 	public int getNumTournoi()
 	{
 		return tournoi.getNum();

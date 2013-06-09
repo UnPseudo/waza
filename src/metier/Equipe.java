@@ -82,7 +82,7 @@ public class Equipe
 	}
 	
 	public Equipe(String nom, Categorie categorie, Club club) throws DataAccessException
-	{
+	{ 
 		this(NO_KEY, nom, categorie, club);
 	}
 

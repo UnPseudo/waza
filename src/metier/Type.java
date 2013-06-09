@@ -98,7 +98,7 @@ public class Type
 			utilisateur.setType(this);
 		}
 	}
-
+ 
 	public void removeUtilisateur(Utilisateur utilisateur) throws DataAccessException 
 	{
 		loadAllUtilisateurs();

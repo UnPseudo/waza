@@ -22,3 +22,4 @@ interface Mapper {
 	public Equipe loadEquipe(int idEquipe) throws DataAccessException;
 	
 }
+ 

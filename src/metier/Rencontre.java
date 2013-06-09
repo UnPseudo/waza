@@ -24,7 +24,7 @@ public class Rencontre
 	}
 	
 	public String getLieu()
-	{
+	{ 
 		return lieu;
 	}
 	

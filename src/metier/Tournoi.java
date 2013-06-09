@@ -25,7 +25,7 @@ public class Tournoi
 			throw new RuntimeException("Cannot change DB ID");
 		this.num = num;
 	}
-	
+	 
 	public String getNom()
 	{
 		return nom;

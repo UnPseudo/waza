@@ -15,7 +15,7 @@ public class Connexion
   * URL = accès à la BDD
   * le debug_mode est pour afficher les informations dans la console
   */
- 
+  
  Connection connect;
  Statement transmission;
  ResultSet result;

@@ -16,7 +16,7 @@ public class EtapeTournoi
 	{
 		return num;
 	}
-
+ 
 	void setNum(int num)
 	{
 		if (this.num != NO_KEY)
