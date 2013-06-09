@@ -75,6 +75,35 @@ class SQLMapper implements Mapper {
 		}
 		return utilisateurs;
 	}
+
+	public ArrayList<Utilisateur> loadUtilisateurs(Club club) throws DataAccessException
+	{
+		ArrayList<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
+		try{
+			ResultSet rs = connexion.sqlSelect("select * " +
+					"from utilisateur " +
+					"where club_id = " + club.getNum() +
+					"order by id");
+			while(rs.next())
+			{
+				utilisateurs.add ( new Utilisateur(
+				rs.getInt("id"),
+				rs.getString("nom"),
+				rs.getString("prenom"),
+				rs.getInt("tel_fixe"),
+				rs.getInt("tel_portable"),
+				rs.getString("mail"),
+				rs.getString("mdp"),
+				loadType(rs.getInt("type_id")),
+				club
+				));
+			}
+			
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+		return utilisateurs;
+	}
 	
 	public Club loadClub(int idClub) throws DataAccessException
 	{
@@ -118,5 +147,148 @@ class SQLMapper implements Mapper {
 		 catch (SQLException e) {
 				throw new DataAccessException(e);
 			}
+	}
+	
+	public Type loadType(int idType) throws DataAccessException
+	{
+		try
+		{
+			ResultSet rs = connexion.sqlSelect("select * " +
+					"from type " +
+					"where id = " + idType);
+			if(rs.next())
+			{
+				return new Type(
+						root,
+						rs.getInt("id"), 
+						rs.getString("nom"),
+						rs.getString("description"));
+			}
+			else
+				return null;
+		}
+		catch (SQLException e) 
+		{
+			throw new DataAccessException(e);
+		}
+	}
+	
+	public Rencontre loadRencontre(int idRencontre) throws DataAccessException
+	{
+		try
+		{
+			ResultSet rs = connexion.sqlSelect("select * " +
+					"from recontre " +
+					"where id = " + idRencontre);
+			if(rs.next())
+			{
+				return new Rencontre(
+				rs.getInt("id"), 
+				rs.getString("lieu"),
+				rs.getString("date"),
+				loadEtapeTournoi(rs.getInt("etape_tournoi_id")));
+			}
+			else
+				return null;
+		}
+		catch (SQLException e) 
+		{
+			throw new DataAccessException(e);
+		}
+	}
+	
+	public EtapeTournoi loadEtapeTournoi(int idEtapeTournoi) throws DataAccessException
+	{
+		try
+		{
+			ResultSet rs = connexion.sqlSelect("select * " +
+					"from etape_tournoi " +
+					"where id = " + idEtapeTournoi);
+			if(rs.next())
+			{
+				return new EtapeTournoi(
+				rs.getInt("id"), 
+				rs.getInt("type_tournoi"),
+				loadTournoi(rs.getInt("tournoi_id")));
+			}
+			else
+				return null;
+		}
+		catch (SQLException e) 
+		{
+			throw new DataAccessException(e);
+		}
+	}
+
+	public Tournoi loadTournoi(int idTournoi) throws DataAccessException
+	{
+		try
+		{
+			ResultSet rs = connexion.sqlSelect("select * " +
+					"from tournoi " +
+					"where id = " + idTournoi);
+			if(rs.next())
+			{
+				return new Tournoi(
+				rs.getInt("id"), 
+				rs.getString("nom"),
+				rs.getString("description"),
+				loadLigue(rs.getInt("ligue_id")),
+				loadCategorie(rs.getInt("categorie_id")));
+			}
+			else
+				return null;
+		}
+		catch (SQLException e) 
+		{
+			throw new DataAccessException(e);
+		}
+	}
+
+	public Categorie loadCategorie(int idCategorie) throws DataAccessException
+	{
+		try
+		{
+			ResultSet rs = connexion.sqlSelect("select * " +
+					"from categorie " +
+					"where id = " + idCategorie);
+			if(rs.next())
+			{
+				return new Categorie(
+				rs.getInt("id"), 
+				rs.getString("nom"),
+				loadLigue(rs.getInt("ligue_id")));
+			}
+			else
+				return null;
+		}
+		catch (SQLException e) 
+		{
+			throw new DataAccessException(e);
+		}
+	}
+	
+	public Equipe loadEquipe(int idEquipe) throws DataAccessException
+	{
+		try
+		{
+			ResultSet rs = connexion.sqlSelect("select * " +
+					"from equipe " +
+					"where id = " + idEquipe);
+			if(rs.next())
+			{
+				return new Equipe(
+				rs.getInt("id"), 
+				rs.getString("nom"),
+				loadCategorie(rs.getInt("categorie_id")),
+				loadClub(rs.getInt("club_id")));
+			}
+			else
+				return null;
+		}
+		catch (SQLException e) 
+		{
+			throw new DataAccessException(e);
+		}
 	}
 }

@@ -163,11 +163,22 @@ public class RootSuperAdmin extends AbstractRoot
 	Connexion connexion;
 	
 	private ArrayList<Ligue> ligues = null;
-	private ArrayList<Type> types = null;
-	private ArrayList<Club> clubs = null;
 	private HashMap<Integer, Ligue> liguesByNum = new HashMap<Integer, Ligue> ();
+	private ArrayList<Type> types = null;
 	private HashMap<Integer, Type> typesByNum = new HashMap<Integer, Type> ();
+	private ArrayList<Club> clubs = null;
 	private HashMap<Integer, Club> clubsByNum = new HashMap<Integer, Club> ();
+	private ArrayList<Rencontre> rencontres = null;
+	private HashMap<Integer, Rencontre> rencontresByNum = new HashMap<Integer, Rencontre> ();
+	private ArrayList<EtapeTournoi> etapesTournoi = null;
+	private HashMap<Integer, EtapeTournoi> etapesTournoiByNum = new HashMap<Integer, EtapeTournoi> ();
+	private ArrayList<Tournoi> tournois = null;
+	private HashMap<Integer, Tournoi> tournoisByNum = new HashMap<Integer, Tournoi> ();
+	private ArrayList<Categorie> categories = null;
+	private HashMap<Integer, Categorie> categoriesByNum = new HashMap<Integer, Categorie> ();
+	private ArrayList<Equipe> equipes = null;
+	private HashMap<Integer, Equipe> equipesByNum = new HashMap<Integer, Equipe> ();
+	
 	
 	public void addLigue(Ligue ligue) throws DataAccessException
 	{
@@ -562,13 +573,13 @@ public class RootSuperAdmin extends AbstractRoot
 	
 	public Categorie loadCategorie(int idCategorie) throws DataAccessException
 	{
-		ResultSet rs = connexion.sqlSelect("select * " +
-				"from categorie " +
-				"where id = " + idCategorie);
-		Categorie categorie = new Categorie(
-				rs.getInt("id"), 
-				rs.getString("nom"),
-				loadLigue(rs.getInt("ligue_id")));
+		Categorie categorie = categoriesByNum.get(idCategorie);
+		if (categorie == null)
+		{
+			categorie = mapper.loadCategorie(idCategorie);
+			categories.add(categorie);
+			categoriesByNum.put(idCategorie, categorie);
+		}
 		return categorie;
 	}
 	
@@ -602,70 +613,54 @@ public class RootSuperAdmin extends AbstractRoot
 
 	public Equipe loadEquipe(int idEquipe) throws DataAccessException
 	{
-		ResultSet rs = connexion.sqlSelect("select * " +
-				"from equipe " +
-				"where id = " + idEquipe + 
-				" order by id");
-		Equipe equipe = new Equipe(
-				rs.getInt("id"), 
-				rs.getString("nom"), 
-				loadCategorie(rs.getInt("categorie_id")),
-				loadClub(rs.getInt("club_id")));
+		Equipe equipe = equipesByNum.get(idEquipe);
+		if (equipe == null)
+		{
+			equipe = mapper.loadEquipe(idEquipe);
+			equipes.add(equipe);
+			equipesByNum.put(idEquipe, equipe);
+		}
 		return equipe;
 	}
 	
 	void loadEquipes(Categorie categorie) throws DataAccessException
 	{
-		ResultSet rs = connexion.sqlSelect("select * " +
-				"from utilisateur " +
-				"where categorie_id = " + categorie.getNum() +
-				"order by id");
-		while(rs.next())
-		{
-			new Equipe(
-					rs.getInt("id"),
-					rs.getString("nom"),
-					categorie,
-					loadClub(rs.getInt("club_id")));
-		}
+		
 	}
 	
 	public Tournoi loadTournoi(int idTournoi) throws DataAccessException
 	{
-		ResultSet rs = connexion.sqlSelect("select * " +
-				"from tournoi " +
-				"where id = " + idTournoi);
-		Tournoi tournoi = new Tournoi(
-				rs.getInt("id"), 
-				rs.getString("nom"),
-				rs.getString("description"),
-				loadLigue(rs.getInt("ligue_id")),
-				loadCategorie(rs.getInt("categorie_id")));
+		Tournoi tournoi = tournoisByNum.get(idTournoi);
+		if (tournoi == null)
+		{
+			tournoi = mapper.loadTournoi(idTournoi);
+			tournois.add(tournoi);
+			tournoisByNum.put(idTournoi, tournoi);
+		}
 		return tournoi;
 	}
 	
 	public EtapeTournoi loadEtapeTournoi(int idEtapeTournoi) throws DataAccessException
 	{
-		ResultSet rs = connexion.sqlSelect("select * " +
-				"from etape_tournoi " +
-				"where id = " + idEtapeTournoi);
-		EtapeTournoi etapeTournoi = new EtapeTournoi(
-				rs.getInt("id"), 
-				rs.getInt("type_etape"),
-				loadTournoi(rs.getInt("tournoi_id")));
+		EtapeTournoi etapeTournoi = etapesTournoiByNum.get(idEtapeTournoi);
+		if (etapeTournoi == null)
+		{
+			etapeTournoi = mapper.loadEtapeTournoi(idEtapeTournoi);
+			etapesTournoi.add(etapeTournoi);
+			etapesTournoiByNum.put(idEtapeTournoi, etapeTournoi);
+		}
 		return etapeTournoi;
 	}
 	
 	public Rencontre loadRencontre(int idRencontre) throws DataAccessException
 	{
-		ResultSet rs = connexion.sqlSelect("select * " +
-				"from rencontre" +
-				"where id = " + idRencontre);
-		Rencontre rencontre = new Rencontre(
-				rs.getInt("id"), 
-				rs.getString("lieu"),
-				rs.getString("date"),
-				loadEtapeTournoi(rs.getInt("etape_tournoi_id")));
+		Rencontre rencontre = rencontresByNum.get(idRencontre);
+		if (rencontre == null)
+		{
+			rencontre = mapper.loadRencontre(idRencontre);
+			rencontres.add(rencontre);
+			rencontresByNum.put(idRencontre, rencontre);
+		}
 		return rencontre;
 	}
 	
@@ -677,24 +672,8 @@ public class RootSuperAdmin extends AbstractRoot
 	
 	void loadUtilisateurs(Club club) throws DataAccessException
 	{
+		mapper.loadUtilisateurs(club);
 		
-		ResultSet rs = connexion.sqlSelect("select * " +
-				"from utilisateur " +
-				"where club_id = " + club.getNum() +
-				"order by id");
-		while(rs.next())
-		{
-			new Utilisateur(
-					rs.getInt("id"),
-					rs.getString("nom"),
-					rs.getString("prenom"),
-					rs.getInt("tel_fixe"),
-					rs.getInt("tel_portable"),
-					rs.getString("mail"),
-					rs.getString("mdp"),
-					loadType(rs.getInt("type_id")),
-					club);
-		}
 	}
 	
 	void loadAllTypes() throws DataAccessException
