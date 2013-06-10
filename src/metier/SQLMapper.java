@@ -3,8 +3,6 @@ package metier;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
-
 import db.Connexion;
 
 class SQLMapper implements Mapper {
@@ -291,4 +289,19 @@ class SQLMapper implements Mapper {
 			throw new DataAccessException(e);
 		}
 	}
+
+	SQLMapper(AbstractRoot root) throws DataAccessException
+	{
+
+			this.root = root;
+			connexion = new Connexion();
+
+	}
+
+	SQLMapper(AbstractRoot root, Connexion connexion) throws DataAccessException
+	{
+		this.root = root;
+		this.connexion = connexion;
+	}
+
 }

@@ -305,9 +305,17 @@ public class RootSuperAdmin extends AbstractRoot
 	{
 		/*connexion = Connexion.makeConnexion();*/
 		//initDB();
-		connexion = new Connexion();
-		ligues = null;
+		//connexion = new Connexion();
+		//ligues = null;
+		mapper = new SQLMapper(this);
 	}
+	
+	public RootSuperAdmin(Mapper mapper) throws ClassNotFoundException, DataAccessException
+	{
+		this.mapper = mapper;
+	}
+	
+	
 		
 	void loadClub(Ligue ligue) throws DataAccessException
 	{
