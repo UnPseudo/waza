@@ -92,7 +92,7 @@ public class Ligue
 	{
 		/*
 		if (!allClubsLoaded)
-		{
+		{ 
 			ArrayList<Club> clubsLoaded = root.loadAllClubs(this);
 			/*for(Club club : clubsLoaded) A foutre dans un loadAllClubs(Ligue dans le root)
 			{
