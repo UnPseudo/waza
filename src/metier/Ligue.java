@@ -90,6 +90,7 @@ public class Ligue
 	
 	private void loadAllClubs() throws DataAccessException
 	{
+		/*
 		if (!allClubsLoaded)
 		{
 			ArrayList<Club> clubsLoaded = root.loadAllClubs(this);
@@ -102,8 +103,8 @@ public class Ligue
 					clubsByNum.put(numClub, club);
 				}
 			}*/
-			allClubsLoaded = true;
-		}
+			//allClubsLoaded = true;
+		//}
 	}
 	
 	public void addClub(Club club) throws DataAccessException 
