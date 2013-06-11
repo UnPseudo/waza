@@ -75,7 +75,7 @@ public class Connexion
 	{
 		try
 		  {
-			PreparedStatement s = connect.prepareStatement(req);
+			PreparedStatement s = connect.prepareStatement(req, Statement.RETURN_GENERATED_KEYS);
 			for (int i = 0 ; i < values.length ; i++)
 				s.setString(i+1, values[i]);
 			s.executeUpdate() ;

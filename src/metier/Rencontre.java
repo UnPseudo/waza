@@ -1,7 +1,5 @@
 package metier;
 
-import java.util.ArrayList;
-
 public class Rencontre
 {
 	private int num = NO_KEY;

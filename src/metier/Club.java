@@ -92,8 +92,8 @@ public class Club
 		if (utilisateurs == null)
 		{
 			utilisateurs = new ArrayList<Utilisateur>();
-			RootSuperAdmin rootSuperAdmin = getLigue().getRootSuperAdmin();
-			rootSuperAdmin.loadUtilisateurs(this);
+			AbstractRoot root = getLigue().getRoot();
+			root.loadUtilisateurs(this);
 		}
 	}
 
@@ -129,8 +129,8 @@ public class Club
 		if (equipes == null)
 		{
 			equipes = new ArrayList<Equipe>();
-			RootSuperAdmin rootSuperAdmin = getLigue().getRootSuperAdmin();
-			rootSuperAdmin.loadEquipes(this);
+			AbstractRoot root = getLigue().getRoot();
+			root.loadEquipes(this);
 		}
 	}
 	

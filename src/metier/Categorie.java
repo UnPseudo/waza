@@ -104,8 +104,8 @@ public class Categorie
 		if (tournois == null)
 		{
 			tournois = new ArrayList<Tournoi>();
-			RootSuperAdmin rootSuperAdmin = getLigue().getRootSuperAdmin();
-			rootSuperAdmin.loadTournoi(this);
+			AbstractRoot root = getLigue().getRoot();
+			root.loadTournois(this);
 		}
 	}
 	
@@ -141,8 +141,8 @@ public class Categorie
 		if (equipes == null)
 		{
 			equipes = new ArrayList<Equipe>();
-			RootSuperAdmin rootSuperAdmin = getLigue().getRootSuperAdmin();
-			rootSuperAdmin.loadEquipes(this);
+			AbstractRoot root = getLigue().getRoot();
+			root.loadEquipes(this);
 		}
 	}
 	

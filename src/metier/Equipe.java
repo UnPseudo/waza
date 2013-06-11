@@ -110,8 +110,8 @@ public class Equipe
 			if (equipeInscriteTournois == null)
 			{
 				equipeInscriteTournois = new ArrayList<EquipeInscriteTournoi>();
-				RootSuperAdmin rootSuperAdmin = getClub().getLigue().getRootSuperAdmin();
-				rootSuperAdmin.loadEquipeInscriteTournois(this);
+				AbstractRoot root = getClub().getLigue().getRoot();
+				root.loadEquipeInscriteTournois(this);
 			}
 		}
 		

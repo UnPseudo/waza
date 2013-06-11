@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Type
 {
 	private int num = NO_KEY;
-	private AbstractRoot rootSuperAdmin;
+	private AbstractRoot root;
 	private String nom;
 	private String description;
 	private ArrayList<Utilisateur> utilisateurs;
@@ -48,17 +48,17 @@ public class Type
 	}
 
 	//
-	Type(AbstractRoot rootSuperAdmin, int num, String nom, String description) 
+	Type(AbstractRoot root, int num, String nom, String description) 
 	{
-		this.rootSuperAdmin = rootSuperAdmin;
+		this.root = root;
 		setNum(num);
 		setNom(nom);
 		setDescription(description);
 	}
 	
-	public Type(AbstractRoot rootSuperAdmin, String nom, String description) 
+	public Type(AbstractRoot root, String nom, String description) 
 	{
-		this(rootSuperAdmin, NO_KEY, nom, description);
+		this(root, NO_KEY, nom, description);
 	}
 
 	//	
@@ -85,7 +85,7 @@ public class Type
 		if (utilisateurs == null)
 		{
 			utilisateurs = new ArrayList<Utilisateur>();
-			rootSuperAdmin.loadUtilisateurs(this);
+			root.loadUtilisateurs(this);
 		}
 	} 
 	  
@@ -98,7 +98,7 @@ public class Type
 			utilisateur.setType(this);
 		}
 	}
- 
+
 	public void removeUtilisateur(Utilisateur utilisateur) throws DataAccessException 
 	{
 		loadAllUtilisateurs();

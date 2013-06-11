@@ -109,6 +109,11 @@ public class Utilisateur
 		}
 	}
 	
+	public int getNumClub()
+	{
+		return club.getNum();
+	}
+	
 	public Club getClub()
 	{
 		return club;

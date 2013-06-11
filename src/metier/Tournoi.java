@@ -129,8 +129,8 @@ public class Tournoi
 		if (etapesTournoi == null)
 		{
 			etapesTournoi = new ArrayList<EtapeTournoi>();
-			RootSuperAdmin rootSuperAdmin = getLigue().getRootSuperAdmin();
-			rootSuperAdmin.loadEtapeTournoi(this); //!!!!!!!!
+			AbstractRoot root = getLigue().getRoot();
+			root.loadEtapesTournoi(this); 
 		}
 	}
 	
@@ -178,8 +178,8 @@ public class Tournoi
 		if (equipeInscriteTournois == null)
 		{
 			equipeInscriteTournois = new ArrayList<EquipeInscriteTournoi>();
-			RootSuperAdmin rootSuperAdmin = getLigue().getRootSuperAdmin();
-			rootSuperAdmin.loadEquipeInscriteTournois(this);
+			AbstractRoot root = getLigue().getRoot();
+			root.loadEquipeInscriteTournois(this);
 		}
 	}
 	

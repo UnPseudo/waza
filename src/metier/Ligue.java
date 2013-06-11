@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Ligue 
 {
 	private int num = NO_KEY;
-	private AbstractRoot rootSuperAdmin;
+	private AbstractRoot root;
 	private String nom = null;
 	private String description = null;
 	private ArrayList<Club> clubs;
@@ -16,6 +16,7 @@ public class Ligue
 	private ArrayList<Categorie> categories;
 	private final static int NO_KEY = -1;
 
+	private Boolean allClubsLoaded = false;
 	//
 	void setNum(int num) 
 	{
@@ -50,21 +51,22 @@ public class Ligue
 	}
 	
 	//
-	public AbstractRoot getRootSuperAdmin()
+	public AbstractRoot getRoot()
 	{
-		return rootSuperAdmin;
+		return root;
 	}
 
-	Ligue(AbstractRoot rootSuperAdmin, int num, String nom) 
+	Ligue(AbstractRoot root, int num, String nom, String description) 
 	{
-		this.rootSuperAdmin = rootSuperAdmin;
+		this.root = root;
 		setNum(num);
-		setNom(nom);;
+		setNom(nom);
+		setNom(description);
 	}
 	
-	public Ligue(RootSuperAdmin rootSuperAdmin, String nom) 
+	public Ligue(AbstractRoot root, String nom, String description) 
 	{
-		this(rootSuperAdmin, NO_KEY, nom);
+		this(root, NO_KEY, nom, description);
 	}
 	
 	// Club
@@ -88,10 +90,19 @@ public class Ligue
 	
 	private void loadAllClubs() throws DataAccessException
 	{
-		if (clubs == null)
+		if (!allClubsLoaded)
 		{
-			clubs = new ArrayList<Club>();
-			rootSuperAdmin.loadClub(this);
+			ArrayList<Club> clubsLoaded = root.loadAllClubs(this);
+			/*for(Club club : clubsLoaded) A foutre dans un loadAllClubs(Ligue dans le root)
+			{
+				int numClub = club.getNum();
+				if (clubsByNum.get(numClub) == null)
+				{
+					clubs.add(club);
+					clubsByNum.put(numClub, club);
+				}
+			}*/
+			allClubsLoaded = true;
 		}
 	}
 	
@@ -139,7 +150,7 @@ public class Ligue
 		if (categories == null)
 		{
 			categories = new ArrayList<Categorie>();
-			rootSuperAdmin.loadCategorie(this);
+			root.loadCategories(this);
 		}
 	} 
 	
@@ -187,7 +198,7 @@ public class Ligue
 		if (tournois == null)
 		{
 			tournois = new ArrayList<Tournoi>();
-			rootSuperAdmin.loadTournoi(this);
+			root.loadTournois(this);
 		}
 	}
 	

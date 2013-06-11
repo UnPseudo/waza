@@ -93,8 +93,8 @@ public class EtapeTournoi
 		if (rencontres == null)
 		{
 			rencontres = new ArrayList<Rencontre>();
-			RootSuperAdmin rootSuperAdmin = getTournoi().getLigue().getRootSuperAdmin();
-			rootSuperAdmin.loadRencontre(this);
+			AbstractRoot root = getTournoi().getLigue().getRoot();
+			root.loadRencontres(this);
 		}
 	}
 	
