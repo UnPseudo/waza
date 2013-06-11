@@ -501,4 +501,10 @@ public class RootSuperAdmin extends AbstractRoot
 			mapper.save(utilisateur);
 	}
 
+	@Override
+	void loadCategories(Ligue ligue) throws DataAccessException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
