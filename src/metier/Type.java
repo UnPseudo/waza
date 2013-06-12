@@ -55,7 +55,7 @@ public class Type
 		setNom(nom);
 		setDescription(description);
 	}
-	
+	 
 	public Type(Root root, String nom, String description) 
 	{
 		this(root, NO_KEY, nom, description);

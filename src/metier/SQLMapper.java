@@ -93,7 +93,7 @@ class SQLMapper implements Mapper {
 		}
 	}
 	
-	
+	 
 	
 	public ArrayList<Type> loadAllTypes() throws DataAccessException {
 		ArrayList<Type> types = new ArrayList<Type>();

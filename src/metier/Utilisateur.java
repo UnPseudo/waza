@@ -130,7 +130,7 @@ public class Utilisateur
 				club.addUtilisateur(this);
 		}
 	}
-
+ 
 	Utilisateur(int num, String nom, String prenom, int telFixe, int telPortable, String mail, String mdp, Type type, Club club) throws DataAccessException
 	{
 		setNum(num);

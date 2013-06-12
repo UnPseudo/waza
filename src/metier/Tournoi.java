@@ -133,7 +133,7 @@ public class Tournoi
 			root.loadEtapesTournoi(this); 
 		}
 	}
-	
+	 
 	public void addEtapeTournoi(EtapeTournoi etapeTournoi) throws DataAccessException 
 	{
 		loadAllEtapesTournoi();

@@ -13,7 +13,7 @@ public class EquipeInscriteTournoi {
 	}
 	
 	void setNum(int num)
-	{
+	{ 
 		if (this.num != NO_KEY)
 			throw new RuntimeException("Cannot change DB ID");
 		this.num = num;

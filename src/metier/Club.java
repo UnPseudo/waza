@@ -84,7 +84,7 @@ public class Club
 	
 	// Utilisateur
 	private boolean possedeUtilisateur(Utilisateur utilisateur) throws DataAccessException 
-	{
+	{ 
 		loadAllUtilisateursClub();
 		return utilisateurs.contains(utilisateur);
 	}

@@ -12,7 +12,7 @@ public class Rencontre
 	public int getNum()
 	{
 		return num;
-	}
+	} 
 	
 	void setNum(int num)
 	{

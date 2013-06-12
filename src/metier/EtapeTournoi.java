@@ -95,7 +95,7 @@ public class EtapeTournoi
 			rencontres = new ArrayList<Rencontre>();
 			Root root = getTournoi().getLigue().getRoot();
 			root.loadRencontres(this);
-		}
+		} 
 	}
 	
 	public void addRencontre(Rencontre rencontre) throws DataAccessException 

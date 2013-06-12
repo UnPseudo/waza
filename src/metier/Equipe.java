@@ -116,7 +116,7 @@ public class Equipe
 		}
 		
 		public void addEquipeInscriteTournoi(EquipeInscriteTournoi equipeInscriteTournoi) throws DataAccessException 
-		{
+		{ 
 			loadAllEquipeInscriteTournois();
 			if(!possedeEquipeInscriteTournoi(equipeInscriteTournoi))
 			{

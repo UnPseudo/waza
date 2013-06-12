@@ -5,7 +5,7 @@ import java.util.*;
 
 import metier.DataAccessException;
 import db.Connexion;
-
+ 
 // TODO Ecrire les commentaires pour la documentation
 // TODO Ecrire des test unitaires
 // TODO permettre de gérer des listes de contacts,  créer une classe inscription de visibilité package 

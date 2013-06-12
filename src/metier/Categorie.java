@@ -144,7 +144,7 @@ public class Categorie
 			Root root = getLigue().getRoot();
 			root.loadEquipes(this);
 		}
-	}
+	} 
 	
 	public void addEquipe(Equipe equipe) throws DataAccessException 
 	{

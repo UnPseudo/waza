@@ -15,7 +15,7 @@ public class Ligue
 	private ArrayList<Tournoi> tournois;
 	private ArrayList<Categorie> categories;
 	private final static int NO_KEY = -1;
-
+ 
 	private Boolean allClubsLoaded = false;
 	//
 	void setNum(int num) 
