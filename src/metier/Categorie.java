@@ -104,7 +104,7 @@ public class Categorie
 		if (tournois == null)
 		{
 			tournois = new ArrayList<Tournoi>();
-			AbstractRoot root = getLigue().getRoot();
+			Root root = getLigue().getRoot();
 			root.loadTournois(this);
 		}
 	}
@@ -141,7 +141,7 @@ public class Categorie
 		if (equipes == null)
 		{
 			equipes = new ArrayList<Equipe>();
-			AbstractRoot root = getLigue().getRoot();
+			Root root = getLigue().getRoot();
 			root.loadEquipes(this);
 		}
 	}

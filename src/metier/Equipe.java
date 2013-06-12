@@ -110,7 +110,7 @@ public class Equipe
 			if (equipeInscriteTournois == null)
 			{
 				equipeInscriteTournois = new ArrayList<EquipeInscriteTournoi>();
-				AbstractRoot root = getClub().getLigue().getRoot();
+				Root root = getClub().getLigue().getRoot();
 				root.loadEquipeInscriteTournois(this);
 			}
 		}

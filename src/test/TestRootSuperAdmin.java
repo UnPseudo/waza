@@ -7,7 +7,7 @@ import java.util.Random;
 
 import metier.DataAccessException;
 import metier.Ligue;
-import metier.RootSuperAdmin;
+import metier.Root;
 import metier.Type;
 import metier.Utilisateur;
 import metier.Club;
@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 
 public class TestRootSuperAdmin 
 {
-	private RootSuperAdmin is;
+	private Root is;
 	private Type type;
 	private Ligue ligue;
 	private Utilisateur utilisateur;
@@ -28,10 +28,10 @@ public class TestRootSuperAdmin
 	@Before
 	public void setUp() throws ClassNotFoundException, DataAccessException
 	{
-		is= new RootSuperAdmin();
-		type = new Type(is, "nom type test", "description type test");
-		ligue = new Ligue(is, "nom ligue test", "description ligue test");
-		club = new Club("nom", ligue);
+		is= new Root();
+		//type = new Type(is, "nom type test", "description type test");
+		//ligue = new Ligue(is, "nom ligue test", "description ligue test");
+		//club = new Club("nom", ligue);
 		//utilisateur = new Utilisateur("nom", "prenom", 11111111, 11111111, "mail", "mdp", type, club);
 	}
 	
@@ -83,6 +83,8 @@ public class TestRootSuperAdmin
 	
 	public void testInsertUtilisateur() throws DataAccessException
 	{
+		type = new Type(is, "nom type test", "description type test");
+		club = new Club("nom", ligue);
 		Random r = new Random();
 		int d = r.nextInt();
 		String s = "" + d;

@@ -129,7 +129,7 @@ public class Tournoi
 		if (etapesTournoi == null)
 		{
 			etapesTournoi = new ArrayList<EtapeTournoi>();
-			AbstractRoot root = getLigue().getRoot();
+			Root root = getLigue().getRoot();
 			root.loadEtapesTournoi(this); 
 		}
 	}
@@ -178,7 +178,7 @@ public class Tournoi
 		if (equipeInscriteTournois == null)
 		{
 			equipeInscriteTournois = new ArrayList<EquipeInscriteTournoi>();
-			AbstractRoot root = getLigue().getRoot();
+			Root root = getLigue().getRoot();
 			root.loadEquipeInscriteTournois(this);
 		}
 	}

@@ -1,5 +1,7 @@
 package metier;
 
+import java.util.ArrayList;
+
 abstract class AbstractRoot {
 
 	protected Mapper mapper;
@@ -7,6 +9,9 @@ abstract class AbstractRoot {
 	abstract void save(Type type) throws DataAccessException;
 	abstract void loadAllTypes() throws DataAccessException;
 	abstract void loadAllLigues() throws DataAccessException;
+	abstract void loadAllClubs(Ligue ligue) throws DataAccessException;
+	abstract void loadAllUtilisateurs(Club club) throws DataAccessException;
+	
 	abstract void loadUtilisateurs(Type type) throws DataAccessException;
 	abstract void loadUtilisateurs(Club club) throws DataAccessException;
 	abstract void loadEtapesTournoi(Tournoi tournoi) throws DataAccessException;;

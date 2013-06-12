@@ -10,9 +10,11 @@ import db.Connexion;
 // TODO Ecrire des test unitaires
 // TODO permettre de gérer des listes de contacts,  créer une classe inscription de visibilité package 
 
-public class RootSuperAdmin extends AbstractRoot
-{/*
+public class Root
+{
 	//private view.Console console;
+	private Mapper mapper;
+	
 	private int num = NO_KEY;
 	private final static int NO_KEY = -1;
 	private static final String[] RESET_SCRIPT = new String[] 
@@ -203,16 +205,16 @@ public class RootSuperAdmin extends AbstractRoot
 		}
 	}
 		
-	public RootSuperAdmin() throws ClassNotFoundException, DataAccessException
+	public Root() throws ClassNotFoundException, DataAccessException
 	{
 		/*connexion = Connexion.makeConnexion();*/
 		//initDB();
 		//connexion = new Connexion();
 		//ligues = null;
-		/*mapper = new SQLMapper(this);
+		mapper = new SQLMapper(this);
 	}
 	
-	public RootSuperAdmin(Mapper mapper) throws ClassNotFoundException, DataAccessException
+	public Root(Mapper mapper) throws ClassNotFoundException, DataAccessException
 	{
 		this.mapper = mapper;
 	}
@@ -531,10 +533,10 @@ public class RootSuperAdmin extends AbstractRoot
 			mapper.save(utilisateur);
 	}
 
-	@Override
+
 	void loadCategories(Ligue ligue) throws DataAccessException {
 		// TODO Auto-generated method stub
 		
 	}
-*/
+
 }

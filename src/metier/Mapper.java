@@ -14,6 +14,8 @@ interface Mapper {
 	
 	public ArrayList<Type> loadAllTypes() throws DataAccessException;
 	public ArrayList<Ligue> loadAllLigues() throws DataAccessException;
+	public ArrayList<Club> loadAllClubs(Ligue ligue) throws DataAccessException;
+	public ArrayList<Utilisateur> loadAllUtilisateurs(Club club) throws DataAccessException;
 	
 	
 	public ArrayList<Utilisateur> loadUtilisateurs(Type type) throws DataAccessException;

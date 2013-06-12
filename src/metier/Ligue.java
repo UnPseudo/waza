@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Ligue 
 {
 	private int num = NO_KEY;
-	private AbstractRoot root;
+	private Root root;
 	private String nom = null;
 	private String description = null;
 	private ArrayList<Club> clubs;
@@ -51,12 +51,12 @@ public class Ligue
 	}
 	
 	//
-	public AbstractRoot getRoot()
+	public Root getRoot()
 	{
 		return root;
 	}
 
-	Ligue(AbstractRoot root, int num, String nom, String description) 
+	Ligue(Root root, int num, String nom, String description) 
 	{
 		this.root = root;
 		setNum(num);
@@ -64,7 +64,7 @@ public class Ligue
 		setNom(description);
 	}
 	
-	public Ligue(AbstractRoot root, String nom, String description) 
+	public Ligue(Root root, String nom, String description) 
 	{
 		this(root, NO_KEY, nom, description);
 	}
@@ -89,22 +89,12 @@ public class Ligue
 	}
 	
 	private void loadAllClubs() throws DataAccessException
-	{
-		/*
+	{	
 		if (!allClubsLoaded)
 		{ 
-			ArrayList<Club> clubsLoaded = root.loadAllClubs(this);
-			/*for(Club club : clubsLoaded) A foutre dans un loadAllClubs(Ligue dans le root)
-			{
-				int numClub = club.getNum();
-				if (clubsByNum.get(numClub) == null)
-				{
-					clubs.add(club);
-					clubsByNum.put(numClub, club);
-				}
-			}*/
-			//allClubsLoaded = true;
-		//}
+			root.loadAllClubs(this);
+			allClubsLoaded = true;
+		}
 	}
 	
 	public void addClub(Club club) throws DataAccessException 

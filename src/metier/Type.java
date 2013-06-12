@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Type
 {
 	private int num = NO_KEY;
-	private AbstractRoot root;
+	private Root root;
 	private String nom;
 	private String description;
 	private ArrayList<Utilisateur> utilisateurs;
@@ -48,7 +48,7 @@ public class Type
 	}
 
 	//
-	Type(AbstractRoot root, int num, String nom, String description) 
+	Type(Root root, int num, String nom, String description) 
 	{
 		this.root = root;
 		setNum(num);
@@ -56,7 +56,7 @@ public class Type
 		setDescription(description);
 	}
 	
-	public Type(AbstractRoot root, String nom, String description) 
+	public Type(Root root, String nom, String description) 
 	{
 		this(root, NO_KEY, nom, description);
 	}

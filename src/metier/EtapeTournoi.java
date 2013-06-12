@@ -93,7 +93,7 @@ public class EtapeTournoi
 		if (rencontres == null)
 		{
 			rencontres = new ArrayList<Rencontre>();
-			AbstractRoot root = getTournoi().getLigue().getRoot();
+			Root root = getTournoi().getLigue().getRoot();
 			root.loadRencontres(this);
 		}
 	}

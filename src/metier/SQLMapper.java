@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import db.Connexion;
 
 class SQLMapper implements Mapper {
-	AbstractRoot root;
+	Root root;
 	Connexion connexion;
 
 	
@@ -133,6 +133,50 @@ class SQLMapper implements Mapper {
 			throw new DataAccessException(e);
 		}
 		return ligues;
+	}
+	
+	public ArrayList<Club> loadAllClubs(Ligue ligue) throws DataAccessException {
+		ArrayList<Club> clubs = new ArrayList<Club>();
+	
+		try {
+			ResultSet rs = connexion.sqlSelect("select * from club where ligue_id = " + ligue.getNum() + " order by id");
+			while (rs.next()) {
+				Club club = new Club(
+						rs.getInt("id"),
+						rs.getString("nom"),
+						ligue);
+				clubs.add(club);
+			}
+			
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+		return clubs;
+	}
+	
+	public ArrayList<Utilisateur> loadAllUtilisateurs(Club club) throws DataAccessException {
+		ArrayList<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
+	
+		try {
+			ResultSet rs = connexion.sqlSelect("select * from utilisateur where club_id = " + club.getNum() + " order by id");
+			while (rs.next()) {
+				Utilisateur utilisateur = new Utilisateur(
+						rs.getInt("id"),
+						rs.getString("nom"),
+						rs.getString("prenom"),
+						rs.getInt("tel_fixe"),
+						rs.getInt("tel_portable"),
+						rs.getString("mail"),
+						rs.getString("mdp"),
+						loadType(rs.getInt("type_id")),
+						club);
+				utilisateurs.add(utilisateur);
+			}
+			
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+		return utilisateurs;
 	}
 	
 	
@@ -647,7 +691,7 @@ class SQLMapper implements Mapper {
 		}
 	}
 	
-	SQLMapper(AbstractRoot root) throws DataAccessException
+	SQLMapper(Root root) throws DataAccessException
 	{
 
 			this.root = root;
@@ -655,7 +699,7 @@ class SQLMapper implements Mapper {
 
 	}
 
-	SQLMapper(AbstractRoot root, Connexion connexion) throws DataAccessException
+	SQLMapper(Root root, Connexion connexion) throws DataAccessException
 	{
 		this.root = root;
 		this.connexion = connexion;

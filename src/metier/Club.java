@@ -12,6 +12,8 @@ public class Club
 	private ArrayList<Equipe> equipes;
 	private final static int NO_KEY = -1;
 	
+	private Boolean allUtilisateursLoaded = false;
+	
 	//
 	public int getNum()
 	{
@@ -89,11 +91,12 @@ public class Club
 	
 	private void loadAllUtilisateursClub() throws DataAccessException // A modifier
 	{
-		if (utilisateurs == null)
-		{
-			utilisateurs = new ArrayList<Utilisateur>();
-			AbstractRoot root = getLigue().getRoot();
-			root.loadUtilisateurs(this);
+		
+		if (!allUtilisateursLoaded)
+		{ 
+			Root root = getLigue().getRoot();
+			root.loadAllUtilisateurs(this);
+			allUtilisateursLoaded = true;
 		}
 	}
 
@@ -129,7 +132,7 @@ public class Club
 		if (equipes == null)
 		{
 			equipes = new ArrayList<Equipe>();
-			AbstractRoot root = getLigue().getRoot();
+			Root root = getLigue().getRoot();
 			root.loadEquipes(this);
 		}
 	}
