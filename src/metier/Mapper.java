@@ -7,7 +7,6 @@ interface Mapper {
 	final static int NO_KEY = -1;
 	
 	public void save(Type type) throws DataAccessException;
-	public void delete(Type type) throws DataAccessException;
 	public void save(Ligue ligue) throws DataAccessException;
 	public void save(Club club) throws DataAccessException;
 	public void save(Utilisateur utilisateur) throws DataAccessException;
@@ -20,6 +19,18 @@ interface Mapper {
 	public void save(Appartenance appartenance) throws DataAccessException;
 	public void save(Inscription inscription) throws DataAccessException;
 
+	public void delete(Type type) throws DataAccessException;
+	public void delete(Ligue ligue) throws DataAccessException;
+	public void delete(Club club) throws DataAccessException;
+	public void delete(Utilisateur utilisateur) throws DataAccessException;
+	public void delete(Tournoi tournoi) throws DataAccessException;
+	public void delete(Etape etape) throws DataAccessException;
+	public void delete(Rencontre rencontre) throws DataAccessException;
+	public void delete(Categorie categorie) throws DataAccessException;
+	public void delete(Equipe equipe) throws DataAccessException;
+	public void delete(Score score) throws DataAccessException;
+	public void delete(Appartenance appartenance) throws DataAccessException;
+	public void delete(Inscription inscription) throws DataAccessException;
 	
 	public ArrayList<Type> loadAllTypes() throws DataAccessException;
 	public ArrayList<Ligue> loadAllLigues() throws DataAccessException;

@@ -3,8 +3,6 @@ package metier;
 import java.sql.*;
 import java.util.*;
 
-import poubelle.EtapeTournoi;
-
 import metier.DataAccessException;
 import db.Connexion;
 
@@ -633,11 +631,6 @@ public class Root
 		else
 			mapper.save(type);
 	}
-	
-	public void delete(Type type) throws DataAccessException
-	{
-		mapper.delete(type);		
-	}
 
 	public void save(Ligue ligue) throws DataAccessException
 	{
@@ -769,6 +762,66 @@ public class Root
 		}
 		else
 			mapper.save(inscription);
+	}
+	
+	public void delete(Ligue ligue) throws DataAccessException
+	{
+		mapper.delete(ligue);		
+	}
+	
+	public void delete(Type type) throws DataAccessException
+	{
+		mapper.delete(type);		
+	}
+	
+	public void delete(Utilisateur utilisateur) throws DataAccessException
+	{
+		mapper.delete(utilisateur);		
+	}
+	
+	public void delete(Tournoi tournoi) throws DataAccessException
+	{
+		mapper.delete(tournoi);		
+	}
+	
+	public void delete(Etape etape) throws DataAccessException
+	{
+		mapper.delete(etape);		
+	}
+	
+	public void delete(Rencontre rencontre) throws DataAccessException
+	{
+		mapper.delete(rencontre);		
+	}
+	
+	public void delete(Club club) throws DataAccessException
+	{
+		mapper.delete(club);		
+	}
+	
+	public void delete(Categorie categorie) throws DataAccessException
+	{
+		mapper.delete(categorie);		
+	}
+	
+	public void delete(Equipe equipe) throws DataAccessException
+	{
+		mapper.delete(equipe);		
+	}
+	
+	public void delete(Score score) throws DataAccessException
+	{
+		mapper.delete(score);		
+	}
+	
+	public void delete(Appartenance appartenance) throws DataAccessException
+	{
+		mapper.delete(appartenance);		
+	}
+	
+	public void delete(Inscription inscription) throws DataAccessException
+	{
+		mapper.delete(inscription);		
 	}
 	
 }

@@ -79,6 +79,19 @@ public class TestRootSuperAdmin
 		inscription = new Inscription(equipe, tournoi);
 		is.save(inscription);
 		System.out.println("inscription ok");
+		is.delete(score);
+		is.delete(appartenance);
+		is.delete(inscription);
+		is.delete(equipe);
+		is.delete(rencontre);
+		is.delete(etape);
+		is.delete(tournoi);
+		is.delete(categorie);
+		is.delete(tournoi);
+		is.delete(utilisateur);
+		is.delete(type);
+		is.delete(club);
+		is.delete(ligue);
 		
 		
 	}

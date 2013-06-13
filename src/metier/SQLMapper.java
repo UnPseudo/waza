@@ -35,12 +35,6 @@ class SQLMapper implements Mapper {
 								"" + type.getNum());
 			}
 	} 
-
-	public void delete(Type type) throws DataAccessException
-	{
-		connexion.sqlUpdate("delete from type_utilisateur where id = ?", ""
-				+ type.getNum());
-	}
 	
 	public void save(Ligue ligue) throws DataAccessException 
 	{
@@ -872,6 +866,74 @@ class SQLMapper implements Mapper {
 		}
 	}
 	
+	public void delete(Type type) throws DataAccessException
+	{
+		connexion.sqlUpdate("delete from type where id = ?", ""
+				+ type.getNum());
+	}
+	
+	public void delete(Ligue ligue) throws DataAccessException
+	{
+		connexion.sqlUpdate("delete from ligue where id = ?", ""
+				+ ligue.getNum());
+	}
+	
+	public void delete(Utilisateur utilisateur) throws DataAccessException
+	{
+		connexion.sqlUpdate("delete from utilisateur where id = ?", ""
+				+ utilisateur.getNum());
+	}
+	
+	public void delete(Tournoi tournoi) throws DataAccessException
+	{
+		connexion.sqlUpdate("delete from tournoi where id = ?", ""
+				+ tournoi.getNum());
+	}
+	
+	public void delete(Etape etape) throws DataAccessException
+	{
+		connexion.sqlUpdate("delete from etape where id = ?", ""
+				+ etape.getNum());
+	}
+	
+	public void delete(Rencontre rencontre) throws DataAccessException
+	{
+		connexion.sqlUpdate("delete from rencontre where id = ?", ""
+				+ rencontre.getNum());
+	}
+	
+	public void delete(Club club) throws DataAccessException
+	{
+		connexion.sqlUpdate("delete from club where id = ?", ""
+				+ club.getNum());
+	}
+	
+	public void delete(Equipe equipe) throws DataAccessException
+	{
+		connexion.sqlUpdate("delete from equipe where id = ?", ""
+				+ equipe.getNum());
+	}
+	
+	public void delete(Categorie categorie) throws DataAccessException {
+		connexion.sqlUpdate("delete from equipe where id = ?", ""
+				+ categorie.getNum());
+	}
+
+	public void delete(Appartenance appartenance) throws DataAccessException {
+		connexion.sqlUpdate("delete from appartenance where utilisateur_id = ? and equipe_id =?", ""
+				+ appartenance.getNumUtilisateur(), String.valueOf(appartenance.getNumEquipe()));
+	}
+
+	public void delete(Inscription inscription) throws DataAccessException {
+		connexion.sqlUpdate("delete from inscription where equipe_id = ? and tournoi_id = ?", ""
+				+ inscription.getNumEquipe(), String.valueOf(inscription.getNumTournoi()));
+	}
+	
+	public void delete(Score score) throws DataAccessException {
+		connexion.sqlUpdate("delete from score where equipe_id = ? and rencontre_id = ?", ""
+				+ score.getNumEquipe(), String.valueOf(score.getNumRencontre()));
+	}
+	
 	SQLMapper(Root root) throws DataAccessException
 	{
 
@@ -885,6 +947,8 @@ class SQLMapper implements Mapper {
 		this.root = root;
 		this.connexion = connexion;
 	}
+
+	
 
 	
 }
