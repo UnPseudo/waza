@@ -277,7 +277,10 @@ class SQLMapper implements Mapper {
 		ArrayList<Club> clubs = new ArrayList<Club>();
 	
 		try {
-			ResultSet rs = connexion.sqlSelect("select * from club where ligue_id = " + ligue.getNum() + " order by id");
+			
+			ResultSet rs = connexion.sqlSelect("select * from club where ligue_id = ? order by id",
+					String.valueOf(ligue.getNum())
+					);
 			while (rs.next()) {
 				Club club = new Club(
 						rs.getInt("id"),
@@ -296,7 +299,9 @@ class SQLMapper implements Mapper {
 		ArrayList<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
 	
 		try {
-			ResultSet rs = connexion.sqlSelect("select * from utilisateur where club_id = " + club.getNum() + " order by id");
+			ResultSet rs = connexion.sqlSelect("select * from utilisateur where club_id = ? order by id",
+					String.valueOf(club.getNum())
+					);
 			while (rs.next()) {
 				Utilisateur utilisateur = new Utilisateur(
 						rs.getInt("id"),
@@ -322,10 +327,9 @@ class SQLMapper implements Mapper {
 	{
 		ArrayList<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
 		try{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from utilisateur " +
-					"where type_id = " + type.getNum() +
-					" order by id");
+			ResultSet rs = connexion.sqlSelect("select * from utilisateur where type_id = ? order by id",
+					String.valueOf(type.getNum())
+					);
 			while(rs.next())
 			{
 				utilisateurs.add ( new Utilisateur(
@@ -350,10 +354,9 @@ class SQLMapper implements Mapper {
 	{
 		ArrayList<Equipe> equipes = new ArrayList<Equipe>();
 		try{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from equipe " +
-					"where categorie_id = " + categorie.getNum() +
-					" order by id");
+			ResultSet rs = connexion.sqlSelect("select * from equipe where categorie_id = ? order by id",
+					String.valueOf(categorie.getNum())
+					);
 			while(rs.next())
 			{
 				equipes.add ( new Equipe(
@@ -374,10 +377,9 @@ class SQLMapper implements Mapper {
 	{
 		ArrayList<Equipe> equipes = new ArrayList<Equipe>();
 		try{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from equipe " +
-					"where club_id = " + club.getNum() +
-					" order by id");
+			ResultSet rs = connexion.sqlSelect("select * from equipe where club_id = ? order by id",
+					String.valueOf(club.getNum())
+					);
 			while(rs.next())
 			{
 				equipes.add ( new Equipe(
@@ -398,10 +400,9 @@ class SQLMapper implements Mapper {
 	{
 		ArrayList<Tournoi> tournois = new ArrayList<Tournoi>();
 		try{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from tournoi " +
-					"where ligue_id = " + ligue.getNum() +
-					" order by id");
+			ResultSet rs = connexion.sqlSelect("select * from tournoi where ligue_id = ? order by id",
+					String.valueOf(ligue.getNum())
+					);
 			while(rs.next())
 			{
 				tournois.add ( new Tournoi(
@@ -423,10 +424,9 @@ class SQLMapper implements Mapper {
 	{
 		ArrayList<Tournoi> tournois = new ArrayList<Tournoi>();
 		try{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from tournoi " +
-					"where categorie_id = " + categorie.getNum() +
-					" order by id");
+			ResultSet rs = connexion.sqlSelect("select * from tournoi where categorie_id = ? order by id",
+					String.valueOf(categorie.getNum())
+					);
 			while(rs.next())
 			{
 				tournois.add ( new Tournoi(
@@ -448,10 +448,9 @@ class SQLMapper implements Mapper {
 	{
 		ArrayList<Inscription> inscriptions = new ArrayList<Inscription>();
 		try{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from inscription " +
-					"where equipe_id = " + equipe.getNum() +
-					" order by equipe_id");
+			ResultSet rs = connexion.sqlSelect("select * from inscription where equipe_id = ? order by equipe_id",
+					String.valueOf(equipe.getNum())
+					);
 			while(rs.next())
 			{
 				inscriptions.add ( new Inscription(
@@ -470,10 +469,9 @@ class SQLMapper implements Mapper {
 	{
 		ArrayList<Inscription> inscriptions = new ArrayList<Inscription>();
 		try{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from inscription " +
-					"where tournoi_id = " + tournoi.getNum() +
-					" order by tournoi_id");
+			ResultSet rs = connexion.sqlSelect("select * from inscription where tournoi_id = ? order by tournoi_id",
+					String.valueOf(tournoi.getNum())
+					);
 			while(rs.next())
 			{
 				inscriptions.add ( new Inscription(
@@ -492,10 +490,9 @@ class SQLMapper implements Mapper {
 	{
 		ArrayList<Etape> etapes = new ArrayList<Etape>();
 		try{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from etape " +
-					"where tournoi_id = " + tournoi.getNum() +
-					" order by id");
+			ResultSet rs = connexion.sqlSelect("select * from etape where tournoi_id = ? order by id",
+					String.valueOf(tournoi.getNum())
+					);
 			while(rs.next())
 			{
 				etapes.add ( new Etape(
@@ -514,10 +511,9 @@ class SQLMapper implements Mapper {
 	{
 		ArrayList<Rencontre> rencontres = new ArrayList<Rencontre>();
 		try{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from rencontre " +
-					"where etape_id = " + etape.getNum() +
-					" order by id");
+			ResultSet rs = connexion.sqlSelect("select * from rencontre where etape_id = ? order by id",
+					String.valueOf(etape.getNum())
+					);
 			while(rs.next())
 			{
 				rencontres.add ( new Rencontre(
@@ -538,10 +534,9 @@ class SQLMapper implements Mapper {
 	{
 		ArrayList<Categorie> categories = new ArrayList<Categorie>();
 		try{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from categorie " +
-					"where ligue_id = " + ligue.getNum() +
-					" order by id");
+			ResultSet rs = connexion.sqlSelect("select * from categorie where ligue_id = ? order by id",
+					String.valueOf(ligue.getNum())
+					);
 			while(rs.next())
 			{
 				categories.add ( new Categorie(
@@ -561,10 +556,9 @@ class SQLMapper implements Mapper {
 	{
 		ArrayList<Score> scores = new ArrayList<Score>();
 		try{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from score " +
-					"where equipe_id = " + equipe.getNum() +
-					" order by equipe_id");
+			ResultSet rs = connexion.sqlSelect("select * from score where equipe_id = ? order by equipe_id",
+					String.valueOf(equipe.getNum())
+					);
 			while(rs.next())
 			{
 				scores.add ( new Score(
@@ -585,10 +579,9 @@ class SQLMapper implements Mapper {
 	{
 		ArrayList<Score> scores = new ArrayList<Score>();
 		try{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from score " +
-					"where equipe_id = " + rencontre.getNum() +
-					" order by equipe_id");
+			ResultSet rs = connexion.sqlSelect("select * from score where rencontre_id = ? order by rencontre_id",
+					String.valueOf(rencontre.getNum())
+					);
 			while(rs.next())
 			{
 				scores.add ( new Score(
@@ -609,10 +602,9 @@ class SQLMapper implements Mapper {
 	{
 		ArrayList<Appartenance> appartenances = new ArrayList<Appartenance>();
 		try{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from appartenance " +
-					"where equipe_id = " + equipe.getNum() +
-					" order by equipe_id");
+			ResultSet rs = connexion.sqlSelect("select * from appartenance where equipe_id = ? order by equipe_id",
+					String.valueOf(equipe.getNum())
+					);
 			while(rs.next())
 			{
 				appartenances.add ( new Appartenance(
@@ -631,10 +623,9 @@ class SQLMapper implements Mapper {
 	{
 		ArrayList<Appartenance> appartenances = new ArrayList<Appartenance>();
 		try{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from appartenance " +
-					"where equipe_id = " + utilisateur.getNum() +
-					" order by equipe_id");
+			ResultSet rs = connexion.sqlSelect("select * from appartenance where equipe_id = ? order by equipe_id", 
+					String.valueOf(utilisateur.getNum())
+					);
 			while(rs.next())
 			{
 				appartenances.add ( new Appartenance(
@@ -652,10 +643,9 @@ class SQLMapper implements Mapper {
 	public Club loadClub(int idClub) throws DataAccessException
 	{
 		try{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from club " +
-					"where id = " + idClub + 
-					" order by id");
+			ResultSet rs = connexion.sqlSelect("select * from club where id = ? order by id",
+					String.valueOf(idClub)
+					);
 			if (rs.next())
 			{
 				return new Club(
@@ -675,9 +665,9 @@ class SQLMapper implements Mapper {
 	public Ligue loadLigue(int idLigue) throws DataAccessException
 	{
 		try{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from ligue " +
-					" where id = " + idLigue);
+			ResultSet rs = connexion.sqlSelect("select * from ligue  where id = ? order by id",
+					String.valueOf(idLigue)
+					);
 			if(rs.next())
 			{
 				return new Ligue(
@@ -698,9 +688,9 @@ class SQLMapper implements Mapper {
 	{
 		try
 		{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from type_utilisateur " +
-					" where id = " + idType);
+			ResultSet rs = connexion.sqlSelect("select * from type  where id = ? order by id",
+					String.valueOf(idType)
+					);
 			if(rs.next())
 			{
 				return new Type(
@@ -722,16 +712,16 @@ class SQLMapper implements Mapper {
 	{
 		try
 		{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from recontre " +
-					" where id = " + idRencontre);
+			ResultSet rs = connexion.sqlSelect("select * from rencontre  where id = ? order by id",
+					String.valueOf(idRencontre)
+							);
 			if(rs.next())
 			{
 				return new Rencontre(
 				rs.getInt("id"), 
 				rs.getString("lieu"),
 				rs.getString("date"),
-				loadEtape(rs.getInt("etape_tournoi_id")));
+				loadEtape(rs.getInt("etape_id")));
 			}
 			else
 				return null;
@@ -746,9 +736,9 @@ class SQLMapper implements Mapper {
 	{
 		try
 		{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from etape_tournoi " +
-					" where id = " + idEtape);
+			ResultSet rs = connexion.sqlSelect("select * from etape  where id = ? order by id",
+					String.valueOf(idEtape)
+					);
 			if(rs.next())
 			{
 				return new Etape(
@@ -768,9 +758,9 @@ class SQLMapper implements Mapper {
 	{
 		try
 		{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from tournoi " +
-					" where id = " + idTournoi);
+			ResultSet rs = connexion.sqlSelect("select * from tournoi where id = ? order by id",
+					String.valueOf(idTournoi)
+					);
 			if(rs.next())
 			{
 				return new Tournoi(
@@ -793,9 +783,9 @@ class SQLMapper implements Mapper {
 	{
 		try
 		{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from categorie " +
-					"where id = " + idCategorie);
+			ResultSet rs = connexion.sqlSelect("select * from categorie where id = ? order by id",
+					String.valueOf(idCategorie)
+					);
 			if(rs.next())
 			{
 				return new Categorie(
@@ -816,9 +806,9 @@ class SQLMapper implements Mapper {
 	{
 		try
 		{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from equipe " +
-					"where id = " + idEquipe);
+			ResultSet rs = connexion.sqlSelect("select * from equipe where id = ? order by id",
+					String.valueOf(idEquipe)
+					);
 			if(rs.next())
 			{
 				return new Equipe(
@@ -840,9 +830,9 @@ class SQLMapper implements Mapper {
 	{
 		try
 		{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from utilisateur " +
-					"where id = " + idUtilisateur);
+			ResultSet rs = connexion.sqlSelect("select * from utilisateur where id = ? order by id",
+					String.valueOf(idUtilisateur)
+					);
 			if(rs.next())
 			{
 				return new Utilisateur(
@@ -850,7 +840,7 @@ class SQLMapper implements Mapper {
 				rs.getString("nom"),
 				rs.getString("prenom"),
 				rs.getInt("tel_fixe"),
-				rs.getInt("tel_porabe"),
+				rs.getInt("tel_portable"),
 				rs.getString("mail"),
 				rs.getString("mdp"),
 				loadType(rs.getInt("type_id")),

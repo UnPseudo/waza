@@ -53,14 +53,7 @@ public class Rencontre
 	
 	public void setEtape(Etape etape) throws DataAccessException
 	{
-		if (this.etape != etape)
-		{
-			if (this.etape != null)
-				this.etape.removeRencontre(this);
-			this.etape = etape;
-			if (this.etape != null)
-				etape.addRencontre(this);
-		}
+		this.etape = etape;
 	}
 	
 	public int getNumEtape()

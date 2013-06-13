@@ -56,14 +56,7 @@ public class Club
 	
 	public void setLigue(Ligue ligue) throws DataAccessException
 	{
-		if (this.ligue != ligue)
-		{
-			if (this.ligue != null)
-				this.ligue.removeClub(this);
-			this.ligue = ligue;
-			if (this.ligue != null)
-				ligue.addClub(this);
-		}
+		this.ligue = ligue;
 	}
 	
 	public int getNumLigue()

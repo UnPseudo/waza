@@ -47,14 +47,7 @@ public class Equipe
 	
 	public void setCategorie(Categorie categorie) throws DataAccessException
 	{
-		if (this.categorie != categorie)
-		{
-			if (this.categorie != null)
-				this.categorie.removeEquipe(this);
-			this.categorie = categorie;
-			if (this.categorie != null)
-				categorie.addEquipe(this);
-		}
+		this.categorie = categorie;
 	}
 	
 	public int getNumCategorie()
@@ -69,14 +62,7 @@ public class Equipe
 	
 	public void setClub(Club club) throws DataAccessException
 	{
-		if (this.club != club)
-		{
-			if (this.club != null)
-				this.club.removeEquipe(this);
-			this.club = club;
-			if (this.club != null)
-				club.addEquipe(this);
-		}
+		this.club = club;
 	}
 	
 	public int getNumClub()

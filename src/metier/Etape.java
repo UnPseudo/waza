@@ -33,14 +33,7 @@ public class Etape
 	
 	public void setTournoi(Tournoi tournoi) throws DataAccessException
 	{
-		if (this.tournoi != tournoi)
-		{
-			if (this.tournoi != null)
-				this.tournoi.removeEtape(this);
-			this.tournoi = tournoi;
-			if (this.tournoi != null)
-				tournoi.addEtape(this);
-		}
+		this.tournoi = tournoi;
 	}
 	
 	public int getNumTournoi()

@@ -55,14 +55,7 @@ public class Categorie
 	
 	public void setLigue(Ligue ligue) throws DataAccessException
 	{
-		if (this.ligue != ligue)
-		{
-			if (this.ligue != null)
-				this.ligue.removeCategorie(this);
-			this.ligue = ligue;
-			if (this.ligue != null)
-				ligue.addCategorie(this);
-		}
+		this.ligue = ligue;
 	}
 	
 	public int getNumLigue()

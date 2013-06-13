@@ -64,7 +64,7 @@ public class Ligue
 		this.root = root;
 		setNum(num);
 		setNom(nom);
-		setNom(description);
+		setDescription(description);
 	}
 	
 	public Ligue(Root root, String nom, String description) 

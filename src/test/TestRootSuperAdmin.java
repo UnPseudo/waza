@@ -41,8 +41,21 @@ public class TestRootSuperAdmin
  
 	public void superTest() throws DataAccessException
 	{
+		is.loadType(1);
+		is.loadLigue(1);
+		is.loadTournoi(1);
+		is.loadCategorie(1);
+		is.loadEtape(1);
+		is.loadRencontre(1);
+		is.loadUtilisateur(1);
+		is.loadClub(1);
+		is.loadEquipe(1);
 		ligue = new Ligue(is, "nom ligue test", "description ligue test");
+		System.out.println(ligue.getNom());
+		System.out.println(ligue.getDescription());
 		is.save(ligue);
+		System.out.println(ligue.getNom());
+		System.out.println(ligue.getDescription());
 		System.out.println("ligue ok");
 		club = new Club("nom", ligue);
 		is.save(club);
@@ -77,7 +90,7 @@ public class TestRootSuperAdmin
 		inscription = new Inscription(equipe, tournoi);
 		is.save(inscription);
 		System.out.println("inscription ok");
-		is.delete(score);
+		/*is.delete(score);
 		is.delete(appartenance);
 		is.delete(inscription);
 		is.delete(equipe);
@@ -89,7 +102,7 @@ public class TestRootSuperAdmin
 		is.delete(utilisateur);
 		is.delete(type);
 		is.delete(club);
-		is.delete(ligue);
+		is.delete(ligue);*/
 		
 		
 	}

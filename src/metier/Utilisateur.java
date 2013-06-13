@@ -105,14 +105,7 @@ public class Utilisateur
 	
 	public void setType(Type type) throws DataAccessException
 	{
-		if (this.type != type)
-		{
-			if (this.type != null)
-				this.type.removeUtilisateur(this);
-			this.type = type;
-			if (this.type != null)
-				type.addUtilisateur(this);
-		}
+		this.type = type;
 	}
 	
 	public int getNumClub()
@@ -127,14 +120,7 @@ public class Utilisateur
 	
 	public void setClub(Club club) throws DataAccessException
 	{
-		if (this.club != club)
-		{
-			if (this.club != null)
-				this.club.removeUtilisateur(this);
-			this.club = club;
-			if (this.club != null)
-				club.addUtilisateur(this);
-		}
+		this.club = club;
 	}
  
 	Utilisateur(int num, String nom, String prenom, int telFixe, int telPortable, String mail, String mdp, Type type, Club club) throws DataAccessException

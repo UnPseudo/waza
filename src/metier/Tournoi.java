@@ -57,14 +57,15 @@ public class Tournoi
 	
 	public void setLigue(Ligue ligue) throws DataAccessException
 	{
-		if (this.ligue != ligue)
+		this.ligue = ligue;
+		/*if (this.ligue != ligue)
 		{
 			if (this.ligue != null)
 				this.ligue.removeTournoi(this);
 			this.ligue = ligue;
 			if (this.ligue != null)
 				ligue.addTournoi(this);
-		}
+		}*/
 	}
 	
 	public int getNumLigue()
@@ -84,14 +85,15 @@ public class Tournoi
 	
 	public void setCategorie(Categorie categorie) throws DataAccessException
 	{
-		if (this.categorie != categorie)
+		this.categorie = categorie;
+		/*if (this.categorie != categorie)
 		{
 			if (this.categorie != null)
 				this.categorie.removeTournoi(this);
 			this.categorie = categorie;
 			if (this.categorie != null)
 				categorie.addTournoi(this);
-		}
+		}*/
 	}
 	
 	Tournoi(int num, String nom, String description, Ligue ligue, Categorie categorie) throws DataAccessException

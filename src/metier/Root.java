@@ -2,7 +2,6 @@ package metier;
 
 import java.util.*;
 
-import metier.DataAccessException;
 import db.Connexion;
 
 public class Root
@@ -166,6 +165,7 @@ public class Root
 	
 	private Boolean allLiguesLoaded = false;
 	private Boolean allTypesLoaded = false;
+	private Boolean allCategoriesLoaded = false;
 	
 	/**
 	 * Attention! Ne marche pas!
@@ -479,15 +479,19 @@ public class Root
 	
 	void loadAllCategories(Ligue ligue) throws DataAccessException
 	{
-		ArrayList<Categorie> categoriesLoaded = mapper.loadAllCategories(ligue);
-		for(Categorie categorie : categoriesLoaded)
+		if (!allCategoriesLoaded)
 		{
-			int numCategorie = categorie.getNum();
-			if (categoriesByNum.get(numCategorie) == null)
+			ArrayList<Categorie> categoriesLoaded = mapper.loadAllCategories(ligue);
+			for(Categorie categorie : categoriesLoaded)
 			{
-				categories.add(categorie);
-				categoriesByNum.put(numCategorie, categorie);
+				int numCategorie = categorie.getNum();
+				if (categoriesByNum.get(numCategorie) == null)
+				{
+					categories.add(categorie);
+					categoriesByNum.put(numCategorie, categorie);
+				}
 			}
+			allCategoriesLoaded = true;
 		}
 	}
 		
