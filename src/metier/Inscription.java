@@ -27,14 +27,7 @@ public class Inscription {
 	
 	public void setTournoi(Tournoi tournoi) throws DataAccessException
 	{
-		if (this.tournoi != tournoi)
-		{
-			if (this.tournoi != null)
-				this.tournoi.removeInscription(this);
-			this.tournoi = tournoi;
-			if (this.tournoi != null)
-				tournoi.addInscription(this);
-		}
+		this.tournoi = tournoi;
 	}
 	 
 	public int getNumTournoi()
@@ -49,14 +42,7 @@ public class Inscription {
 	
 	public void setEquipe(Equipe equipe) throws DataAccessException
 	{
-		if (this.equipe != equipe)
-		{
-			if (this.equipe != null)
-				this.equipe.removeInscription(this);
-			this.equipe = equipe;
-			if (this.equipe != null)
-				equipe.addInscription(this);
-		}
+		this.equipe = equipe;
 	}
 	
 	public int getNumEquipe()
@@ -64,10 +50,16 @@ public class Inscription {
 		return equipe.getNum();
 	}
 	
-	public Inscription(Equipe equipe, Tournoi tournoi) throws DataAccessException
+	Inscription(int num, Equipe equipe, Tournoi tournoi) throws DataAccessException
 	{
+		setNum(num);
 		setEquipe(equipe);
 		setTournoi(tournoi);
+	}
+	
+	public Inscription(Equipe equipe, Tournoi tournoi) throws DataAccessException
+	{
+		this(NO_KEY, equipe, tournoi);
 	}
 
 }

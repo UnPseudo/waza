@@ -49,14 +49,7 @@ public class Score {
 	
 	public void setRencontre(Rencontre rencontre) throws DataAccessException
 	{
-		if (this.rencontre != rencontre)
-		{
-			if (this.rencontre != null)
-				this.rencontre.removeScore(this);
-			this.rencontre = rencontre;
-			if (this.rencontre != null)
-				rencontre.addScore(this);
-		}
+		this.rencontre = rencontre;
 	}
 	 
 	public int getNumRencontre()
@@ -72,14 +65,7 @@ public class Score {
 	
 	public void setEquipe(Equipe equipe) throws DataAccessException
 	{
-		if (this.equipe != equipe)
-		{
-			if (this.equipe != null)
-				this.equipe.removeScore(this);
-			this.equipe = equipe;
-			if (this.equipe != null)
-				equipe.addScore(this);
-		}
+		this.equipe = equipe;
 	}
 	
 	public int getNumEquipe()
@@ -87,12 +73,19 @@ public class Score {
 		return equipe.getNum();
 	}
 	
-	public Score(Rencontre rencontre, Equipe equipe, int points, boolean publie) throws DataAccessException
+	Score(int num, Rencontre rencontre, Equipe equipe, int points, boolean publie) throws DataAccessException
 	{
+		setNum(num);
 		setRencontre(rencontre);
 		setEquipe(equipe);
 		setPoints(points);
 		setEquipe(equipe);
+	}
+	
+	
+	public Score(Rencontre rencontre, Equipe equipe, int points, boolean publie) throws DataAccessException
+	{
+		this(NO_KEY, rencontre, equipe, points, publie);
 	}
 
 }

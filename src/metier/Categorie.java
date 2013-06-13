@@ -63,16 +63,17 @@ public class Categorie
 		return ligue.getNum();
 	}
 	
-	Categorie(int num, String nom, Ligue ligue) throws DataAccessException
+	Categorie(int num, String nom, String description, Ligue ligue) throws DataAccessException
 	{
 		setNum(num);
 		setNom(nom);
+		setDescription(description);
 		setLigue(ligue);
 	}
 
-	public Categorie(String nom, Ligue ligue) throws DataAccessException
+	public Categorie(String nom, String description, Ligue ligue) throws DataAccessException
 	{
-		this(NO_KEY, nom, ligue);
+		this(NO_KEY, nom, description, ligue);
 	}
 
 	// Tournoi

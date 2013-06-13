@@ -20,7 +20,7 @@ public class Connexion
  Statement transmission;
  ResultSet result;
  String url;
- private final static boolean DEBUG_MODE = true;
+ private final static boolean DEBUG_MODE = false;
 
  /**
   * Constructeur de la classe connect pour établir la connexion à la BDD

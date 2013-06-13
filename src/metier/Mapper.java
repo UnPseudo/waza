@@ -62,7 +62,13 @@ interface Mapper {
 	public Categorie loadCategorie(int idCategorie) throws DataAccessException;
 	public Equipe loadEquipe(int idEquipe) throws DataAccessException;
 	public Utilisateur loadUtilisateur(int idUtilisateur) throws DataAccessException;
+	public Score loadScore(int idScore) throws DataAccessException;
+	public Inscription loadInscription(int idInscription) throws DataAccessException;
+	public Appartenance loadAppartenance(int idAppartenance) throws DataAccessException;
 	
+	public int loadIdScore(int idEquipe,int idRencontre) throws DataAccessException;
+	public int loadIdInscription(int idEquipe,int idTournoi) throws DataAccessException;
+	public int loadIdAppartenance(int idUtilisateur,int idEquipe) throws DataAccessException;
 	
 }
  

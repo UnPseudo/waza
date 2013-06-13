@@ -160,7 +160,7 @@ public class Equipe
 			root.loadAllAppartenances(this);
 			allAppartenancesLoaded = true;
 		}
-	}
+	} 
 	
 	public void addAppartenance(Appartenance appartenance) throws DataAccessException 
 	{

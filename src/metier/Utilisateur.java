@@ -175,7 +175,7 @@ public class Utilisateur
 		{
 			loadAllAppartenances();
 			if(!possedeAppartenance(appartenance))
-			{
+			{ 
 				appartenances.add(appartenance);
 				appartenance.setUtilisateur(this);
 			}

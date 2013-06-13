@@ -35,7 +35,7 @@ public class Etape
 	{
 		this.tournoi = tournoi;
 	}
-	
+	 
 	public int getNumTournoi()
 	{
 		return tournoi.getNum();

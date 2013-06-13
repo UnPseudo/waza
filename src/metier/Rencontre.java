@@ -60,7 +60,7 @@ public class Rencontre
 	{
 		return etape.getNum();
 	}
-	
+	 
 	Rencontre(int num, String lieu, String date, Etape etape) throws DataAccessException
 	{
 		setNum(num);

@@ -10,7 +10,7 @@ public class DataAccessException extends Throwable
 {
 	private Exception e = null;
 	private String s = null;
-	
+	 
 	/**
 	 * Retourne l'exception ayant &eacute;t&eacute; lev&eacute;e au moment de l'acc&egrave;s aux donn&eacute;es. 
 	 * Par exemple DataAccessException.

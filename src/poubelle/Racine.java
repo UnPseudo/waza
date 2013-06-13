@@ -1,4 +1,4 @@
-package metier;
+package poubelle;
 
 public class Racine {
 

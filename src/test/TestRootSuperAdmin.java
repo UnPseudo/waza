@@ -1,5 +1,6 @@
 package test;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 
@@ -41,6 +42,9 @@ public class TestRootSuperAdmin
  
 	public void superTest() throws DataAccessException
 	{
+		int u = is.loadIdAppartenance(5,5);
+		System.out.println("u = " + u);
+		is.loadAppartenance(u);
 		is.loadType(1);
 		is.loadLigue(1);
 		is.loadTournoi(1);
@@ -57,7 +61,7 @@ public class TestRootSuperAdmin
 		System.out.println(ligue.getNom());
 		System.out.println(ligue.getDescription());
 		System.out.println("ligue ok");
-		club = new Club("nom", ligue);
+		club = new Club("nom", "description", ligue);
 		is.save(club);
 		System.out.println("club ok");
 		type = new Type(is, "nom", "test");
@@ -66,7 +70,7 @@ public class TestRootSuperAdmin
 		utilisateur = new Utilisateur(null, null, 0, 0, null, null, type, club);
 		is.save(utilisateur);
 		System.out.println("utilisateur ok");
-		categorie = new Categorie(null, ligue);
+		categorie = new Categorie(null, "description", ligue);
 		is.save(categorie);
 		System.out.println("categorie ok");
 		tournoi = new Tournoi(null, null, ligue, categorie);
@@ -97,13 +101,11 @@ public class TestRootSuperAdmin
 		is.delete(rencontre);
 		is.delete(etape);
 		is.delete(tournoi);
-		is.delete(categorie);
-		is.delete(tournoi);
 		is.delete(utilisateur);
 		is.delete(type);
 		is.delete(club);
-		is.delete(ligue);*/
-		
+		is.delete(categorie);
+		is.delete(ligue);*/		
 		
 	}
 	

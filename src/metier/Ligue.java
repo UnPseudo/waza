@@ -99,7 +99,7 @@ public class Ligue
 			allClubsLoaded = true;
 		}
 	}
-	
+	 
 	public void addClub(Club club) throws DataAccessException 
 	{
 		loadAllClubs();

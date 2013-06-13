@@ -64,16 +64,17 @@ public class Club
 		return ligue.getNum();
 	}
 	
-	Club(int num, String nom, Ligue ligue) throws DataAccessException
+	Club(int num, String nom, String description, Ligue ligue) throws DataAccessException
 	{
 		setNum(num);
 		setNom(nom);
+		setDescription(description);
 		setLigue(ligue);
 	}
 
-	public Club(String nom, Ligue ligue) throws DataAccessException
+	public Club(String nom, String description, Ligue ligue) throws DataAccessException
 	{
-		this(NO_KEY, nom, ligue);
+		this(NO_KEY, nom, description, ligue);
 	}
 	
 	// Utilisateur

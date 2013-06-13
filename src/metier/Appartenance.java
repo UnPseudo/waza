@@ -27,14 +27,7 @@ public class Appartenance {
 	
 	public void setUtilisateur(Utilisateur utilisateur) throws DataAccessException
 	{
-		if (this.utilisateur != utilisateur)
-		{
-			if (this.utilisateur != null)
-				this.utilisateur.removeAppartenance(this);
-			this.utilisateur = utilisateur;
-			if (this.utilisateur != null)
-				utilisateur.addAppartenance(this);
-		}
+		this.utilisateur = utilisateur;
 	}
 	 
 	public int getNumUtilisateur()
@@ -49,14 +42,7 @@ public class Appartenance {
 	
 	public void setEquipe(Equipe equipe) throws DataAccessException
 	{
-		if (this.equipe != equipe)
-		{
-			if (this.equipe != null)
-				this.equipe.removeAppartenance(this);
-			this.equipe = equipe;
-			if (this.equipe != null)
-				equipe.addAppartenance(this);
-		}
+		this.equipe = equipe;
 	}
 	
 	public int getNumEquipe()
@@ -64,10 +50,17 @@ public class Appartenance {
 		return equipe.getNum();
 	}
 	
-	public Appartenance(Utilisateur utilisateur, Equipe equipe) throws DataAccessException
+	
+	Appartenance(int num, Utilisateur utilisateur, Equipe equipe) throws DataAccessException
 	{
+		setNum(num);
 		setUtilisateur(utilisateur);
 		setEquipe(equipe);
+	}
+	
+	public Appartenance(Utilisateur utilisateur, Equipe equipe) throws DataAccessException
+	{
+		this(NO_KEY, utilisateur, equipe);
 	}
 
 }

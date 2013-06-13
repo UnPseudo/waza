@@ -187,7 +187,7 @@ public class Tournoi
 			allInscriptionsLoaded = true;
 		}
 	}
-	
+	 
 	public void addInscription(Inscription inscription) throws DataAccessException 
 	{
 		loadAllInscriptions();

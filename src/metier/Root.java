@@ -603,6 +603,60 @@ public class Root
 		return rencontre;
 	}
 	
+	public int loadIdScore(int idEquipe,int idRencontre) throws DataAccessException
+	{
+		int idScore = mapper.loadIdScore(idEquipe, idRencontre);
+		return idScore;
+	}
+	
+	public Score loadScore(int idScore) throws DataAccessException
+	{
+		Score score = scoresByNum.get(idScore);
+		if (score == null)
+		{
+			score = mapper.loadScore(idScore);
+			scores.add(score);
+			scoresByNum.put(idScore, score);
+		}
+		return score;
+	}
+	
+	public int loadIdInscription(int idEquipe,int idTournoi) throws DataAccessException
+	{
+		int idInscription = mapper.loadIdInscription(idEquipe, idTournoi);
+		return idInscription;
+	}
+	
+	public Inscription loadInscription(int idInscription) throws DataAccessException
+	{
+		Inscription inscription = inscriptionsByNum.get(idInscription);
+		if (inscription == null)
+		{
+			inscription = mapper.loadInscription(idInscription);
+			inscriptions.add(inscription);
+			inscriptionsByNum.put(idInscription, inscription);
+		}
+		return inscription;
+	}
+	
+	public int loadIdAppartenance(int idUtilisateur, int idEquipe) throws DataAccessException
+	{
+		int idAppartenance = mapper.loadIdAppartenance(idUtilisateur, idEquipe);
+		return idAppartenance;
+	}
+	
+	public Appartenance loadAppartenance(int idAppartenance) throws DataAccessException
+	{
+		Appartenance appartenance = appartenancesByNum.get(idAppartenance);
+		if (appartenance == null)
+		{
+			appartenance = mapper.loadAppartenance(idAppartenance);
+			appartenances.add(appartenance);
+			appartenancesByNum.put(idAppartenance, appartenance);
+		}
+		return appartenance;
+	}
+	
 	public void save(Type type) throws DataAccessException
 	{
 		if (type.getNum() == mapper.NO_KEY)

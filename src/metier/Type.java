@@ -104,7 +104,7 @@ public class Type
 		{
 			utilisateurs.add(utilisateur);
 			utilisateur.setType(this);
-		}
+		} 
 	}
 
 	public void removeUtilisateur(Utilisateur utilisateur) throws DataAccessException 
