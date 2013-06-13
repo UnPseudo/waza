@@ -11,19 +11,26 @@ class SQLMapper implements Mapper {
 	Connexion connexion;
 
 	
-	
+	public String boolToStr(boolean value) 
+	{
+		if (value == true)
+			return "1";
+		else
+			return "0";
+		
+	}
 	
 	public void save(Type type) throws DataAccessException {
 			if (type.getNum() == NO_KEY) {
 				int id;
 				id = connexion.sqlInsert(
-						"insert into type_utilisateur(nom, description) values (?, ?)",
+						"insert into type(nom, description) values (?, ?)",
 						type.getNom(), type.getDescription());
 				type.setNum(id);
 			} else {
 				connexion
 						.sqlUpdate(
-								"update type_utilisateur set nom = ?, description  = ? where id = ?",
+								"update type set nom = ?, description  = ? where id = ?",
 								type.getNom(), type.getDescription(),
 								"" + type.getNum());
 			}
@@ -65,11 +72,12 @@ class SQLMapper implements Mapper {
 		} else {
 			connexion
 					.sqlUpdate(
-							"update club set nom = ?, description  = ?, ligue_id = ?, where id = ?",
+							"update club set nom = ?, description  = ?, ligue_id = ? where id = ?",
 							club.getNom(), club.getDescription(), String.valueOf(club.getNumLigue()),
 							"" + club.getNum());
 		}
 	}
+	
 	public void save(Utilisateur utilisateur) throws DataAccessException
 	{
 		save(utilisateur.getType());
@@ -77,7 +85,7 @@ class SQLMapper implements Mapper {
 		if (utilisateur.getNum() == NO_KEY) {
 			int id;
 			id = connexion.sqlInsert(
-					"insert into utilisateur(nom, prenom, tel_fixe, tel_portable, mail, mdp, type_utilisateur_id, club_id) values (?, ?, ?, ?, ?, ?, ?, ?)",
+					"insert into utilisateur(nom, prenom, tel_fixe, tel_portable, mail, mdp, type_id, club_id) values (?, ?, ?, ?, ?, ?, ?, ?)",
 					utilisateur.getNom(), utilisateur.getPrenom(), String.valueOf(utilisateur.getTelFixe()), 
 					String.valueOf(utilisateur.getTelPortable()), utilisateur.getMail(), utilisateur.getMdp(), 
 					String.valueOf(utilisateur.getNumType()), String.valueOf(utilisateur.getNumClub()));
@@ -85,15 +93,151 @@ class SQLMapper implements Mapper {
 		} else {
 			connexion
 					.sqlUpdate(
-							"update ligue set nom = ?, prenom  = ?, tel_fixe  = ?, tel_portable  = ?, mail  = ?, mdp  = ?, type_utilisateur_id  = ?, club_id  = ? where id = ?",
-							utilisateur.getNom(), utilisateur.getPrenom(), utilisateur.getPrenom(), String.valueOf(utilisateur.getTelFixe()), 
+							"update utilisateur set nom = ?, prenom  = ?, tel_fixe  = ?, tel_portable  = ?, mail  = ?, mdp  = ?, type_id  = ?, club_id  = ? where id = ?",
+							utilisateur.getNom(), utilisateur.getPrenom(), String.valueOf(utilisateur.getTelFixe()), 
 							String.valueOf(utilisateur.getTelPortable()), utilisateur.getMail(), utilisateur.getMdp(), 
 							String.valueOf(utilisateur.getNumType()), String.valueOf(utilisateur.getNumClub()),
 							"" + utilisateur.getNum());
 		}
 	}
 	
-	 
+	public void save(Categorie categorie) throws DataAccessException
+	{
+		save(categorie.getLigue());
+		if (categorie.getNum() == NO_KEY) {
+			int id;
+			id = connexion.sqlInsert(
+					"insert into categorie(nom, ligue_id) values (?, ?)",
+					categorie.getNom(), String.valueOf(categorie.getNumLigue()));
+			categorie.setNum(id);
+		} else {
+			connexion
+					.sqlUpdate(
+							"update categorie set nom = ?, ligue_id = ? where id = ?",
+							categorie.getNom(), String.valueOf(categorie.getNumLigue()), 
+							"" + categorie.getNum());
+		}
+	}
+	
+	public void save(Tournoi tournoi) throws DataAccessException
+	{
+		save(tournoi.getLigue());
+		save(tournoi.getCategorie());
+		if (tournoi.getNum() == NO_KEY) {
+			int id;
+			id = connexion.sqlInsert(
+					"insert into tournoi(nom, description, ligue_id, categorie_id) values (?, ?, ?, ?)",
+					tournoi.getNom(), tournoi.getDescription(), String.valueOf(tournoi.getNumLigue()), String.valueOf(tournoi.getNumCategorie()));
+			tournoi.setNum(id);
+		} else {
+			connexion
+					.sqlUpdate(
+							"update tournoi set nom = ?, description  = ?, ligue_id = ?, categorie_id= ? where id = ?",
+							tournoi.getNom(), tournoi.getDescription(), String.valueOf(tournoi.getNumLigue()), String.valueOf(tournoi.getNumCategorie()),
+							"" + tournoi.getNum());
+		}
+	}
+	
+	public void save(Etape etape) throws DataAccessException
+	{
+		save(etape.getTournoi());
+		if (etape.getNum() == NO_KEY) {
+			int id;
+			id = connexion.sqlInsert(
+					"insert into etape (tournoi_id) values (?)",
+					String.valueOf(etape.getNumTournoi()));
+			etape.setNum(id);
+		} else {
+			connexion
+					.sqlUpdate(
+							"update etape set tournoi_id = ? where id = ?",
+							String.valueOf(etape.getNumTournoi()),
+							"" + etape.getNum());
+		}
+	}
+	
+	public void save(Rencontre rencontre) throws DataAccessException
+	{
+		save(rencontre.getEtape());
+		if (rencontre.getNum() == NO_KEY) {
+			int id;
+			id = connexion.sqlInsert(
+					"insert into rencontre(lieu, date, etape_id) values (?, ?, ?)",
+					rencontre.getLieu(), rencontre.getDate(), String.valueOf(rencontre.getNumEtape()));
+			rencontre.setNum(id);
+		} else {
+			connexion
+					.sqlUpdate(
+							"update rencontre set lieu = ?, date = ?, etape_id = ? where id = ?",
+							rencontre.getLieu(), rencontre.getDate(), String.valueOf(rencontre.getNumEtape()),
+							"" + rencontre.getNum());
+		}
+	}
+	
+	public void save(Equipe equipe) throws DataAccessException
+	{
+		save(equipe.getClub());
+		save(equipe.getCategorie());
+		if (equipe.getNum() == NO_KEY) {
+			int id;
+			id = connexion.sqlInsert(
+					"insert into equipe(nom, categorie_id, club_id) values (?, ?, ?)",
+					equipe.getNom(), String.valueOf(equipe.getNumCategorie()), String.valueOf(equipe.getNumClub()));
+			equipe.setNum(id);
+		} else {
+			connexion
+					.sqlUpdate(
+							"update equipe set nom = ?, categorie_id = ?, club_id = ? where id = ?",
+							equipe.getNom(), String.valueOf(equipe.getNumCategorie()), String.valueOf(equipe.getNumClub()),
+							"" + equipe.getNum());
+		}
+	}
+	
+	public void save(Score score) throws DataAccessException
+	{
+		save(score.getEquipe());
+		save(score.getRencontre());
+		if (score.getNum() == NO_KEY) {
+			int id;
+			id = connexion.sqlInsert(
+					"insert into score(rencontre_id, equipe_id, points, publie) values (?, ?, ?, ?)",
+					String.valueOf(score.getNumRencontre()), String.valueOf(score.getNumEquipe()), String.valueOf(score.getPoints()), boolToStr(score.getPublie()));
+			score.setNum(id);
+		} else {
+			connexion
+					.sqlUpdate(
+							"update score set points = ?, publie = ? where id = ?",
+							String.valueOf(score.getPoints()), boolToStr(score.getPublie()),
+							"" + score.getNum());
+		}
+	}
+	
+	public void save(Appartenance appartenance) throws DataAccessException
+	{
+		save(appartenance.getEquipe());
+		save(appartenance.getUtilisateur());
+		if (appartenance.getNum() == NO_KEY) {
+			int id;
+			id = connexion.sqlInsert(
+					"insert into appartenance(utilisateur_id, equipe_id) values (?, ?)",
+					String.valueOf(appartenance.getNumUtilisateur()), String.valueOf(appartenance.getNumEquipe()));
+			appartenance.setNum(id);
+		} 
+	}
+	
+	public void save(Inscription inscription) throws DataAccessException
+	{
+		save(inscription.getEquipe());
+		save(inscription.getTournoi());
+		if (inscription.getNum() == NO_KEY) {
+			int id;
+			id = connexion.sqlInsert(
+					"insert into inscription(equipe_id, tournoi_id) values (?, ?)",
+					String.valueOf(inscription.getNumEquipe()), String.valueOf(inscription.getNumTournoi()));
+			inscription.setNum(id);
+		} 
+	}
+	
 	
 	public ArrayList<Type> loadAllTypes() throws DataAccessException {
 		ArrayList<Type> types = new ArrayList<Type>();
@@ -180,13 +324,13 @@ class SQLMapper implements Mapper {
 	}
 	
 	
-	public ArrayList<Utilisateur> loadUtilisateurs(Type type) throws DataAccessException
+	public ArrayList<Utilisateur> loadAllUtilisateurs(Type type) throws DataAccessException
 	{
 		ArrayList<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
 		try{
 			ResultSet rs = connexion.sqlSelect("select * " +
 					"from utilisateur " +
-					"where type_utilisateur_id = " + type.getNum() +
+					"where type_id = " + type.getNum() +
 					" order by id");
 			while(rs.next())
 			{
@@ -208,41 +352,12 @@ class SQLMapper implements Mapper {
 		return utilisateurs;
 	}
 
-	public ArrayList<Utilisateur> loadUtilisateurs(Club club) throws DataAccessException
-	{
-		ArrayList<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
-		try{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from utilisateur " +
-					"where club_id = " + club.getNum() +
-					" order by id");
-			while(rs.next())
-			{
-				utilisateurs.add ( new Utilisateur(
-				rs.getInt("id"),
-				rs.getString("nom"),
-				rs.getString("prenom"),
-				rs.getInt("tel_fixe"),
-				rs.getInt("tel_portable"),
-				rs.getString("mail"),
-				rs.getString("mdp"),
-				loadType(rs.getInt("type_id")),
-				club
-				));
-			}
-			
-		} catch (SQLException e) {
-			throw new DataAccessException(e);
-		}
-		return utilisateurs;
-	}
-	
-	public ArrayList<Equipe> loadEquipes(Categorie categorie) throws DataAccessException
+	public ArrayList<Equipe> loadAllEquipes(Categorie categorie) throws DataAccessException
 	{
 		ArrayList<Equipe> equipes = new ArrayList<Equipe>();
 		try{
 			ResultSet rs = connexion.sqlSelect("select * " +
-					"from utilisateur " +
+					"from equipe " +
 					"where categorie_id = " + categorie.getNum() +
 					" order by id");
 			while(rs.next())
@@ -261,12 +376,12 @@ class SQLMapper implements Mapper {
 		return equipes;
 	}
 	
-	public ArrayList<Equipe> loadEquipes(Club club) throws DataAccessException
+	public ArrayList<Equipe> loadAllEquipes(Club club) throws DataAccessException
 	{
 		ArrayList<Equipe> equipes = new ArrayList<Equipe>();
 		try{
 			ResultSet rs = connexion.sqlSelect("select * " +
-					"from utilisateur " +
+					"from equipe " +
 					"where club_id = " + club.getNum() +
 					" order by id");
 			while(rs.next())
@@ -285,30 +400,7 @@ class SQLMapper implements Mapper {
 		return equipes;
 	}
 
-	public ArrayList<Club> loadClubs(Ligue ligue) throws DataAccessException
-	{
-		ArrayList<Club> clubs = new ArrayList<Club>();
-		try{
-			ResultSet rs = connexion.sqlSelect("select * " +
-					"from club " +
-					"where ligue_id = " + ligue.getNum() +
-					" order by id");
-			while(rs.next())
-			{
-				clubs.add ( new Club(
-				rs.getInt("id"),
-				rs.getString("nom"),
-				ligue
-				));
-			}
-			
-		} catch (SQLException e) {
-			throw new DataAccessException(e);
-		}
-		return clubs;
-	}
-
-	public ArrayList<Tournoi> loadTournois(Ligue ligue) throws DataAccessException
+	public ArrayList<Tournoi> loadAllTournois(Ligue ligue) throws DataAccessException
 	{
 		ArrayList<Tournoi> tournois = new ArrayList<Tournoi>();
 		try{
@@ -333,7 +425,7 @@ class SQLMapper implements Mapper {
 		return tournois;
 	}
 	
-	public ArrayList<Tournoi> loadTournois(Categorie categorie) throws DataAccessException
+	public ArrayList<Tournoi> loadAllTournois(Categorie categorie) throws DataAccessException
 	{
 		ArrayList<Tournoi> tournois = new ArrayList<Tournoi>();
 		try{
@@ -358,17 +450,17 @@ class SQLMapper implements Mapper {
 		return tournois;
 	}
 
-	public ArrayList<EquipeInscriteTournoi> loadEquipeInscriteTournois(Equipe equipe) throws DataAccessException
+	public ArrayList<Inscription> loadAllInscriptions(Equipe equipe) throws DataAccessException
 	{
-		ArrayList<EquipeInscriteTournoi> equipeInscriteTournois = new ArrayList<EquipeInscriteTournoi>();
+		ArrayList<Inscription> inscriptions = new ArrayList<Inscription>();
 		try{
 			ResultSet rs = connexion.sqlSelect("select * " +
-					"from equipe_inscrite_tournoi " +
+					"from inscription " +
 					"where equipe_id = " + equipe.getNum() +
-					" order by id");
+					" order by equipe_id");
 			while(rs.next())
 			{
-				equipeInscriteTournois.add ( new EquipeInscriteTournoi(
+				inscriptions.add ( new Inscription(
 				equipe,
 				loadTournoi(rs.getInt("tournoi_id"))
 				));
@@ -377,20 +469,20 @@ class SQLMapper implements Mapper {
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}
-		return equipeInscriteTournois;
+		return inscriptions;
 	}
 	
-	public ArrayList<EquipeInscriteTournoi> loadEquipeInscriteTournois(Tournoi tournoi) throws DataAccessException
+	public ArrayList<Inscription> loadAllInscriptions(Tournoi tournoi) throws DataAccessException
 	{
-		ArrayList<EquipeInscriteTournoi> equipeInscriteTournois = new ArrayList<EquipeInscriteTournoi>();
+		ArrayList<Inscription> inscriptions = new ArrayList<Inscription>();
 		try{
 			ResultSet rs = connexion.sqlSelect("select * " +
-					"from equipe_inscrite_tournoi " +
+					"from inscription " +
 					"where tournoi_id = " + tournoi.getNum() +
-					" order by id");
+					" order by tournoi_id");
 			while(rs.next())
 			{
-				equipeInscriteTournois.add ( new EquipeInscriteTournoi(
+				inscriptions.add ( new Inscription(
 				loadEquipe(rs.getInt("equipe_id")),
 				tournoi
 				));
@@ -399,22 +491,21 @@ class SQLMapper implements Mapper {
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}
-		return equipeInscriteTournois;
+		return inscriptions;
 	}
 
-	public ArrayList<EtapeTournoi> loadEtapesTournoi(Tournoi tournoi) throws DataAccessException
+	public ArrayList<Etape> loadAllEtapes(Tournoi tournoi) throws DataAccessException
 	{
-		ArrayList<EtapeTournoi> etapesTournoi = new ArrayList<EtapeTournoi>();
+		ArrayList<Etape> etapes = new ArrayList<Etape>();
 		try{
 			ResultSet rs = connexion.sqlSelect("select * " +
-					"from etape_tournoi " +
+					"from etape " +
 					"where tournoi_id = " + tournoi.getNum() +
 					" order by id");
 			while(rs.next())
 			{
-				etapesTournoi.add ( new EtapeTournoi(
+				etapes.add ( new Etape(
 				rs.getInt("id"),
-				rs.getInt("type_tournoi_id"),
 				tournoi
 				));
 			}
@@ -422,16 +513,16 @@ class SQLMapper implements Mapper {
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}
-		return etapesTournoi;
+		return etapes;
 	}
 
-	public ArrayList<Rencontre> loadRencontres(EtapeTournoi etapeTournoi) throws DataAccessException
+	public ArrayList<Rencontre> loadAllRencontres(Etape etape) throws DataAccessException
 	{
 		ArrayList<Rencontre> rencontres = new ArrayList<Rencontre>();
 		try{
 			ResultSet rs = connexion.sqlSelect("select * " +
 					"from rencontre " +
-					"where etape_tournoi_id = " + etapeTournoi.getNum() +
+					"where etape_id = " + etape.getNum() +
 					" order by id");
 			while(rs.next())
 			{
@@ -439,7 +530,7 @@ class SQLMapper implements Mapper {
 				rs.getInt("id"),
 				rs.getString("lieu"),
 				rs.getString("date"),
-				etapeTournoi
+				etape
 				));
 			}
 			
@@ -449,7 +540,7 @@ class SQLMapper implements Mapper {
 		return rencontres;
 	}
 
-	public ArrayList<Categorie> loadCategories(Ligue ligue) throws DataAccessException
+	public ArrayList<Categorie> loadAllCategories(Ligue ligue) throws DataAccessException
 	{
 		ArrayList<Categorie> categories = new ArrayList<Categorie>();
 		try{
@@ -472,6 +563,97 @@ class SQLMapper implements Mapper {
 		return categories;
 	}
 	
+	public ArrayList<Score> loadAllScores(Equipe equipe) throws DataAccessException
+	{
+		ArrayList<Score> scores = new ArrayList<Score>();
+		try{
+			ResultSet rs = connexion.sqlSelect("select * " +
+					"from score " +
+					"where equipe_id = " + equipe.getNum() +
+					" order by equipe_id");
+			while(rs.next())
+			{
+				scores.add ( new Score(
+				loadRencontre(rs.getInt("rencontre_id")),
+				equipe,
+				rs.getInt("points"),
+				rs.getBoolean("publie")
+				));
+			}
+			
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+		return scores;
+	}
+	
+	public ArrayList<Score> loadAllScores(Rencontre rencontre) throws DataAccessException
+	{
+		ArrayList<Score> scores = new ArrayList<Score>();
+		try{
+			ResultSet rs = connexion.sqlSelect("select * " +
+					"from score " +
+					"where equipe_id = " + rencontre.getNum() +
+					" order by equipe_id");
+			while(rs.next())
+			{
+				scores.add ( new Score(
+				rencontre,
+				loadEquipe(rs.getInt("equipe_id")),
+				rs.getInt("points"),
+				rs.getBoolean("publie")
+				));
+			}
+			
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+		return scores;
+	}
+	
+	public ArrayList<Appartenance> loadAllAppartenances(Equipe equipe) throws DataAccessException
+	{
+		ArrayList<Appartenance> appartenances = new ArrayList<Appartenance>();
+		try{
+			ResultSet rs = connexion.sqlSelect("select * " +
+					"from appartenance " +
+					"where equipe_id = " + equipe.getNum() +
+					" order by equipe_id");
+			while(rs.next())
+			{
+				appartenances.add ( new Appartenance(
+				loadUtilisateur(rs.getInt("utilisateur_id")),
+				equipe
+				));
+			}
+			
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+		return appartenances;
+	}
+	
+	public ArrayList<Appartenance> loadAllAppartenances(Utilisateur utilisateur) throws DataAccessException
+	{
+		ArrayList<Appartenance> appartenances = new ArrayList<Appartenance>();
+		try{
+			ResultSet rs = connexion.sqlSelect("select * " +
+					"from appartenance " +
+					"where equipe_id = " + utilisateur.getNum() +
+					" order by equipe_id");
+			while(rs.next())
+			{
+				appartenances.add ( new Appartenance(
+				utilisateur,
+				loadEquipe(rs.getInt("equipe_id"))
+				));
+			}
+			
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+		return appartenances;
+	}
 	
 	public Club loadClub(int idClub) throws DataAccessException
 	{
@@ -555,7 +737,7 @@ class SQLMapper implements Mapper {
 				rs.getInt("id"), 
 				rs.getString("lieu"),
 				rs.getString("date"),
-				loadEtapeTournoi(rs.getInt("etape_tournoi_id")));
+				loadEtape(rs.getInt("etape_tournoi_id")));
 			}
 			else
 				return null;
@@ -566,18 +748,17 @@ class SQLMapper implements Mapper {
 		}
 	}
 	
-	public EtapeTournoi loadEtapeTournoi(int idEtapeTournoi) throws DataAccessException
+	public Etape loadEtape(int idEtape) throws DataAccessException
 	{
 		try
 		{
 			ResultSet rs = connexion.sqlSelect("select * " +
 					"from etape_tournoi " +
-					" where id = " + idEtapeTournoi);
+					" where id = " + idEtape);
 			if(rs.next())
 			{
-				return new EtapeTournoi(
+				return new Etape(
 				rs.getInt("id"), 
-				rs.getInt("type_tournoi"),
 				loadTournoi(rs.getInt("tournoi_id")));
 			}
 			else
@@ -705,4 +886,5 @@ class SQLMapper implements Mapper {
 		this.connexion = connexion;
 	}
 
+	
 }

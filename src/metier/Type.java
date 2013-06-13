@@ -11,8 +11,10 @@ public class Type
 	private Root root;
 	private String nom;
 	private String description;
-	private ArrayList<Utilisateur> utilisateurs;
+	private ArrayList<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
 	private final static int NO_KEY = -1;
+	
+	private boolean allUtilisateursLoaded = false;
 	
 	//
 	public int getNum() 
@@ -48,6 +50,12 @@ public class Type
 	}
 
 	//
+	
+	public Root getRoot()
+	{
+		return root;
+	}
+	
 	Type(Root root, int num, String nom, String description) 
 	{
 		this.root = root;
@@ -82,10 +90,10 @@ public class Type
 	
 	private void loadAllUtilisateurs() throws DataAccessException
 	{
-		if (utilisateurs == null)
+		if (!allUtilisateursLoaded)
 		{
-			utilisateurs = new ArrayList<Utilisateur>();
-			root.loadUtilisateurs(this);
+			root.loadAllUtilisateurs(this);
+			allUtilisateursLoaded = true;
 		}
 	} 
 	  

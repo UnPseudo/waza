@@ -8,11 +8,12 @@ public class Club
 	private Ligue ligue;
 	private String nom = null;
 	private String description = null;
-	private ArrayList<Utilisateur> utilisateurs;
-	private ArrayList<Equipe> equipes;
+	private ArrayList<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
+	private ArrayList<Equipe> equipes = new ArrayList<Equipe>();
 	private final static int NO_KEY = -1;
 	
 	private Boolean allUtilisateursLoaded = false;
+	private Boolean allEquipesLoaded = false;
 	
 	//
 	public int getNum()
@@ -85,11 +86,11 @@ public class Club
 	// Utilisateur
 	private boolean possedeUtilisateur(Utilisateur utilisateur) throws DataAccessException 
 	{ 
-		loadAllUtilisateursClub();
+		loadAllUtilisateurs();
 		return utilisateurs.contains(utilisateur);
 	}
 	
-	private void loadAllUtilisateursClub() throws DataAccessException // A modifier
+	private void loadAllUtilisateurs() throws DataAccessException
 	{
 		
 		if (!allUtilisateursLoaded)
@@ -102,7 +103,7 @@ public class Club
 
 	public void addUtilisateur(Utilisateur utilisateur) throws DataAccessException 
 	{
-		loadAllUtilisateursClub();
+		loadAllUtilisateurs();
 		if(!possedeUtilisateur(utilisateur))
 		{
 			utilisateurs.add(utilisateur);
@@ -112,7 +113,7 @@ public class Club
 
 	public void removeUtilisateur(Utilisateur utilisateur) throws DataAccessException 
 	{
-		loadAllUtilisateursClub();
+		loadAllUtilisateurs();
 		if(possedeUtilisateur(utilisateur))
 		{
 			utilisateurs.remove(utilisateur);
@@ -123,23 +124,23 @@ public class Club
 	//Equipe
 	private boolean possedeEquipe(Equipe equipe) throws DataAccessException 
 	{
-		loadAllEquipesClub();
+		loadAllEquipes();
 		return equipes.contains(equipe);
 	}
 	
-	private void loadAllEquipesClub() throws DataAccessException // A modifier
+	private void loadAllEquipes() throws DataAccessException // A modifier
 	{
-		if (equipes == null)
+		if (!allEquipesLoaded)
 		{
-			equipes = new ArrayList<Equipe>();
 			Root root = getLigue().getRoot();
-			root.loadEquipes(this);
+			root.loadAllEquipes(this);
+			allEquipesLoaded = true;
 		}
 	}
 	
 	public void addEquipe(Equipe equipe) throws DataAccessException 
 	{
-		loadAllEquipesClub();
+		loadAllEquipes();
 		if(!possedeEquipe(equipe))
 		{
 			equipes.add(equipe);
@@ -149,7 +150,7 @@ public class Club
 
 	public void removeEquipe(Equipe equipe) throws DataAccessException 
 	{
-		loadAllEquipesClub();
+		loadAllEquipes();
 		if(possedeEquipe(equipe))
 		{
 			equipes.remove(equipe);

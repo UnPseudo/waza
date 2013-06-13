@@ -8,10 +8,12 @@ public class Categorie
 	private Ligue ligue;
 	private String nom = null;
 	private String description = null;
-	private ArrayList<Equipe> equipes;
-	private ArrayList<Tournoi> tournois; 
+	private ArrayList<Equipe> equipes = new ArrayList<Equipe>();
+	private ArrayList<Tournoi> tournois = new ArrayList<Tournoi>(); 
 	private final static int NO_KEY = -1;
 	
+	private boolean allTournoisLoaded = false;
+	private boolean allEquipesLoaded = false;
 	//
 	public int getNum()
 	{
@@ -30,9 +32,9 @@ public class Categorie
 		return nom;
 	}
 	
-	public String setNom(String nom)
+	public void setNom(String nom)
 	{
-		return this.nom = nom;
+		this.nom = nom;
 	}
 	
 	public String getDescription() 
@@ -101,11 +103,11 @@ public class Categorie
 	
 	private void loadAllTournois() throws DataAccessException
 	{
-		if (tournois == null)
+		if (!allTournoisLoaded)
 		{
-			tournois = new ArrayList<Tournoi>();
 			Root root = getLigue().getRoot();
-			root.loadTournois(this);
+			root.loadAllTournois(this);
+			allTournoisLoaded = true;
 		}
 	}
 	
@@ -132,23 +134,23 @@ public class Categorie
 	// Equipe
 	private boolean possedeEquipe(Equipe equipe) throws DataAccessException 
 	{
-		loadAllEquipesCategorie();
+		loadAllEquipes();
 		return equipes.contains(equipe);
 	}
 
-	private void loadAllEquipesCategorie() throws DataAccessException
+	private void loadAllEquipes() throws DataAccessException
 	{
-		if (equipes == null)
+		if (!allEquipesLoaded)
 		{
-			equipes = new ArrayList<Equipe>();
 			Root root = getLigue().getRoot();
-			root.loadEquipes(this);
+			root.loadAllEquipes(this);
+			allEquipesLoaded = true;
 		}
 	} 
 	
 	public void addEquipe(Equipe equipe) throws DataAccessException 
 	{
-		loadAllEquipesCategorie();
+		loadAllEquipes();
 		if(!possedeEquipe(equipe))
 		{
 			equipes.add(equipe);
@@ -158,7 +160,7 @@ public class Categorie
 
 	public void removeEquipe(Equipe equipe) throws DataAccessException 
 	{
-		loadAllEquipesCategorie();
+		loadAllEquipes();
 		if(possedeEquipe(equipe))
 		{
 			equipes.remove(equipe);

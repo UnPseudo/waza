@@ -1,4 +1,4 @@
-package metier;
+package poubelle;
 
 import java.sql.*;
 import java.util.*;

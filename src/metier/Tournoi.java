@@ -9,9 +9,12 @@ public class Tournoi
 	private Categorie categorie;
 	private String nom = null;
 	private String description = null;
-	private ArrayList<EtapeTournoi> etapesTournoi;
-	private ArrayList<EquipeInscriteTournoi> equipeInscriteTournois;
+	private ArrayList<Etape> etapes = new ArrayList<Etape>();
+	private ArrayList<Inscription> inscriptions = new ArrayList<Inscription>();
 	private final static int NO_KEY = -1;
+	
+	private boolean allEtapesLoaded = false;
+	private boolean allInscriptionsLoaded = false;
 	
 	//
 	public int getNum()
@@ -105,101 +108,101 @@ public class Tournoi
 		this(NO_KEY, nom, description, ligue, categorie);
 	}
 	
-	//Etape tournoi
-	public int getNbEtapesTournoi() throws DataAccessException 
+	//Etape
+	public int getNbEtapes() throws DataAccessException 
 	{
-		loadAllEtapesTournoi();
-		return etapesTournoi.size();
+		loadAllEtapes();
+		return etapes.size();
 	}
 
-	public EtapeTournoi getEtapeTournoi(int index) throws DataAccessException 
+	public Etape getEtape(int index) throws DataAccessException 
 	{
-		loadAllEtapesTournoi();
-		return etapesTournoi.get(index);
+		loadAllEtapes();
+		return etapes.get(index);
 	}
 	
-	private boolean possedeEtapeTournoi(EtapeTournoi etapeTournoi) throws DataAccessException 
+	private boolean possedeEtape(Etape etape) throws DataAccessException 
 	{
-		loadAllEtapesTournoi();
-		return etapesTournoi.contains(etapeTournoi);
+		loadAllEtapes();
+		return etapes.contains(etape);
 	}
 	
-	private void loadAllEtapesTournoi() throws DataAccessException
+	private void loadAllEtapes() throws DataAccessException
 	{
-		if (etapesTournoi == null)
+		if (!allEtapesLoaded)
 		{
-			etapesTournoi = new ArrayList<EtapeTournoi>();
 			Root root = getLigue().getRoot();
-			root.loadEtapesTournoi(this); 
+			root.loadAllEtapes(this);
+			allEtapesLoaded = true;
 		}
 	}
 	 
-	public void addEtapeTournoi(EtapeTournoi etapeTournoi) throws DataAccessException 
+	public void addEtape(Etape etape) throws DataAccessException 
 	{
-		loadAllEtapesTournoi();
-		if(!possedeEtapeTournoi(etapeTournoi))
+		loadAllEtapes();
+		if(!possedeEtape(etape))
 		{
-			etapesTournoi.add(etapeTournoi);
-			etapeTournoi.setTournoi(this);
+			etapes.add(etape);
+			etape.setTournoi(this);
 		}
 	}
 
-	public void removeEtapeTournoi(EtapeTournoi etapeTournoi) throws DataAccessException 
+	public void removeEtape(Etape etape) throws DataAccessException 
 	{
-		loadAllEtapesTournoi();
-		if(possedeEtapeTournoi(etapeTournoi))
+		loadAllEtapes();
+		if(possedeEtape(etape))
 		{
-			etapesTournoi.remove(etapeTournoi);
-			etapeTournoi.setTournoi(null);
+			etapes.remove(etape);
+			etape.setTournoi(null);
 		}
 	}
 	
-	// EquipeInscriteTournoi
-	public int getNbEquipeInscriteTournois() throws DataAccessException 
+	// Inscription
+	public int getNbInscriptions() throws DataAccessException 
 	{
-		loadAllEquipeInscriteTournois();
-		return equipeInscriteTournois.size();
+		loadAllInscriptions();
+		return inscriptions.size();
 	}
 
-	public EquipeInscriteTournoi getEquipeInscriteTournoi(int index) throws DataAccessException 
+	public Inscription getInscription(int index) throws DataAccessException 
 	{
-		loadAllEquipeInscriteTournois();
-		return equipeInscriteTournois.get(index);
+		loadAllInscriptions();
+		return inscriptions.get(index);
 	}
 	
-	private boolean possedeEquipeInscriteTournoi(EquipeInscriteTournoi equipeInscriteTournoi) throws DataAccessException 
+	private boolean possedeInscription(Inscription inscription) throws DataAccessException 
 	{
-		loadAllEquipeInscriteTournois();
-		return equipeInscriteTournois.contains(equipeInscriteTournoi);
+		loadAllInscriptions();
+		return inscriptions.contains(inscription);
 	}
 	
-	private void loadAllEquipeInscriteTournois() throws DataAccessException
+	private void loadAllInscriptions() throws DataAccessException
 	{
-		if (equipeInscriteTournois == null)
-		{
-			equipeInscriteTournois = new ArrayList<EquipeInscriteTournoi>();
+		if (!allInscriptionsLoaded)
+		{ 
 			Root root = getLigue().getRoot();
-			root.loadEquipeInscriteTournois(this);
+			root.loadAllInscriptions(this);
+			allInscriptionsLoaded = true;
 		}
 	}
 	
-	public void addEquipeInscriteTournoi(EquipeInscriteTournoi equipeInscriteTournoi) throws DataAccessException 
+	public void addInscription(Inscription inscription) throws DataAccessException 
 	{
-		loadAllEquipeInscriteTournois();
-		if(!possedeEquipeInscriteTournoi(equipeInscriteTournoi))
+		loadAllInscriptions();
+		if(!possedeInscription(inscription))
 		{
-			equipeInscriteTournois.add(equipeInscriteTournoi);
-			equipeInscriteTournoi.setTournoi(this);
+			inscriptions.add(inscription);
+			inscription.setTournoi(this);
 		}
 	}
 
-	public void removeEquipeInscriteTournoi(EquipeInscriteTournoi equipeInscriteTournoi) throws DataAccessException 
+	public void removeInscription(Inscription inscription) throws DataAccessException 
 	{
-		loadAllEquipeInscriteTournois();
-		if(possedeEquipeInscriteTournoi(equipeInscriteTournoi))
+		loadAllInscriptions();
+		if(possedeInscription(inscription))
 		{
-			equipeInscriteTournois.remove(equipeInscriteTournoi);
-			equipeInscriteTournoi.setTournoi(null);
+			inscriptions.remove(inscription);
+			inscription.setTournoi(null);
 		}
 	}
 }

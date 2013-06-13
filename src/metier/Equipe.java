@@ -8,8 +8,14 @@ public class Equipe
 	private Club club;
 	private Categorie categorie;
 	private String nom = null;
-	private ArrayList<EquipeInscriteTournoi> equipeInscriteTournois;
+	private ArrayList<Inscription> inscriptions = new ArrayList<Inscription>();
+	private ArrayList<Appartenance> appartenances = new ArrayList<Appartenance>();
+	private ArrayList<Score> scores = new ArrayList<Score>();
 	private final static int NO_KEY = -1;
+	
+	private boolean allInscriptionsLoaded = false;
+	private boolean allAppartenancesLoaded = false;
+	private boolean allScoresLoaded = false;
 	
 	public int getNum()
 	{
@@ -73,6 +79,11 @@ public class Equipe
 		}
 	}
 	
+	public int getNumClub()
+	{
+		return club.getNum();
+	}
+	
 	Equipe(int num, String nom, Categorie categorie, Club club) throws DataAccessException
 	{
 		setNum(num);
@@ -86,55 +97,153 @@ public class Equipe
 		this(NO_KEY, nom, categorie, club);
 	}
 
-	// EquipeInscriteTournoi
-		public int getNbEquipeInscriteTournois() throws DataAccessException 
+	// Inscription
+		public int getNbInscriptions() throws DataAccessException 
 		{
-			loadAllEquipeInscriteTournois();
-			return equipeInscriteTournois.size();
+			loadAllInscriptions();
+			return inscriptions.size();
 		}
 
-		public EquipeInscriteTournoi getEquipeInscriteTournoi(int index) throws DataAccessException 
+		public Inscription getInscription(int index) throws DataAccessException 
 		{
-			loadAllEquipeInscriteTournois();
-			return equipeInscriteTournois.get(index);
+			loadAllInscriptions();
+			return inscriptions.get(index);
 		}
 		
-		private boolean possedeEquipeInscriteTournoi(EquipeInscriteTournoi equipeInscriteTournoi) throws DataAccessException 
+		private boolean possedeInscription(Inscription inscription) throws DataAccessException 
 		{
-			loadAllEquipeInscriteTournois();
-			return equipeInscriteTournois.contains(equipeInscriteTournoi);
+			loadAllInscriptions();
+			return inscriptions.contains(inscription);
 		}
 		
-		private void loadAllEquipeInscriteTournois() throws DataAccessException
+		private void loadAllInscriptions() throws DataAccessException
 		{
-			if (equipeInscriteTournois == null)
-			{
-				equipeInscriteTournois = new ArrayList<EquipeInscriteTournoi>();
+			if (!allInscriptionsLoaded)
+			{ 
 				Root root = getClub().getLigue().getRoot();
-				root.loadEquipeInscriteTournois(this);
+				root.loadAllInscriptions(this);
+				allInscriptionsLoaded = true;
 			}
 		}
 		
-		public void addEquipeInscriteTournoi(EquipeInscriteTournoi equipeInscriteTournoi) throws DataAccessException 
+		public void addInscription(Inscription inscription) throws DataAccessException 
 		{ 
-			loadAllEquipeInscriteTournois();
-			if(!possedeEquipeInscriteTournoi(equipeInscriteTournoi))
+			loadAllInscriptions();
+			if(!possedeInscription(inscription))
 			{
-				equipeInscriteTournois.add(equipeInscriteTournoi);
-				equipeInscriteTournoi.setEquipe(this);
+				inscriptions.add(inscription);
+				inscription.setEquipe(this);
 			}
 		}
 
-		public void removeEquipeInscriteTournoi(EquipeInscriteTournoi equipeInscriteTournoi) throws DataAccessException 
+		public void removeInscription(Inscription inscription) throws DataAccessException 
 		{
-			loadAllEquipeInscriteTournois();
-			if(possedeEquipeInscriteTournoi(equipeInscriteTournoi))
+			loadAllInscriptions();
+			if(possedeInscription(inscription))
 			{
-				equipeInscriteTournois.remove(equipeInscriteTournoi);
-				equipeInscriteTournoi.setEquipe(null);
+				inscriptions.remove(inscription);
+				inscription.setEquipe(null);
 			}
 		}
 		
+		// Appartenance
+		
+	public int getNbAppartenance() throws DataAccessException 
+	{
+		loadAllAppartenances();
+		return appartenances.size();
+	}
+
+	public Appartenance getAppartenance(int index) throws DataAccessException
+	{
+		loadAllAppartenances();
+		return appartenances.get(index);
+	}
 	
+	private boolean possedeAppartenance(Appartenance appartenance) throws DataAccessException 
+	{
+		loadAllAppartenances();
+		return appartenances.contains(appartenance);
+	}
 	
+	private void loadAllAppartenances() throws DataAccessException
+	{
+		if (!allAppartenancesLoaded)
+		{
+			Root root = getClub().getLigue().getRoot();
+			root.loadAllAppartenances(this);
+			allAppartenancesLoaded = true;
+		}
+	}
+	
+	public void addAppartenance(Appartenance appartenance) throws DataAccessException 
+	{
+		loadAllAppartenances();
+		if(!possedeAppartenance(appartenance))
+		{
+			appartenances.add(appartenance);
+			appartenance.setEquipe(this);
+		}
+	}
+
+	public void removeAppartenance(Appartenance appartenance) throws DataAccessException 
+	{
+		loadAllAppartenances();
+		if(possedeAppartenance(appartenance))
+		{
+			appartenances.remove(appartenance);
+			appartenance.setEquipe(null);
+		}
+	}
+	
+	// Score
+	
+	public int getNbScore() throws DataAccessException 
+	{
+		loadAllScores();
+		return scores.size();
+	}
+
+	public Score getScore(int index) throws DataAccessException
+	{
+		loadAllScores();
+		return scores.get(index);
+	}
+	
+	private boolean possedeScore(Score score) throws DataAccessException 
+	{
+		loadAllScores();
+		return scores.contains(score);
+	}
+	
+	private void loadAllScores() throws DataAccessException
+	{
+		if (!allScoresLoaded)
+		{
+			Root root = getClub().getLigue().getRoot();
+			root.loadAllScores(this);
+			allScoresLoaded = true;
+		}
+	}
+	
+	public void addScore(Score score) throws DataAccessException 
+	{
+		loadAllScores();
+		if(!possedeScore(score))
+		{
+			scores.add(score);
+			score.setEquipe(this);
+		}
+	}
+
+	public void removeScore(Score score) throws DataAccessException 
+	{
+		loadAllScores();
+		if(possedeScore(score))
+		{
+			scores.remove(score);
+			score.setEquipe(null);
+		}
+	}
+
 }

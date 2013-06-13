@@ -11,12 +11,15 @@ public class Ligue
 	private Root root;
 	private String nom = null;
 	private String description = null;
-	private ArrayList<Club> clubs;
-	private ArrayList<Tournoi> tournois;
-	private ArrayList<Categorie> categories;
+	private ArrayList<Club> clubs = new ArrayList<Club>();
+	private ArrayList<Tournoi> tournois = new ArrayList<Tournoi>();
+	private ArrayList<Categorie> categories = new ArrayList<Categorie>();
 	private final static int NO_KEY = -1;
  
 	private Boolean allClubsLoaded = false;
+	private Boolean allTournoisLoaded = false;
+	private Boolean allCategoriesLoaded = false;
+	
 	//
 	void setNum(int num) 
 	{
@@ -138,11 +141,12 @@ public class Ligue
 	
 	private void loadAllCategories() throws DataAccessException
 	{
-		if (categories == null)
+		if (!allCategoriesLoaded)
 		{
-			categories = new ArrayList<Categorie>();
-			root.loadCategories(this);
+			root.loadAllCategories(this);
+			allCategoriesLoaded = true;
 		}
+		
 	} 
 	
 	public void addCategorie(Categorie categorie) throws DataAccessException 
@@ -186,10 +190,10 @@ public class Ligue
 	
 	private void loadAllTournois() throws DataAccessException
 	{
-		if (tournois == null)
+		if (!allTournoisLoaded)
 		{
-			tournois = new ArrayList<Tournoi>();
-			root.loadTournois(this);
+			root.loadAllTournois(this);
+			allTournoisLoaded = true;
 		}
 	}
 	

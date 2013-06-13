@@ -3,6 +3,8 @@ package metier;
 import java.sql.*;
 import java.util.*;
 
+import poubelle.EtapeTournoi;
+
 import metier.DataAccessException;
 import db.Connexion;
 
@@ -164,28 +166,33 @@ public class Root
 	
 	Connexion connexion;
 	
-	private ArrayList<Ligue> ligues = null;
+	private ArrayList<Ligue> ligues = new ArrayList<Ligue>();
 	private HashMap<Integer, Ligue> liguesByNum = new HashMap<Integer, Ligue> ();
-	private ArrayList<Type> types = null;
+	ArrayList<Type> types = new ArrayList<Type>();
 	private HashMap<Integer, Type> typesByNum = new HashMap<Integer, Type> ();
-	private ArrayList<Club> clubs = null;
+	private ArrayList<Club> clubs = new ArrayList<Club>();
 	private HashMap<Integer, Club> clubsByNum = new HashMap<Integer, Club> ();
-	private ArrayList<Rencontre> rencontres = null;
+	private ArrayList<Rencontre> rencontres = new ArrayList<Rencontre>();
 	private HashMap<Integer, Rencontre> rencontresByNum = new HashMap<Integer, Rencontre> ();
-	private ArrayList<EtapeTournoi> etapesTournoi = null;
-	private HashMap<Integer, EtapeTournoi> etapesTournoiByNum = new HashMap<Integer, EtapeTournoi> ();
-	private ArrayList<Tournoi> tournois = null;
+	private ArrayList<Etape> etapes = new ArrayList<Etape>();
+	private HashMap<Integer, Etape> etapesByNum = new HashMap<Integer, Etape> ();
+	private ArrayList<Tournoi> tournois = new ArrayList<Tournoi>();
 	private HashMap<Integer, Tournoi> tournoisByNum = new HashMap<Integer, Tournoi> ();
-	private ArrayList<Categorie> categories = null;
+	private ArrayList<Categorie> categories = new ArrayList<Categorie>();
 	private HashMap<Integer, Categorie> categoriesByNum = new HashMap<Integer, Categorie> ();
-	private ArrayList<Equipe> equipes = null;
+	private ArrayList<Equipe> equipes = new ArrayList<Equipe>();
 	private HashMap<Integer, Equipe> equipesByNum = new HashMap<Integer, Equipe> ();
-	private ArrayList<Utilisateur> utilisateurs = null;
+	private ArrayList<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
 	private HashMap<Integer, Utilisateur> utilisateursByNum = new HashMap<Integer, Utilisateur> ();
+	private ArrayList<Inscription> inscriptions = new ArrayList<Inscription>();
+	private HashMap<Integer, Inscription> inscriptionsByNum = new HashMap<Integer, Inscription> ();
+	private ArrayList<Appartenance> appartenances = new ArrayList<Appartenance>();
+	private HashMap<Integer, Appartenance> appartenancesByNum = new HashMap<Integer, Appartenance> ();
+	private ArrayList<Score> scores = new ArrayList<Score>();
+	private HashMap<Integer, Score> scoresByNum = new HashMap<Integer, Score> ();
 	
 	private Boolean allLiguesLoaded = false;
 	private Boolean allTypesLoaded = false;
-	private Boolean allClubsLoaded = false;
 	
 	public void resetDB() throws DataAccessException
 	{
@@ -221,68 +228,7 @@ public class Root
 	
 	
 		
-	void loadClubs(Ligue ligue) throws DataAccessException
-	{
-		mapper.loadClubs(ligue);
-	}
 	
-	void loadTournois(Ligue ligue) throws DataAccessException
-	{
-		mapper.loadTournois(ligue);
-	}
-	
-	void loadTournois(Categorie categorie) throws DataAccessException
-	{
-		mapper.loadTournois(categorie);
-	}
-	
-	void loadEquipeInscriteTournois(Equipe equipe) throws DataAccessException
-	{
-		mapper.loadEquipeInscriteTournois(equipe);
-	}
-	
-	void loadEquipeInscriteTournois(Tournoi tournoi) throws DataAccessException
-	{
-		mapper.loadEquipeInscriteTournois(tournoi);
-	}
-	
-	void loadEtapesTournoi(Tournoi tournoi) throws DataAccessException
-	{
-		mapper.loadEtapesTournoi(tournoi);
-	}
-	
-	void loadRencontres(EtapeTournoi etapeTournoi) throws DataAccessException
-	{
-		mapper.loadRencontres(etapeTournoi);
-	}
-	
-	void loadCategorie(Ligue ligue) throws DataAccessException
-	{
-		mapper.loadCategories(ligue);
-	}
-	
-	void loadEquipes(Club club) throws DataAccessException
-	{
-		mapper.loadEquipes(club);
-	}
-
-	void loadEquipes(Categorie categorie) throws DataAccessException
-	{ 
-		mapper.loadEquipes(categorie);
-	}
-
-	void loadUtilisateurs(Type type) throws DataAccessException
-	{
-		mapper.loadUtilisateurs(type);
-		
-	}
-
-	void loadUtilisateurs(Club club) throws DataAccessException
-	{
-		mapper.loadUtilisateurs(club);
-		
-	}
-
 	public int getNbLigues() throws DataAccessException
 	{
 		loadAllLigues();
@@ -295,6 +241,18 @@ public class Root
 		return ligues.get(index);
 	}
 	
+	public int getNbTypes() throws DataAccessException
+	{
+		loadAllTypes();
+		return types.size();		
+	}
+
+	public Type getTypeByIndex(int index) throws DataAccessException
+	{
+		loadAllTypes();
+		return types.get(index);
+	}
+
 	void loadAllLigues() throws DataAccessException
 	{
 		if (!allLiguesLoaded)
@@ -311,18 +269,6 @@ public class Root
 			}
 			allLiguesLoaded = true;
 		}
-	}
-
-	public int getNbTypes() throws DataAccessException
-	{
-		loadAllTypes();
-		return types.size();		
-	}
-
-	public Type getTypeByIndex(int index) throws DataAccessException
-	{
-		loadAllTypes();
-		return types.get(index);
 	}
 
 	void loadAllTypes() throws DataAccessException
@@ -371,6 +317,202 @@ public class Root
 		}
 	}
 	
+	void loadAllUtilisateurs(Type type) throws DataAccessException
+	{
+		ArrayList<Utilisateur> utilisateursLoaded = mapper.loadAllUtilisateurs(type);
+		for(Utilisateur utilisateur : utilisateursLoaded)
+		{
+			int numUtilisateur = utilisateur.getNum();
+			if (utilisateursByNum.get(numUtilisateur) == null)
+			{
+				utilisateurs.add(utilisateur);
+				utilisateursByNum.put(numUtilisateur, utilisateur);
+			}
+		}
+	}
+	
+	void loadAllTournois(Categorie categorie) throws DataAccessException
+	{
+		ArrayList<Tournoi> tournoisLoaded = mapper.loadAllTournois(categorie);
+		for(Tournoi tournoi : tournoisLoaded)
+		{
+			int numTournoi = tournoi.getNum();
+			if (tournoisByNum.get(numTournoi) == null)
+			{
+				tournois.add(tournoi);
+				tournoisByNum.put(numTournoi, tournoi);
+			}
+		}
+	}
+	
+	void loadAllTournois(Ligue ligue) throws DataAccessException
+	{
+		ArrayList<Tournoi> tournoisLoaded = mapper.loadAllTournois(ligue);
+		for(Tournoi tournoi : tournoisLoaded)
+		{
+			int numTournoi = tournoi.getNum();
+			if (tournoisByNum.get(numTournoi) == null)
+			{
+				tournois.add(tournoi);
+				tournoisByNum.put(numTournoi, tournoi);
+			}
+		}
+	}
+	
+	void loadAllEtapes(Tournoi tournoi) throws DataAccessException
+	{
+		ArrayList<Etape> etapesLoaded = mapper.loadAllEtapes(tournoi);
+		for(Etape etape : etapesLoaded)
+		{
+			int numEtape = etape.getNum();
+			if (etapesByNum.get(numEtape) == null)
+			{
+				etapes.add(etape);
+				etapesByNum.put(numEtape, etape);
+			}
+		}
+	}
+	
+	void loadAllEquipes(Club club) throws DataAccessException
+	{
+		ArrayList<Equipe> equipesLoaded = mapper.loadAllEquipes(club);
+		for(Equipe equipe : equipesLoaded)
+		{
+			int numEquipe = equipe.getNum();
+			if (equipesByNum.get(numEquipe) == null)
+			{
+				equipes.add(equipe);
+				equipesByNum.put(numEquipe, equipe);
+			}
+		}
+	}
+	
+	void loadAllEquipes(Categorie categorie) throws DataAccessException
+	{
+		ArrayList<Equipe> equipesLoaded = mapper.loadAllEquipes(categorie);
+		for(Equipe equipe : equipesLoaded)
+		{
+			int numEquipe = equipe.getNum();
+			if (equipesByNum.get(numEquipe) == null)
+			{
+				equipes.add(equipe);
+				equipesByNum.put(numEquipe, equipe);
+			}
+		}
+	}
+	
+	
+	void loadAllInscriptions(Equipe equipe) throws DataAccessException
+	{
+		ArrayList<Inscription> inscriptionsLoaded = mapper.loadAllInscriptions(equipe);
+		for(Inscription inscription : inscriptionsLoaded)
+		{
+			int numInscription = inscription.getNum();
+			if (inscriptionsByNum.get(numInscription) == null)
+			{
+				inscriptions.add(inscription);
+				inscriptionsByNum.put(numInscription, inscription);
+			}
+		}
+	}
+	
+	void loadAllInscriptions(Tournoi tournoi) throws DataAccessException
+	{
+		ArrayList<Inscription> inscriptionsLoaded = mapper.loadAllInscriptions(tournoi);
+		for(Inscription inscription : inscriptionsLoaded)
+		{
+			int numInscription = inscription.getNum();
+			if (inscriptionsByNum.get(numInscription) == null)
+			{
+				inscriptions.add(inscription);
+				inscriptionsByNum.put(numInscription, inscription);
+			}
+		}
+	}
+	
+	void loadAllAppartenances(Equipe equipe) throws DataAccessException
+	{
+		ArrayList<Appartenance> appartenancesLoaded = mapper.loadAllAppartenances(equipe);
+		for(Appartenance appartenance : appartenancesLoaded)
+		{
+			int numAppartenance = appartenance.getNum();
+			if (appartenancesByNum.get(numAppartenance) == null)
+			{
+				appartenances.add(appartenance);
+				appartenancesByNum.put(numAppartenance, appartenance);
+			}
+		}
+	}
+	
+	void loadAllAppartenances(Utilisateur utilisateur) throws DataAccessException
+	{
+		ArrayList<Appartenance> appartenancesLoaded = mapper.loadAllAppartenances(utilisateur);
+		for(Appartenance appartenance : appartenancesLoaded)
+		{
+			int numAppartenance = appartenance.getNum();
+			if (appartenancesByNum.get(numAppartenance) == null)
+			{
+				appartenances.add(appartenance);
+				appartenancesByNum.put(numAppartenance, appartenance);
+			}
+		}
+	}
+	
+	void loadAllScores(Equipe equipe) throws DataAccessException
+	{
+		ArrayList<Score> scoresLoaded = mapper.loadAllScores(equipe);
+		for(Score score : scoresLoaded)
+		{
+			int numScore = score.getNum();
+			if (scoresByNum.get(numScore) == null)
+			{
+				scores.add(score);
+				scoresByNum.put(numScore, score);
+			}
+		}
+	}
+	
+	void loadAllScores(Rencontre rencontre) throws DataAccessException
+	{
+		ArrayList<Score> scoresLoaded = mapper.loadAllScores(rencontre);
+		for(Score score : scoresLoaded)
+		{
+			int numScore = score.getNum();
+			if (scoresByNum.get(numScore) == null)
+			{
+				scores.add(score);
+				scoresByNum.put(numScore, score);
+			}
+		}
+	}
+	
+	void loadAllRencontres(Etape etape) throws DataAccessException
+	{
+		ArrayList<Rencontre> rencontresLoaded = mapper.loadAllRencontres(etape);
+		for(Rencontre rencontre : rencontresLoaded)
+		{
+			int numRencontre = rencontre.getNum();
+			if (rencontresByNum.get(numRencontre) == null)
+			{
+				rencontres.add(rencontre);
+				rencontresByNum.put(numRencontre, rencontre);
+			}
+		}
+	}
+	
+	void loadAllCategories(Ligue ligue) throws DataAccessException
+	{
+		ArrayList<Categorie> categoriesLoaded = mapper.loadAllCategories(ligue);
+		for(Categorie categorie : categoriesLoaded)
+		{
+			int numCategorie = categorie.getNum();
+			if (categoriesByNum.get(numCategorie) == null)
+			{
+				categories.add(categorie);
+				categoriesByNum.put(numCategorie, categorie);
+			}
+		}
+	}
 		
 	public Type loadType(int idType) throws DataAccessException
 	{
@@ -456,16 +598,16 @@ public class Root
 		return tournoi;
 	}
 	
-	public EtapeTournoi loadEtapeTournoi(int idEtapeTournoi) throws DataAccessException
+	public Etape loadEtape(int idEtape) throws DataAccessException
 	{
-		EtapeTournoi etapeTournoi = etapesTournoiByNum.get(idEtapeTournoi);
-		if (etapeTournoi == null)
+		Etape etape = etapesByNum.get(idEtape);
+		if (etape == null)
 		{
-			etapeTournoi = mapper.loadEtapeTournoi(idEtapeTournoi);
-			etapesTournoi.add(etapeTournoi);
-			etapesTournoiByNum.put(idEtapeTournoi, etapeTournoi);
+			etape = mapper.loadEtape(idEtape);
+			etapes.add(etape);
+			etapesByNum.put(idEtape, etape);
 		}
-		return etapeTournoi;
+		return etape;
 	}
 	
 	public Rencontre loadRencontre(int idRencontre) throws DataAccessException
@@ -532,11 +674,101 @@ public class Root
 		else
 			mapper.save(utilisateur);
 	}
-
-
-	void loadCategories(Ligue ligue) throws DataAccessException {
-		// TODO Auto-generated method stub
-		
+	
+	public void save(Tournoi tournoi) throws DataAccessException
+	{
+		if (tournoi.getNum() == mapper.NO_KEY)
+		{
+			mapper.save(tournoi);
+			tournois.add(tournoi);
+			tournoisByNum.put(tournoi.getNum(), tournoi);
+		}
+		else
+			mapper.save(tournoi);
+	}
+	
+	public void save(Etape etape) throws DataAccessException
+	{
+		if (etape.getNum() == mapper.NO_KEY)
+		{
+			mapper.save(etape);
+			etapes.add(etape);
+			etapesByNum.put(etape.getNum(), etape);
+		}
+		else
+			mapper.save(etape);
+	}
+	
+	public void save(Rencontre rencontre) throws DataAccessException
+	{
+		if (rencontre.getNum() == mapper.NO_KEY)
+		{
+			mapper.save(rencontre);
+			rencontres.add(rencontre);
+			rencontresByNum.put(rencontre.getNum(), rencontre);
+		}
+		else
+			mapper.save(rencontre);
+	}
+	
+	public void save(Categorie categorie) throws DataAccessException
+	{
+		if (categorie.getNum() == mapper.NO_KEY)
+		{
+			mapper.save(categorie);
+			categories.add(categorie);
+			categoriesByNum.put(categorie.getNum(), categorie);
+		}
+		else
+			mapper.save(categorie);
+	}
+	
+	public void save(Equipe equipe) throws DataAccessException
+	{
+		if (equipe.getNum() == mapper.NO_KEY)
+		{
+			mapper.save(equipe);
+			equipes.add(equipe);
+			equipesByNum.put(equipe.getNum(), equipe);
+		}
+		else
+			mapper.save(equipe);
+	}
+	
+	public void save(Score score) throws DataAccessException
+	{
+		if (score.getNum() == mapper.NO_KEY)
+		{
+			mapper.save(score);
+			scores.add(score);
+			scoresByNum.put(score.getNum(), score);
+		}
+		else
+			mapper.save(score);
+	}
+	
+	public void save(Appartenance appartenance) throws DataAccessException
+	{
+		if (appartenance.getNum() == mapper.NO_KEY)
+		{
+			mapper.save(appartenance);
+			appartenances.add(appartenance);
+			appartenancesByNum.put(appartenance.getNum(), appartenance);
+		}
+		else
+			mapper.save(appartenance);
 	}
 
+	public void save(Inscription inscription) throws DataAccessException
+	{
+		if (inscription.getNum() == mapper.NO_KEY)
+		{
+			mapper.save(inscription);
+			inscriptions.add(inscription);
+			inscriptionsByNum.put(inscription.getNum(), inscription);
+		}
+		else
+			mapper.save(inscription);
+	}
+	
 }

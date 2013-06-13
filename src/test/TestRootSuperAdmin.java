@@ -1,16 +1,9 @@
 package test;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Random;
 
 
-import metier.DataAccessException;
-import metier.Ligue;
-import metier.Root;
-import metier.Type;
-import metier.Utilisateur;
-import metier.Club;
+import metier.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,13 +15,22 @@ public class TestRootSuperAdmin
 	private Root is;
 	private Type type;
 	private Ligue ligue;
+	private Tournoi tournoi;
+	private Categorie categorie;
+	private Etape etape;
+	private Rencontre rencontre;
 	private Utilisateur utilisateur;
 	private Club club;
+	private Equipe equipe;
+	private Score score;
+	private Appartenance appartenance;
+	private Inscription inscription;
 	
 	@Before
 	public void setUp() throws ClassNotFoundException, DataAccessException
 	{
 		is= new Root();
+		//type = new Type(is, "cahuette", "description type test");
 		//type = new Type(is, "nom type test", "description type test");
 		//ligue = new Ligue(is, "nom ligue test", "description ligue test");
 		//club = new Club("nom", ligue);
@@ -37,11 +39,54 @@ public class TestRootSuperAdmin
 	
 	@Test
  
-
+	public void superTest() throws DataAccessException
+	{
+		
+		
+		ligue = new Ligue(is, "nom ligue test", "description ligue test");
+		is.save(ligue);
+		System.out.println("ligue ok");
+		club = new Club("nom", ligue);
+		is.save(club);
+		System.out.println("club ok");
+		type = new Type(is, "nom", "test");
+		is.save(type);
+		System.out.println("type ok");
+		utilisateur = new Utilisateur(null, null, 0, 0, null, null, type, club);
+		is.save(utilisateur);
+		System.out.println("utilisateur ok");
+		categorie = new Categorie(null, ligue);
+		is.save(categorie);
+		System.out.println("categorie ok");
+		tournoi = new Tournoi(null, null, ligue, categorie);
+		is.save(tournoi);
+		System.out.println("tournoi ok");
+		etape = new Etape(tournoi);
+		is.save(etape);
+		System.out.println("etape ok");
+		rencontre = new Rencontre("ici", "0000-00-00", etape);
+		is.save(rencontre);
+		System.out.println("rencontre ok");
+		equipe = new Equipe(null, categorie, club);
+		is.save(equipe);
+		System.out.println("equipe ok");
+		score = new Score(rencontre, equipe, 0, false);
+		is.save(score);
+		System.out.println("score ok");
+		appartenance = new Appartenance(utilisateur, equipe);
+		is.save(appartenance);
+		System.out.println("appartenance ok");
+		inscription = new Inscription(equipe, tournoi);
+		is.save(inscription);
+		System.out.println("inscription ok");
+		
+		
+	}
 	
 	/*
 	public void testInsertType() throws DataAccessException
 	{	
+		type = new Type(is, "nom type test", "description type test");
 		int nbAvantInsertion = is.getNbTypes();
 		is.save(type);
 		nbAvantInsertion++;
@@ -62,29 +107,46 @@ public class TestRootSuperAdmin
 	/*
 	public void testInsertLigue() throws DataAccessException
 	{
+		ligue = new Ligue(is, "nom ligue test", "description ligue test");
 		int nbAvantInsertion = is.getNbLigues();
 		is.save(ligue);
 		nbAvantInsertion++;
 		assertTrue("la ligue n'a pas été ajouté", is.getNbLigues()== nbAvantInsertion);
 	}*/
-	
-	/*public void testInsertClub() throws DataAccessException
+	/*
+	public void testInsertClub() throws DataAccessException
 	{
-		Ligue ligue = new Ligue(is, "nom ligue test", "description ligue test");
+		
+		ligue = new Ligue(is, "nom ligue test", "description ligue test");
 		is.save(ligue);
-		club = new Club("nom", ligue);
+		Random r = new Random();
+		int d = r.nextInt();
+		String s = "" + d;
+		Club club = new Club(s, ligue);
 		int nbAvantInsertion = ligue.getNbClubs();
 		is.save(club);
 		nbAvantInsertion++;
-		assertTrue("l'utilisateur n'a pas été ajouté", ligue.getNbClubs()== nbAvantInsertion);
+		assertTrue("le club n'a pas été ajouté", ligue.getNbClubs()== nbAvantInsertion);
+		boolean found = false;
+		Club c ;
+		for (int i = 0 ; !found && i < ligue.getNbClubs() ; i++)
+		{
+			c = ligue.getClub(i);
+			found = c.getNom().equals(s);
+		}
+		assertTrue(s + " not found !", found);
 	}*/
 	
 	
-	
+	/*
 	public void testInsertUtilisateur() throws DataAccessException
 	{
-		type = new Type(is, "nom type test", "description type test");
+		ligue = new Ligue(is, "nom ligue test", "description ligue test");
+		is.save(ligue);
+		type = new Type(is, "nom", "test");
+		is.save(type);
 		club = new Club("nom", ligue);
+		is.save(club);
 		Random r = new Random();
 		int d = r.nextInt();
 		String s = "" + d;
@@ -102,7 +164,7 @@ public class TestRootSuperAdmin
 		}
 		assertTrue(s + " not found !", found);
 	}
-	
+	*/
 	/*public void testUpdateLigue() throws DataAccessException
 	{
 		

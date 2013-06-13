@@ -1,6 +1,17 @@
-package metier;
+package poubelle;
 
 import java.util.ArrayList;
+
+import metier.Categorie;
+import metier.Club;
+import metier.DataAccessException;
+import metier.Equipe;
+import metier.Ligue;
+import metier.Mapper;
+import metier.Rencontre;
+import metier.Tournoi;
+import metier.Type;
+
 
 abstract class AbstractRoot {
 

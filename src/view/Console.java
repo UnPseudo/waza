@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Scanner; 
 
+import poubelle.RootSuperAdmin;
+
 import metier.Ligue;
-import metier.RootSuperAdmin;
 
 public class Console {
 

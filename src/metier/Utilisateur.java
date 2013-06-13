@@ -1,5 +1,7 @@
 package metier;
 
+import java.util.ArrayList;
+
 public class Utilisateur
 {
 	private int num = NO_KEY;
@@ -12,6 +14,10 @@ public class Utilisateur
 	private String mail = null;
 	private String mdp = null;
 	private final static int NO_KEY = -1;
+	
+	private ArrayList<Appartenance> appartenances = new ArrayList<Appartenance>();
+	
+	private boolean allAppartenancesLoaded = false;
 	
 	// GETTERS et SETTERS
 	public int getNum()
@@ -148,4 +154,54 @@ public class Utilisateur
 	{
 		this(NO_KEY, nom, prenom, telFixe, telPortable, mail, mdp, type, club);
 	}
+	
+	// Appartenance
+	
+		public int getNbAppartenance() throws DataAccessException 
+		{
+			loadAllAppartenances();
+			return appartenances.size();
+		}
+
+		public Appartenance getAppartenance(int index) throws DataAccessException
+		{
+			loadAllAppartenances();
+			return appartenances.get(index);
+		}
+		
+		private boolean possedeAppartenance(Appartenance appartenance) throws DataAccessException 
+		{
+			loadAllAppartenances();
+			return appartenances.contains(appartenance);
+		}
+		
+		private void loadAllAppartenances() throws DataAccessException
+		{
+			if (!allAppartenancesLoaded)
+			{
+				Root root = getType().getRoot();
+				root.loadAllAppartenances(this);
+				allAppartenancesLoaded = true;
+			}
+		}
+		
+		public void addAppartenance(Appartenance appartenance) throws DataAccessException 
+		{
+			loadAllAppartenances();
+			if(!possedeAppartenance(appartenance))
+			{
+				appartenances.add(appartenance);
+				appartenance.setUtilisateur(this);
+			}
+		}
+
+		public void removeAppartenance(Appartenance appartenance) throws DataAccessException 
+		{
+			loadAllAppartenances();
+			if(possedeAppartenance(appartenance))
+			{
+				appartenances.remove(appartenance);
+				appartenance.setUtilisateur(null);
+			}
+		}
 }

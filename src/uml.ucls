@@ -1,7 +1,7 @@
 <class-diagram version="1.0.11" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" corner="BOTTOM_RIGHT" language="java" name="metier.RootSuperAdmin" project="SuperPPE" 
-    file="/SuperPPE/src/metier/RootSuperAdmin.java" binary="false">    
+  <class id="1" corner="BOTTOM_RIGHT" language="java" name="poubelle.RootSuperAdmin" project="SuperPPE" 
+    file="/SuperPPE/src/poubelle/RootSuperAdmin.java" binary="false">    
     <position height="-1" width="-1" x="1591" y="798"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -24,8 +24,8 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="4" corner="BOTTOM_RIGHT" language="java" name="metier.EtapeTournoi" project="SuperPPE" 
-    file="/SuperPPE/src/metier/EtapeTournoi.java" binary="false">    
+  <class id="4" corner="BOTTOM_RIGHT" language="java" name="poubelle.EtapeTournoi" project="SuperPPE" 
+    file="/SuperPPE/src/poubelle/EtapeTournoi.java" binary="false">    
     <position height="-1" width="-1" x="1006" y="950"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      

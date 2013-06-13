@@ -1,7 +1,12 @@
-package metier;
+package poubelle;
 
 
 import java.util.ArrayList;
+
+import metier.DataAccessException;
+import metier.Rencontre;
+import metier.Root;
+import metier.Tournoi;
 
 public class EtapeTournoi
 {
