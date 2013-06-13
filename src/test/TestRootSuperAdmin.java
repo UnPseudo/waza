@@ -41,8 +41,6 @@ public class TestRootSuperAdmin
  
 	public void superTest() throws DataAccessException
 	{
-		
-		
 		ligue = new Ligue(is, "nom ligue test", "description ligue test");
 		is.save(ligue);
 		System.out.println("ligue ok");

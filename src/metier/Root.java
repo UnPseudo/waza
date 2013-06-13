@@ -1,164 +1,139 @@
 package metier;
 
-import java.sql.*;
 import java.util.*;
 
 import metier.DataAccessException;
 import db.Connexion;
-
-// TODO Ecrire les commentaires pour la documentation
-// TODO Ecrire des test unitaires
-// TODO permettre de gérer des listes de contacts,  créer une classe inscription de visibilité package 
 
 public class Root
 {
 	//private view.Console console;
 	private Mapper mapper;
 	
-	private int num = NO_KEY;
+	//private int num = NO_KEY;
 	private final static int NO_KEY = -1;
 	private static final String[] RESET_SCRIPT = new String[] 
 			{
-			"drop table etape;  "+ 
-			"drop table score;  "+
-			"drop table rencontre;  "+
-			"drop table equipe_participe_tournoi;  "+
-			"drop table elimiation_directe;  "+
-			"drop table ronde;  "+
-			"drop table etape_tournoi;  "+
-			"drop table tournoi;  "+
-			"drop table utilisateur_appartient_equipe;  "+
-			"drop table equipe;  "+
-			"drop table categorie;  "+
-			"drop table utilisateur;  "+
-			"drop table type_utilisateur; "+
-			"drop table club;  "+
-			"drop table ligue; "};
-	//TODO ajouter les foreign keys
+		"drop table IF EXISTS appartenance; "+
+		"drop table IF EXISTS inscription;   "+
+		"drop table IF EXISTS score;  "+
+		"drop table IF EXISTS rencontre; "+  
+		"drop table IF EXISTS equipe;   "+
+		"drop table IF EXISTS etape;  "+
+		"drop table IF EXISTS tournoi;  "+
+		"drop table IF EXISTS categorie;  "+
+		"drop table IF EXISTS utilisateur;  "+
+		"drop table IF EXISTS club;   "+
+		"drop table IF EXISTS type;  "+
+		"drop table IF EXISTS ligue;  "};
+	
 	private static final String[] INIT_SCRIPT = new String[] 
 			{
-			"CREATE TABLE ligue(" +
-			"	id int primary key auto_increment," +
-			"	nom varchar(64)," +
-			"	description text" +
-			"	);" +
-				
-			"CREATE TABLE club(" +
-			"	id int primary key auto_increment," +
-			"	nom varchar(64)," +
-			"	description text," +
-			"	ligue_id int," +
-			"	FOREIGN KEY (ligue_id) REFERENCES ligue(id)" +
-			"	);" +
-			
-			"CREATE TABLE type_utilisateur(" +
-			"	id int primary key auto_increment," +
-			"	nom varchar(64)," +
-			"	description text" +
-			"	);" +
-				
-			"CREATE TABLE utilisateur(" +
-			"	id int primary key auto_increment," +
-			"	nom varchar(64)," +
-			"	prenom varchar(64)," +
-			"	mail varchar(128)," +
-			"	mdp varchar(64)," +
-			"	adresse varchar(128)," +
-			"	code_postale varchar(5)," +
-			"	ville varchar(64)," +
-			"	tel_fixe varchar(10)," +
-			"	tel_portable varchar(10)" +
-			"	);" +
-				
-			"CREATE TABLE categorie(" +
-			"	id int primary key auto_increment," +
-			"	nom varchar(64)," +
-			"	description text," +
-			"	ligue_id int," +
-			"	FOREIGN KEY (ligue_id) REFERENCES ligue(id)" +
-			"	);" +
-				
-			"CREATE TABLE equipe(" +
-			"	id int primary key auto_increment," + 
-			"	nom varchar(64)," + 
-			"	club_id int," +
-			"	categorie_id int," +
-			"	FOREIGN KEY (club_id) REFERENCES club(id)," +
-			"	FOREIGN KEY (categorie_id) REFERENCES categorie(id)" +
-			"	);" +
-				
-			"CREATE TABLE utilisateur_appartient_equipe(" +
-			"	utilisateur_id int," + 
-			"	equipe_id int," +
-			"	FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id)," +
-			"	FOREIGN KEY (equipe_id) REFERENCES equipe(id)," +
-			"	PRIMARY KEY (utilisateur_id, equipe_id)" +
-			"	);" +
-				
-			"CREATE TABLE tournoi(" +
-			"	id int primary key auto_increment," + 
-			"	nom varchar(64)," +
-			"	date_debut date," +
-			"	date_fin date," +
-			"	description text," +
-			"	ligue_id int," +
-			"	categorie_id int," +
-			"	FOREIGN KEY (ligue_id) REFERENCES ligue(id)," +
-			"	FOREIGN KEY (categorie_id) REFERENCES categorie(id)" +
-			"	);" +
-				
-			"CREATE TABLE etape_tournoi(" +
-			"	id int primary key auto_increment," +
-			"	tournoi_id int," +
-			"	FOREIGN KEY (tournoi_id) REFERENCES tournoi(id)" +
-			"	);" +
-				
-			"CREATE TABLE ronde(" +
-			"	id int primary key auto_increment," +
-			"	etape_tournoi_id int," +
-			"	FOREIGN KEY (etape_tournoi_id) REFERENCES etape_tournoi(id)" +
-			"	);" +
-				
-			"CREATE TABLE elimination_direct(" +
-			"	id int primary key auto_increment," +
-			"	etape_tournoi_id int," +
-			"	FOREIGN KEY (etape_tournoi_id) REFERENCES etape_tournoi(id)" +
-			"	);" +
-				
-			"CREATE TABLE equipe_participe_tournoi(" +
-			"	equipe_id int," +
-			"	tournoi_id int," +
-			"	FOREIGN KEY (equipe_id) REFERENCES equipe(id)," +
-			"	FOREIGN KEY (tournoi_id) REFERENCES tournoi(id)," +
-			"	PRIMARY KEY (equipe_id, tournoi_id)" +
-			"	);" +
-			
-			"CREATE TABLE rencontre(" +
-			"	id int primary key auto_increment," +
-			"	etape_tournoi_id int," +
-			"	FOREIGN KEY (etape_tournoi_id) REFERENCES etape_tournoi(id)" +
-			"	);" +
-				
-			"CREATE TABLE score(" +
-			"	equipe_id int," +
-			"	rencontre_id int," +
-			"	points int," +
-			"	temps time," +
-			"	FOREIGN KEY (equipe_id) REFERENCES equipe(id)," +
-			"	FOREIGN KEY (rencontre_id) REFERENCES rencontre(id)," +
-			"	PRIMARY KEY (equipe_id, rencontre_id)" +
-			"	);" +
-				
-			"CREATE TABLE etape(" +
-			"	equipe_id int," +
-			"	rencontre_id int," +
-			"	num_etape int," +
-			"	points int," +
-			"	temps time," +
-			"	FOREIGN KEY (equipe_id) REFERENCES score(equipe_id)," +
-			"	FOREIGN KEY (rencontre_id) REFERENCES score(rencontre_id)," +
-			"	PRIMARY KEY (equipe_id, rencontre_id)" +
-			"	);"
+		"CREATE TABLE ligue(" +
+				"	id int primary key auto_increment, " +
+				"	nom varchar(64), " +
+				"	description text" +
+				"	);" +
+					
+				"CREATE TABLE club(" +
+				"	id int primary key auto_increment, " +
+				"	nom varchar(64), " +
+				"	description text," +
+				"	ligue_id int," +
+				"	FOREIGN KEY (ligue_id) REFERENCES ligue(id)" +
+				"	);" +
+
+				"CREATE TABLE type(" +
+				"	id int primary key auto_increment," +
+				"	nom varchar(64)," +
+				"	description text" +
+				"	);" +
+					
+				"CREATE TABLE utilisateur(" +
+				"	id int primary key auto_increment," +
+				"	nom varchar(64)," +
+				"	prenom varchar(64)," +
+				"	mail varchar(128)," +
+				"	mdp varchar(64)," +
+				"	adresse varchar(128)," +
+				"	code_postale varchar(5)," +
+				"	ville varchar(64)," +
+				"	tel_fixe varchar(10)," +
+				"	tel_portable varchar(10)," +
+				"	type_id int," +
+				"	club_id int," +
+				"	FOREIGN KEY (type_id) REFERENCES type(id)," +
+				"	FOREIGN KEY (club_id) REFERENCES club(id)" +
+				"	);" +
+					
+				"CREATE TABLE categorie(" +
+				"	id int primary key auto_increment, " +
+				"	nom varchar(64), " +
+				"	description text, " +
+				"	ligue_id int," +
+				"	FOREIGN KEY (ligue_id) REFERENCES ligue(id)" +
+				"	);" +
+					
+				"CREATE TABLE equipe(" +
+				"	id int primary key auto_increment, " +
+				"	nom varchar(64), " +
+				"	club_id int," +
+				"	categorie_id int," +
+				"	FOREIGN KEY (club_id) REFERENCES club(id)," +
+				"	FOREIGN KEY (categorie_id) REFERENCES categorie(id)" +
+				"	);" +
+					
+				"CREATE TABLE appartenance(" +
+				"	utilisateur_id int, " +
+				"	equipe_id int," +
+				"	FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id)," +
+				"	FOREIGN KEY (equipe_id) REFERENCES equipe(id)," +
+				"	PRIMARY KEY (utilisateur_id, equipe_id)" +
+				"	);" +
+					
+				"CREATE TABLE tournoi(" +
+				"	id int primary key auto_increment, " +
+				"	nom varchar(64), " +
+				"	date_debut date, " +
+				"	date_fin date," +
+				"	description text," +
+				"	ligue_id int," +
+				"	categorie_id int," +
+				"	FOREIGN KEY (ligue_id) REFERENCES ligue(id)," +
+				"	FOREIGN KEY (categorie_id) REFERENCES categorie(id)" +
+				"	);" +
+					
+				"CREATE TABLE etape(" +
+				"	id int primary key auto_increment," +
+				"	tournoi_id int," +
+				"	FOREIGN KEY (tournoi_id) REFERENCES tournoi(id)" +
+				"	);" +
+					
+				"CREATE TABLE inscription(" +
+				"	equipe_id int," +
+				"	tournoi_id int," +
+				"	FOREIGN KEY (equipe_id) REFERENCES equipe(id)," +
+				"	FOREIGN KEY (tournoi_id) REFERENCES tournoi(id)," +
+				"	PRIMARY KEY (equipe_id, tournoi_id)" +
+				"	);" +
+
+				"CREATE TABLE rencontre(" +
+				"	id int primary key auto_increment," +
+				"	lieu varchar(64)," +
+				"	date date," +
+				"	etape_id int," +
+				"	FOREIGN KEY (etape_id) REFERENCES etape(id)" +
+				"	);	" +
+					
+				"CREATE TABLE score(" +
+				"	equipe_id int," +
+				"	rencontre_id int," +
+				"	points int," +
+				"	publie int," +
+				"	FOREIGN KEY (equipe_id) REFERENCES equipe(id)," +
+				"	FOREIGN KEY (rencontre_id) REFERENCES rencontre(id)," +
+				"	PRIMARY KEY (equipe_id, rencontre_id)" +
+				"	);"
 			};
 	
 	
@@ -192,6 +167,10 @@ public class Root
 	private Boolean allLiguesLoaded = false;
 	private Boolean allTypesLoaded = false;
 	
+	/**
+	 * Attention! Ne marche pas!
+	 * @throws DataAccessException
+	 */
 	public void resetDB() throws DataAccessException
 	{
 		connexion.sqlBatch(RESET_SCRIPT);

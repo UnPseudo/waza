@@ -49,18 +49,20 @@ public class Connexion
   * @throws DataAccessException;
   */
 	public void sqlBatch(String[] script) throws DataAccessException 
-	{
-		try 
-		{
-			Statement s;
-			s = connect.createStatement();
-			for (String str : script) {
+	{	
+		try
+	  	{
+			Statement s = connect.createStatement();
+			for (String str : script)
+			{
 				if (DEBUG_MODE)
 					System.out.println(str + ";");
 				s.addBatch(str);
 			}
 			s.executeBatch();
-		} catch (Exception e) {
+	  	}
+		catch (Exception e) 
+		{
 			throw new DataAccessException(e);
 		}
 	}
